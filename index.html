@@ -4,42 +4,227 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jibran Hussain</title>
-<meta name="description" content="Privacy-first minimalist portfolio of Jibran Hussain">
+<meta name="description" content="Professional portfolio of Jibran Hussain">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:#fff;color:#111;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:24px}
-main{max-width:760px;width:100%}
-h1{font-size:56px;margin:0 0 8px}
-p{line-height:1.6;color:#444}
-.tag{display:inline-block;border:1px solid #ddd;padding:8px 12px;border-radius:999px;margin:4px;font-size:14px}
-.buttons a{display:inline-block;text-decoration:none;color:#111;border:1px solid #ddd;padding:12px 16px;border-radius:16px;margin:6px 8px 0 0}
-.small{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#777}
-footer{margin-top:40px;font-size:12px;color:#999}
-@media(max-width:700px){h1{font-size:40px}}
+:root{
+  --bg:#f4f7fb;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#475569;
+  --line:#dbe3ee;
+  --accent:#2563eb;
+  --accent-soft:#dbeafe;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:linear-gradient(180deg,#f8fbff 0%, #eef4fb 100%);
+  color:var(--text);
+  min-height:100vh;
+  padding:40px 20px;
+}
+
+.container{
+  max-width:900px;
+  margin:0 auto;
+}
+
+main{
+  background:rgba(255,255,255,0.92);
+  border:1px solid rgba(219,227,238,0.9);
+  border-radius:28px;
+  padding:70px 55px;
+  box-shadow:0 20px 60px rgba(15,23,42,0.08);
+  backdrop-filter:blur(10px);
+}
+
+section{
+  margin-top:70px;
+}
+
+.eyebrow{
+  font-size:12px;
+  letter-spacing:.28em;
+  color:var(--accent);
+  font-weight:700;
+  margin-bottom:20px;
+}
+
+h1{
+  font-size:64px;
+  line-height:1.02;
+  letter-spacing:-0.04em;
+  font-weight:700;
+}
+
+h2{
+  font-size:24px;
+  margin-top:18px;
+  color:var(--muted);
+  font-weight:500;
+}
+
+.intro{
+  margin-top:28px;
+  max-width:700px;
+  font-size:18px;
+  line-height:1.8;
+  color:var(--muted);
+}
+
+h3{
+  font-size:15px;
+  text-transform:uppercase;
+  letter-spacing:.18em;
+  color:var(--accent);
+  margin-bottom:24px;
+}
+
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+}
+
+.tags span{
+  padding:12px 18px;
+  background:var(--accent-soft);
+  border:1px solid #bfdbfe;
+  border-radius:999px;
+  font-size:15px;
+  color:#1e3a8a;
+  font-weight:500;
+}
+
+.contact p{
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.8;
+  max-width:620px;
+}
+
+.actions{
+  margin-top:28px;
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.actions a{
+  text-decoration:none;
+  padding:14px 22px;
+  border-radius:14px;
+  font-weight:600;
+  transition:.2s ease;
+}
+
+.actions a:first-child{
+  background:var(--accent);
+  color:white;
+}
+
+.actions a:last-child{
+  border:1px solid var(--line);
+  color:var(--text);
+  background:white;
+}
+
+.actions a:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 24px rgba(37,99,235,0.12);
+}
+
+footer{
+  margin-top:80px;
+  padding-top:24px;
+  border-top:1px solid var(--line);
+  font-size:14px;
+  color:#64748b;
+}
+
+@media (max-width:768px){
+  main{
+    padding:42px 26px;
+    border-radius:22px;
+  }
+
+  h1{
+    font-size:44px;
+  }
+
+  h2{
+    font-size:20px;
+  }
+
+  .intro,
+  .contact p{
+    font-size:16px;
+  }
+
+  section{
+    margin-top:50px;
+  }
+}
 </style>
 </head>
+
 <body>
+<div class="container">
 <main>
-<div class="small">Portfolio</div>
+
+<header class="hero">
+<p class="eyebrow">PORTFOLIO</p>
+
 <h1>Jibran Hussain</h1>
-<p><strong>Electrical & Automation Engineering Student</strong></p>
-<p>Focused on maintenance, automation, and practical engineering solutions. Privacy-first professional presence with a clean minimalist approach.</p>
 
-<h3>Skills</h3>
-<div>
-<span class="tag">PLC Basics</span>
-<span class="tag">Electrical Maintenance</span>
-<span class="tag">Automation Systems</span>
-<span class="tag">Troubleshooting</span>
-<span class="tag">Continuous Learning</span>
+<h2>Engineering Student | Automation & Electrical Systems</h2>
+
+<p class="intro">
+Focused on automation systems, electrical engineering fundamentals,
+maintenance operations, and practical problem-solving through modern technology.
+</p>
+</header>
+
+<section class="skills">
+<h3>Core Skills</h3>
+
+<div class="tags">
+<span>PLC & Control Logic</span>
+<span>Electrical Systems</span>
+<span>Automation Engineering</span>
+<span>Technical Troubleshooting</span>
+<span>Continuous Improvement</span>
 </div>
+</section>
 
+<section class="contact">
 <h3>Contact</h3>
-<div class="buttons">
+
+<p>
+Open to professional opportunities, collaboration, and engineering connections.
+</p>
+
+<div class="actions">
 <a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank">LinkedIn</a>
 <a href="mailto:contact@jibranhussain.com">Email</a>
 </div>
+</section>
 
-<footer>© 2026 Jibran Hussain</footer>
+<footer>
+© 2026 Jibran Hussain
+</footer>
+
 </main>
+</div>
 </body>
 </html>
