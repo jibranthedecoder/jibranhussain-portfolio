@@ -35,7 +35,7 @@ body{
 }
 
 .container{
-  max-width:900px;
+  max-width:980px;
   margin:0 auto;
 }
 
@@ -46,6 +46,27 @@ main{
   padding:70px 55px;
   box-shadow:0 20px 60px rgba(15,23,42,0.08);
   backdrop-filter:blur(10px);
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.35fr 0.9fr;
+  gap:42px;
+  align-items:center;
+}
+
+.hero-photo{
+  display:flex;
+  justify-content:center;
+}
+
+.hero-photo img{
+  width:290px;
+  height:290px;
+  object-fit:cover;
+  border-radius:26px;
+  border:1px solid var(--line);
+  box-shadow:0 20px 40px rgba(15,23,42,0.12);
 }
 
 section{
@@ -158,6 +179,20 @@ footer{
     border-radius:22px;
   }
 
+  .hero-grid{
+    grid-template-columns:1fr;
+    gap:28px;
+  }
+
+  .hero-photo{
+    order:-1;
+  }
+
+  .hero-photo img{
+    width:220px;
+    height:220px;
+  }
+
   h1{
     font-size:44px;
   }
@@ -182,7 +217,9 @@ footer{
 <div class="container">
 <main>
 
-<header class="hero">
+<header class="hero hero-grid">
+
+<div class="hero-text">
 <p class="eyebrow">PORTFOLIO</p>
 
 <h1>Jibran Hussain</h1>
@@ -193,6 +230,12 @@ footer{
 Electrical & Automation Engineering student focused on developing practical skills 
 in maintenance, automation systems, and problem-solving through hands-on learning.
 </p>
+</div>
+
+<div class="hero-photo">
+<img src="profile.png" alt="Jibran Hussain">
+</div>
+
 </header>
 
 <section class="skills">
