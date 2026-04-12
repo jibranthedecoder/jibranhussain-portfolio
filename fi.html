@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jibran Hussain</title>
+<meta name="description" content="Jibran Hussainin portfolio">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f4f7fb;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#475569;
+  --line:#dbe3ee;
+  --accent:#2563eb;
+  --accent-soft:#dbeafe;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:linear-gradient(180deg,#f8fbff 0%, #eef4fb 100%);
+  color:var(--text);
+  min-height:100vh;
+  padding:40px 20px;
+}
+
+.container{
+  max-width:980px;
+  margin:0 auto;
+}
+
+main{
+  background:rgba(255,255,255,0.92);
+  border:1px solid rgba(219,227,238,0.9);
+  border-radius:28px;
+  padding:70px 55px;
+  box-shadow:0 20px 60px rgba(15,23,42,0.08);
+}
+
+.lang-switch{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-bottom:28px;
+}
+
+.lang-switch a{
+  text-decoration:none;
+  font-size:14px;
+  font-weight:600;
+  padding:8px 14px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:var(--text);
+  background:#fff;
+}
+
+.lang-switch a.active{
+  background:var(--accent);
+  color:#fff;
+  border-color:var(--accent);
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.35fr 0.9fr;
+  gap:42px;
+  align-items:center;
+}
+
+.hero-photo{
+  display:flex;
+  justify-content:center;
+}
+
+.hero-photo img{
+  width:290px;
+  height:290px;
+  object-fit:cover;
+  border-radius:26px;
+  border:1px solid var(--line);
+  box-shadow:0 20px 40px rgba(15,23,42,0.12);
+}
+
+section{
+  margin-top:70px;
+}
+
+.eyebrow{
+  font-size:12px;
+  letter-spacing:.28em;
+  color:var(--accent);
+  font-weight:700;
+  margin-bottom:20px;
+}
+
+h1{
+  font-size:64px;
+  line-height:1.02;
+  letter-spacing:-0.04em;
+  font-weight:700;
+}
+
+h2{
+  font-size:24px;
+  margin-top:18px;
+  color:var(--muted);
+  font-weight:500;
+}
+
+.intro{
+  margin-top:28px;
+  max-width:700px;
+  font-size:18px;
+  line-height:1.8;
+  color:var(--muted);
+}
+
+h3{
+  font-size:15px;
+  text-transform:uppercase;
+  letter-spacing:.18em;
+  color:var(--accent);
+  margin-bottom:24px;
+}
+
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+}
+
+.tags span{
+  padding:12px 18px;
+  background:var(--accent-soft);
+  border:1px solid #bfdbfe;
+  border-radius:999px;
+  font-size:15px;
+  color:#1e3a8a;
+  font-weight:500;
+}
+
+.contact p{
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.8;
+  max-width:620px;
+}
+
+.actions{
+  margin-top:28px;
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.actions a{
+  text-decoration:none;
+  padding:14px 22px;
+  border-radius:14px;
+  font-weight:600;
+}
+
+.actions a:first-child{
+  background:var(--accent);
+  color:white;
+}
+
+.actions a:last-child{
+  border:1px solid var(--line);
+  color:var(--text);
+  background:white;
+}
+
+footer{
+  margin-top:80px;
+  padding-top:24px;
+  border-top:1px solid var(--line);
+  font-size:14px;
+  color:#64748b;
+}
+
+@media (max-width:768px){
+  main{
+    padding:42px 26px;
+    border-radius:22px;
+  }
+
+  .lang-switch{
+    justify-content:center;
+  }
+
+  .hero-grid{
+    grid-template-columns:1fr;
+    gap:28px;
+  }
+
+  .hero-photo{
+    order:-1;
+  }
+
+  .hero-photo img{
+    width:220px;
+    height:220px;
+  }
+
+  h1{
+    font-size:44px;
+  }
+
+  h2{
+    font-size:20px;
+  }
+
+  .intro,
+  .contact p{
+    font-size:16px;
+  }
+
+  section{
+    margin-top:50px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<main>
+
+<div class="lang-switch">
+  <a href="index.html">EN</a>
+  <a href="fi.html" class="active">FI</a>
+</div>
+
+<header class="hero hero-grid">
+
+<div class="hero-text">
+<p class="eyebrow">PORTFOLIO</p>
+
+<h1>Jibran Hussain</h1>
+
+<h2>Sähkö- ja automaatiotekniikan insinööriopiskelija</h2>
+
+<p class="intro">
+Sähkö- ja automaatiotekniikan opiskelija, joka kehittää käytännön osaamistaan opintojen kautta ja on kiinnostunut kunnossapidosta, automaatiosta sekä käytännön ongelmanratkaisusta.
+</p>
+</div>
+
+<div class="hero-photo">
+<img src="profile.png" alt="Jibran Hussain">
+</div>
+
+</header>
+
+<section class="skills">
+<h3>Ydinosaaminen</h3>
+
+<div class="tags">
+<span>PLC & Ohjauslogiikka</span>
+<span>Sähköjärjestelmät</span>
+<span>Automaation perusteet</span>
+<span>Vianetsintä</span>
+<span>Jatkuva kehitys</span>
+</div>
+</section>
+
+<section class="contact">
+<h3>Yhteystiedot</h3>
+
+<p>
+Avoin harjoitteluihin, työmahdollisuuksiin ja ammatillisiin verkostoihin.
+</p>
+
+<div class="actions">
+<a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank">LinkedIn</a>
+<a href="mailto:contact@jibranhussain.com">Sähköposti</a>
+</div>
+</section>
+
+<footer>
+© 2026 Jibran Hussain
+</footer>
+
+</main>
+</div>
+</body>
+</html>
