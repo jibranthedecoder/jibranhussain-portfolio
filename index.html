@@ -48,6 +48,35 @@ main{
   backdrop-filter:blur(10px);
 }
 
+.lang-switch{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-bottom:28px;
+}
+
+.lang-switch a{
+  text-decoration:none;
+  font-size:14px;
+  font-weight:600;
+  padding:8px 14px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:var(--text);
+  background:#fff;
+  transition:.2s ease;
+}
+
+.lang-switch a:hover{
+  transform:translateY(-1px);
+}
+
+.lang-switch a.active{
+  background:var(--accent);
+  color:#fff;
+  border-color:var(--accent);
+}
+
 .hero-grid{
   display:grid;
   grid-template-columns:1.35fr 0.9fr;
@@ -179,6 +208,11 @@ footer{
     border-radius:22px;
   }
 
+  .lang-switch{
+    justify-content:center;
+    margin-bottom:24px;
+  }
+
   .hero-grid{
     grid-template-columns:1fr;
     gap:28px;
@@ -216,6 +250,11 @@ footer{
 <body>
 <div class="container">
 <main>
+
+<div class="lang-switch">
+  <a href="index.html" class="active">EN</a>
+  <a href="fi.html">FI</a>
+</div>
 
 <header class="hero hero-grid">
 
