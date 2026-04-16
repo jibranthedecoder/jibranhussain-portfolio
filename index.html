@@ -20,6 +20,10 @@ html[data-theme="dark"]{
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 
+html,body,main,section,.tags span,.actions a,.theme-toggle,.lang-switch a{
+transition:background-color .35s ease,color .35s ease,border-color .35s ease,box-shadow .35s ease,transform .35s ease;
+}
+
 body{
 font-family:'Inter',sans-serif;
 background:var(--bg);
@@ -67,6 +71,13 @@ color:#fff;
 border-color:var(--accent);
 }
 
+.lang-switch a:hover,
+.theme-toggle:hover,
+.actions a:hover{
+transform:translateY(-3px);
+box-shadow:0 12px 24px rgba(37,99,235,.14);
+}
+
 .hero-grid{
 display:grid;
 grid-template-columns:1.35fr .9fr;
@@ -74,7 +85,8 @@ gap:42px;
 align-items:center;
 }
 
-.hero-photo{display:flex;justify-content:center;}
+.hero-text{animation:fadeUp 1s ease both;}
+.hero-photo{display:flex;justify-content:center;animation:fadeUp 1.2s ease both;}
 
 .hero-photo img{
 width:290px;
@@ -82,9 +94,20 @@ height:290px;
 object-fit:cover;
 border-radius:26px;
 border:1px solid var(--line);
+box-shadow:0 20px 40px rgba(15,23,42,.12);
+animation:floatSoft 6s ease-in-out infinite;
 }
 
 section{margin-top:70px;}
+.reveal{
+opacity:0;
+transform:translateY(28px);
+transition:all .8s ease;
+}
+.reveal.show{
+opacity:1;
+transform:translateY(0);
+}
 
 .eyebrow{
 font-size:12px;
@@ -131,6 +154,20 @@ background:var(--accent-soft);
 border:1px solid var(--line);
 border-radius:18px;
 font-weight:500;
+opacity:0;
+transform:translateY(20px);
+animation:staggerIn .6s ease forwards;
+}
+
+.tags span:nth-child(1){animation-delay:.15s;}
+.tags span:nth-child(2){animation-delay:.25s;}
+.tags span:nth-child(3){animation-delay:.35s;}
+.tags span:nth-child(4){animation-delay:.45s;}
+.tags span:nth-child(5){animation-delay:.55s;}
+
+.tags span:hover{
+transform:translateY(-6px) scale(1.02);
+box-shadow:0 14px 28px rgba(37,99,235,.14);
 }
 
 .actions{
@@ -164,16 +201,14 @@ padding-top:24px;
 border-top:1px solid var(--line);
 font-size:14px;
 color:var(--muted);
+animation:fadeUp 1.6s ease both;
 }
 
 /* Banner */
 .notice-banner{
 position:fixed;
-left:20px;
-right:20px;
-bottom:20px;
-max-width:760px;
-margin:auto;
+left:20px;right:20px;bottom:20px;
+max-width:760px;margin:auto;
 background:var(--card);
 border:1px solid var(--line);
 border-radius:18px;
@@ -181,6 +216,7 @@ padding:16px 18px;
 display:none;
 z-index:9999;
 box-shadow:0 12px 40px rgba(0,0,0,.12);
+animation:fadeUp .5s ease both;
 }
 
 .notice-banner p{
@@ -231,6 +267,7 @@ background:var(--card);
 border:1px solid var(--line);
 border-radius:22px;
 padding:24px;
+animation:fadeUp .35s ease both;
 }
 
 .privacy-head{
@@ -252,6 +289,18 @@ margin-top:16px;
 padding-left:20px;
 color:var(--muted);
 line-height:1.8;
+}
+
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(26px);}
+to{opacity:1;transform:translateY(0);}
+}
+@keyframes staggerIn{
+to{opacity:1;transform:translateY(0);}
+}
+@keyframes floatSoft{
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(-8px);}
 }
 
 @media (max-width:768px){
@@ -286,7 +335,6 @@ h2{font-size:20px;}
 <p class="eyebrow">PORTFOLIO</p>
 <h1>Jibran Hussain</h1>
 <h2>Electrical & Automation Engineering Student</h2>
-
 <p class="intro">
 Electrical & Automation Engineering student focused on developing practical skills in maintenance, automation systems, and problem-solving through hands-on learning.
 </p>
@@ -297,7 +345,7 @@ Electrical & Automation Engineering student focused on developing practical skil
 </div>
 </header>
 
-<section class="skills">
+<section class="skills reveal">
 <h3>Core Skills</h3>
 <div class="tags">
 <span>PLC & Control Logic</span>
@@ -308,7 +356,7 @@ Electrical & Automation Engineering student focused on developing practical skil
 </div>
 </section>
 
-<section class="contact">
+<section class="contact reveal">
 <h3>Contact</h3>
 <p>Open to internships, professional opportunities, collaboration, and engineering connections.</p>
 
@@ -363,11 +411,8 @@ const modal = document.getElementById("privacy-modal");
 const savedTheme = localStorage.getItem("theme");
 const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-if(savedTheme){
-root.setAttribute("data-theme", savedTheme);
-}else if(prefersDark){
-root.setAttribute("data-theme","dark");
-}
+if(savedTheme){ root.setAttribute("data-theme", savedTheme); }
+else if(prefersDark){ root.setAttribute("data-theme","dark"); }
 
 function updateThemeBtn(){
 const dark = root.getAttribute("data-theme")==="dark";
@@ -399,6 +444,19 @@ modal.style.display="flex";
 window.closePrivacyModal = function(){
 modal.style.display="none";
 };
+
+/* Scroll reveal */
+const observer = new IntersectionObserver((entries)=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add("show");
+}
+});
+},{threshold:0.15});
+
+document.querySelectorAll(".reveal").forEach(el=>{
+observer.observe(el);
+});
 
 updateThemeBtn();
 })();
