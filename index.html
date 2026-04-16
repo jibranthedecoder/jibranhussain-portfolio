@@ -11,275 +11,144 @@
 
 <style>
 :root{
-  --bg:#f4f7fb;
-  --card:#ffffff;
-  --text:#0f172a;
-  --muted:#475569;
-  --line:#dbe3ee;
-  --accent:#2563eb;
-  --accent-soft:#dbeafe;
+--bg:#f4f7fb;--card:#ffffff;--text:#0f172a;--muted:#475569;
+--line:#dbe3ee;--accent:#2563eb;--accent-soft:#dbeafe;
 }
-
 html[data-theme="dark"]{
-  --bg:#0b1220;
-  --card:#111827;
-  --text:#f8fafc;
-  --muted:#cbd5e1;
-  --line:#334155;
-  --accent:#60a5fa;
-  --accent-soft:#1e3a8a;
+--bg:#0b1220;--card:#111827;--text:#f8fafc;--muted:#cbd5e1;
+--line:#334155;--accent:#60a5fa;--accent-soft:#1e3a8a;
 }
-
 *{margin:0;padding:0;box-sizing:border-box;}
-
 body{
-  font-family:'Inter',sans-serif;
-  background:linear-gradient(180deg,var(--bg) 0%,var(--bg) 100%);
-  color:var(--text);
-  min-height:100vh;
-  padding:40px 20px;
+font-family:'Inter',sans-serif;
+background:var(--bg);
+color:var(--text);
+min-height:100vh;
+padding:40px 20px;
 }
-
 .container{max-width:980px;margin:0 auto;}
-
 main{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:28px;
-  padding:70px 55px;
-  box-shadow:0 20px 60px rgba(15,23,42,.08);
+background:var(--card);
+border:1px solid var(--line);
+border-radius:28px;
+padding:70px 55px;
+box-shadow:0 20px 60px rgba(15,23,42,.08);
 }
-
 .top-bar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:16px;
-  margin-bottom:28px;
+display:flex;justify-content:space-between;align-items:center;
+gap:16px;margin-bottom:28px;flex-wrap:wrap;
 }
-
+.controls{display:flex;gap:10px;flex-wrap:wrap;}
 .lang-switch{display:flex;gap:10px;}
-
-.lang-switch a,
-.theme-toggle{
-  text-decoration:none;
-  font-size:14px;
-  font-weight:600;
-  padding:8px 14px;
-  border-radius:999px;
-  border:1px solid var(--line);
-  color:var(--text);
-  background:var(--card);
-  cursor:pointer;
+.lang-switch a,.theme-toggle,.view-toggle{
+text-decoration:none;font-size:14px;font-weight:600;
+padding:8px 14px;border-radius:999px;border:1px solid var(--line);
+color:var(--text);background:var(--card);cursor:pointer;
 }
-
-.lang-switch a.active{
-  background:var(--accent);
-  color:#fff;
-  border-color:var(--accent);
+.lang-switch a.active,.view-toggle.active{
+background:var(--accent);color:#fff;border-color:var(--accent);
 }
-
 .hero-grid{
-  display:grid;
-  grid-template-columns:1.35fr .9fr;
-  gap:42px;
-  align-items:center;
+display:grid;grid-template-columns:1.35fr .9fr;gap:42px;align-items:center;
 }
-
 .hero-photo{display:flex;justify-content:center;}
-
 .hero-photo img{
-  width:290px;
-  height:290px;
-  object-fit:cover;
-  border-radius:26px;
-  border:1px solid var(--line);
+width:290px;height:290px;object-fit:cover;border-radius:26px;border:1px solid var(--line);
 }
-
 section{margin-top:70px;}
-
 .eyebrow{
-  font-size:12px;
-  letter-spacing:.28em;
-  color:var(--accent);
-  font-weight:700;
-  margin-bottom:20px;
+font-size:12px;letter-spacing:.28em;color:var(--accent);font-weight:700;margin-bottom:20px;
 }
-
-h1{
-  font-size:64px;
-  line-height:1.02;
-  letter-spacing:-.04em;
+h1{font-size:64px;line-height:1.02;letter-spacing:-.04em;}
+h2{font-size:24px;margin-top:18px;color:var(--muted);font-weight:500;}
+.intro,.contact p{
+margin-top:28px;max-width:700px;font-size:18px;line-height:1.8;color:var(--muted);
 }
-
-h2{
-  font-size:24px;
-  margin-top:18px;
-  color:var(--muted);
-  font-weight:500;
-}
-
-.intro,
-.contact p{
-  margin-top:28px;
-  max-width:700px;
-  font-size:18px;
-  line-height:1.8;
-  color:var(--muted);
-}
-
 h3{
-  font-size:15px;
-  text-transform:uppercase;
-  letter-spacing:.18em;
-  color:var(--accent);
-  margin-bottom:24px;
+font-size:15px;text-transform:uppercase;letter-spacing:.18em;
+color:var(--accent);margin-bottom:24px;
 }
 
+/* GRID VIEW */
 .tags{
-  display:flex;
-  flex-wrap:wrap;
-  gap:14px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:14px;
+}
+.tags span{
+padding:14px 18px;
+background:var(--accent-soft);
+border:1px solid var(--line);
+border-radius:18px;
+font-weight:500;
 }
 
-.tags span{
-  padding:12px 18px;
-  background:var(--accent-soft);
-  border:1px solid var(--line);
-  border-radius:999px;
+/* LIST VIEW */
+.tags.list-view{
+grid-template-columns:1fr;
+}
+.tags.list-view span{
+border-radius:12px;
 }
 
 .actions{
-  margin-top:28px;
-  display:flex;
-  gap:14px;
-  flex-wrap:wrap;
+margin-top:28px;display:flex;gap:14px;flex-wrap:wrap;
 }
-
 .actions a{
-  text-decoration:none;
-  padding:14px 22px;
-  border-radius:14px;
-  font-weight:600;
+text-decoration:none;padding:14px 22px;border-radius:14px;font-weight:600;
 }
-
-.actions a:first-child{
-  background:var(--accent);
-  color:#fff;
-}
-
+.actions a:first-child{background:var(--accent);color:#fff;}
 .actions a:last-child{
-  border:1px solid var(--line);
-  color:var(--text);
-  background:var(--card);
+border:1px solid var(--line);color:var(--text);background:var(--card);
 }
 
 footer{
-  margin-top:80px;
-  padding-top:24px;
-  border-top:1px solid var(--line);
-  font-size:14px;
-  color:var(--muted);
+margin-top:80px;padding-top:24px;border-top:1px solid var(--line);
+font-size:14px;color:var(--muted);
 }
 
 /* Banner */
 .notice-banner{
-  position:fixed;
-  left:20px;
-  right:20px;
-  bottom:20px;
-  max-width:760px;
-  margin:auto;
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:16px 18px;
-  box-shadow:0 12px 40px rgba(0,0,0,.12);
-  display:none;
-  z-index:9999;
+position:fixed;left:20px;right:20px;bottom:20px;max-width:760px;
+margin:auto;background:var(--card);border:1px solid var(--line);
+border-radius:18px;padding:16px 18px;display:none;z-index:9999;
+box-shadow:0 12px 40px rgba(0,0,0,.12);
 }
-
-.notice-banner p{
-  font-size:14px;
-  line-height:1.6;
-  color:var(--muted);
-  margin-bottom:12px;
-}
-
-.notice-actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
+.notice-banner p{font-size:14px;line-height:1.6;color:var(--muted);margin-bottom:12px;}
+.notice-actions{display:flex;gap:10px;flex-wrap:wrap;}
 .notice-actions button{
-  padding:10px 14px;
-  border-radius:12px;
-  border:1px solid var(--line);
-  background:var(--card);
-  color:var(--text);
-  font-weight:600;
-  cursor:pointer;
+padding:10px 14px;border-radius:12px;border:1px solid var(--line);
+background:var(--card);color:var(--text);font-weight:600;cursor:pointer;
 }
-
-.notice-actions .primary{
-  background:var(--accent);
-  color:#fff;
-  border-color:var(--accent);
-}
+.notice-actions .primary{background:var(--accent);color:#fff;border-color:var(--accent);}
 
 /* Modal */
 .privacy-modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.45);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  z-index:10000;
+position:fixed;inset:0;background:rgba(0,0,0,.45);
+display:none;align-items:center;justify-content:center;padding:20px;z-index:10000;
 }
-
 .privacy-card{
-  width:100%;
-  max-width:720px;
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:22px;
-  padding:24px;
+width:100%;max-width:720px;background:var(--card);
+border:1px solid var(--line);border-radius:22px;padding:24px;
 }
-
-.privacy-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
+.privacy-head{display:flex;justify-content:space-between;align-items:center;}
 .close-x{
-  border:none;
-  background:transparent;
-  color:var(--text);
-  font-size:20px;
-  cursor:pointer;
+border:none;background:transparent;color:var(--text);font-size:20px;cursor:pointer;
 }
-
 .privacy-list{
-  margin-top:16px;
-  padding-left:20px;
-  color:var(--muted);
-  line-height:1.8;
+margin-top:16px;padding-left:20px;color:var(--muted);line-height:1.8;
 }
 
 @media (max-width:768px){
-  main{padding:42px 26px;}
-  .top-bar{flex-direction:column;}
-  .hero-grid{grid-template-columns:1fr;gap:28px;}
-  .hero-photo{order:-1;}
-  .hero-photo img{width:220px;height:220px;}
-  h1{font-size:44px;}
-  h2{font-size:20px;}
-  .intro,.contact p{font-size:16px;}
-  .notice-banner{left:12px;right:12px;bottom:12px;}
+main{padding:42px 26px;}
+.top-bar{flex-direction:column;align-items:stretch;}
+.hero-grid{grid-template-columns:1fr;gap:28px;}
+.hero-photo{order:-1;}
+.hero-photo img{width:220px;height:220px;}
+h1{font-size:44px;}
+h2{font-size:20px;}
+.intro,.contact p{font-size:16px;}
+.notice-banner{left:12px;right:12px;bottom:12px;}
 }
 </style>
 </head>
@@ -289,11 +158,15 @@ footer{
 <main>
 
 <div class="top-bar">
-  <div class="lang-switch">
-    <a href="index.html" class="active">EN</a>
-    <a href="fi.html">FI</a>
-  </div>
-  <button id="theme-toggle" class="theme-toggle">🌙 Dark</button>
+<div class="lang-switch">
+<a href="index.html" class="active">EN</a>
+<a href="fi.html">FI</a>
+</div>
+
+<div class="controls">
+<button id="view-toggle" class="view-toggle active">Grid View</button>
+<button id="theme-toggle" class="theme-toggle">🌙 Dark</button>
+</div>
 </div>
 
 <header class="hero hero-grid">
@@ -301,7 +174,6 @@ footer{
 <p class="eyebrow">PORTFOLIO</p>
 <h1>Jibran Hussain</h1>
 <h2>Electrical & Automation Engineering Student</h2>
-
 <p class="intro">
 Electrical & Automation Engineering student focused on developing practical skills in maintenance, automation systems, and problem-solving through hands-on learning.
 </p>
@@ -314,7 +186,7 @@ Electrical & Automation Engineering student focused on developing practical skil
 
 <section class="skills">
 <h3>Core Skills</h3>
-<div class="tags">
+<div class="tags" id="skills-grid">
 <span>PLC & Control Logic</span>
 <span>Electrical Systems</span>
 <span>Automation Foundations</span>
@@ -326,41 +198,30 @@ Electrical & Automation Engineering student focused on developing practical skil
 <section class="contact">
 <h3>Contact</h3>
 <p>Open to internships, professional opportunities, collaboration, and engineering connections.</p>
-
 <div class="actions">
 <a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank">LinkedIn</a>
 <a href="mailto:contact@jibranhussain.com">Email</a>
 </div>
 </section>
 
-<footer>
-© 2026 Jibran Hussain · Privacy First
-</footer>
-
+<footer>© 2026 Jibran Hussain · Privacy First</footer>
 </main>
 </div>
 
-<!-- Privacy Banner -->
 <div id="notice-banner" class="notice-banner">
-<p>
-This website uses minimal local storage for preferences and anonymous performance measurement.
-</p>
-
+<p>This website uses minimal local storage for preferences and anonymous performance measurement.</p>
 <div class="notice-actions">
 <button class="primary" onclick="acceptNotice()">OK</button>
 <button onclick="openPrivacyModal()">Details</button>
 </div>
 </div>
 
-<!-- Privacy Modal -->
 <div id="privacy-modal" class="privacy-modal">
 <div class="privacy-card">
-
 <div class="privacy-head">
 <h3>Privacy Details</h3>
 <button class="close-x" onclick="closePrivacyModal()">✕</button>
 </div>
-
 <ul class="privacy-list">
 <li>No advertising trackers are used.</li>
 <li>No marketing cookies are used.</li>
@@ -369,62 +230,66 @@ This website uses minimal local storage for preferences and anonymous performanc
 <li>Anonymous performance measurement may be used to improve the website.</li>
 <li>If you contact me by email or LinkedIn, you share that information voluntarily through those services.</li>
 </ul>
-
 <div class="notice-actions" style="margin-top:18px;">
 <button class="primary" onclick="acceptNotice()">Accept & Close</button>
 </div>
-
 </div>
 </div>
 
 <script>
 (function () {
-  const savedTheme = localStorage.getItem("theme");
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+const root = document.documentElement;
+const themeBtn = document.getElementById("theme-toggle");
+const viewBtn = document.getElementById("view-toggle");
+const skills = document.getElementById("skills-grid");
+const notice = document.getElementById("notice-banner");
+const modal = document.getElementById("privacy-modal");
 
-  if (savedTheme) {
-    document.documentElement.setAttribute("data-theme", savedTheme);
-  } else if (prefersDark) {
-    document.documentElement.setAttribute("data-theme", "dark");
-  }
+/* Theme */
+const savedTheme = localStorage.getItem("theme");
+const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+if(savedTheme){ root.setAttribute("data-theme", savedTheme); }
+else if(prefersDark){ root.setAttribute("data-theme","dark"); }
 
-  const button = document.getElementById("theme-toggle");
+function updateThemeBtn(){
+const dark = root.getAttribute("data-theme")==="dark";
+themeBtn.textContent = dark ? "☀️ Light" : "🌙 Dark";
+}
+themeBtn.onclick = function(){
+const next = root.getAttribute("data-theme")==="dark" ? "light":"dark";
+root.setAttribute("data-theme",next);
+localStorage.setItem("theme",next);
+updateThemeBtn();
+};
 
-  function updateButton() {
-    const dark = document.documentElement.getAttribute("data-theme") === "dark";
-    button.textContent = dark ? "☀️ Light" : "🌙 Dark";
-  }
+/* View Toggle */
+const savedView = localStorage.getItem("skills-view") || "grid";
+if(savedView==="list"){
+skills.classList.add("list-view");
+viewBtn.textContent = "List View";
+viewBtn.classList.remove("active");
+}
+viewBtn.onclick = function(){
+skills.classList.toggle("list-view");
+const list = skills.classList.contains("list-view");
+localStorage.setItem("skills-view", list ? "list":"grid");
+viewBtn.textContent = list ? "List View" : "Grid View";
+viewBtn.classList.toggle("active", !list);
+};
 
-  button.addEventListener("click", function () {
-    const current = document.documentElement.getAttribute("data-theme");
-    const next = current === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", next);
-    localStorage.setItem("theme", next);
-    updateButton();
-  });
+/* Privacy */
+if(!localStorage.getItem("privacy-notice")){
+notice.style.display="block";
+}
+window.acceptNotice = function(){
+localStorage.setItem("privacy-notice","accepted");
+notice.style.display="none";
+modal.style.display="none";
+};
+window.openPrivacyModal = function(){ modal.style.display="flex"; };
+window.closePrivacyModal = function(){ modal.style.display="none"; };
 
-  const notice = document.getElementById("notice-banner");
-  const modal = document.getElementById("privacy-modal");
-
-  if (!localStorage.getItem("privacy-notice")) {
-    notice.style.display = "block";
-  }
-
-  window.acceptNotice = function () {
-    localStorage.setItem("privacy-notice", "accepted");
-    notice.style.display = "none";
-    modal.style.display = "none";
-  };
-
-  window.openPrivacyModal = function () {
-    modal.style.display = "flex";
-  };
-
-  window.closePrivacyModal = function () {
-    modal.style.display = "none";
-  };
-
-  updateButton();
+updateThemeBtn();
 })();
 </script>
 
