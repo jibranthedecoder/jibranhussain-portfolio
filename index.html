@@ -80,11 +80,6 @@ main{
   border:1px solid var(--line);
   color:var(--text);
   background:var(--card);
-  transition:.2s ease;
-}
-
-.lang-switch a:hover{
-  transform:translateY(-1px);
 }
 
 .lang-switch a.active{
@@ -102,11 +97,6 @@ main{
   font-size:14px;
   font-weight:600;
   cursor:pointer;
-  transition:.2s ease;
-}
-
-.theme-toggle:hover{
-  transform:translateY(-1px);
 }
 
 .hero-grid{
@@ -188,11 +178,19 @@ h3{
   font-weight:500;
 }
 
-.contact p{
+.contact p,
+.privacy p{
   color:var(--muted);
   font-size:18px;
   line-height:1.8;
-  max-width:620px;
+  max-width:700px;
+}
+
+.privacy-list{
+  margin-top:14px;
+  padding-left:20px;
+  color:var(--muted);
+  line-height:1.8;
 }
 
 .actions{
@@ -207,12 +205,11 @@ h3{
   padding:14px 22px;
   border-radius:14px;
   font-weight:600;
-  transition:.2s ease;
 }
 
 .actions a:first-child{
   background:var(--accent);
-  color:white;
+  color:#fff;
 }
 
 .actions a:last-child{
@@ -221,17 +218,60 @@ h3{
   background:var(--card);
 }
 
-.actions a:hover{
-  transform:translateY(-2px);
-  box-shadow:0 12px 24px rgba(37,99,235,0.12);
-}
-
 footer{
   margin-top:80px;
   padding-top:24px;
   border-top:1px solid var(--line);
   font-size:14px;
   color:var(--muted);
+}
+
+.notice-banner{
+  position:fixed;
+  left:20px;
+  right:20px;
+  bottom:20px;
+  max-width:760px;
+  margin:auto;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px 18px;
+  box-shadow:0 12px 40px rgba(0,0,0,.12);
+  z-index:9999;
+  display:none;
+}
+
+.notice-banner p{
+  font-size:14px;
+  line-height:1.6;
+  color:var(--muted);
+  margin-bottom:12px;
+}
+
+.notice-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.notice-actions button,
+.notice-actions a{
+  text-decoration:none;
+  padding:10px 14px;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:600;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--text);
+  cursor:pointer;
+}
+
+.notice-actions button.primary{
+  background:var(--accent);
+  color:#fff;
+  border-color:var(--accent);
 }
 
 @media (max-width:768px){
@@ -268,12 +308,19 @@ footer{
   }
 
   .intro,
-  .contact p{
+  .contact p,
+  .privacy p{
     font-size:16px;
   }
 
   section{
     margin-top:50px;
+  }
+
+  .notice-banner{
+    left:12px;
+    right:12px;
+    bottom:12px;
   }
 }
 </style>
@@ -293,16 +340,13 @@ footer{
 </div>
 
 <header class="hero hero-grid">
-
 <div class="hero-text">
 <p class="eyebrow">PORTFOLIO</p>
-
 <h1>Jibran Hussain</h1>
-
 <h2>Electrical & Automation Engineering Student</h2>
 
 <p class="intro">
-Electrical & Automation Engineering student focused on developing practical skills 
+Electrical & Automation Engineering student focused on developing practical skills
 in maintenance, automation systems, and problem-solving through hands-on learning.
 </p>
 </div>
@@ -310,12 +354,10 @@ in maintenance, automation systems, and problem-solving through hands-on learnin
 <div class="hero-photo">
 <img src="profile.png" alt="Jibran Hussain">
 </div>
-
 </header>
 
 <section class="skills">
 <h3>Core Skills</h3>
-
 <div class="tags">
 <span>PLC & Control Logic</span>
 <span>Electrical Systems</span>
@@ -327,7 +369,6 @@ in maintenance, automation systems, and problem-solving through hands-on learnin
 
 <section class="contact">
 <h3>Contact</h3>
-
 <p>
 Open to internships, professional opportunities, collaboration, and engineering connections.
 </p>
@@ -338,11 +379,44 @@ Open to internships, professional opportunities, collaboration, and engineering 
 </div>
 </section>
 
+<section class="privacy" id="privacy">
+<h3>Privacy Policy</h3>
+
+<p>
+Your privacy is respected on this website. The site is designed to minimize data collection and avoid unnecessary third-party tracking.
+</p>
+
+<ul class="privacy-list">
+<li>No advertising trackers are used.</li>
+<li>No marketing cookies are used.</li>
+<li>No personal account is required to use this website.</li>
+<li>Theme preferences may be stored locally in your browser.</li>
+<li>Cloudflare Real User Measurements (RUM) may be used to understand website performance.</li>
+<li>EU visitor data is excluded from Cloudflare RUM collection.</li>
+<li>If you contact me by email or LinkedIn, you share that information voluntarily through those services.</li>
+</ul>
+
+<p style="margin-top:14px;">
+If this privacy policy changes in the future, updates will be published on this page.
+</p>
+</section>
+
 <footer>
-© 2026 Jibran Hussain
+© 2026 Jibran Hussain · Privacy First
 </footer>
 
 </main>
+</div>
+
+<div id="notice-banner" class="notice-banner">
+<p>
+This website uses minimal local storage for preferences and privacy-friendly performance analytics. EU visitor analytics data is excluded.
+</p>
+
+<div class="notice-actions">
+<button class="primary" onclick="acceptNotice()">OK</button>
+<a href="#privacy">Privacy Policy</a>
+</div>
 </div>
 
 <script>
@@ -370,6 +444,18 @@ Open to internships, professional opportunities, collaboration, and engineering 
     localStorage.setItem("theme", next);
     updateButton();
   });
+
+  const notice = document.getElementById("notice-banner");
+  const noticeSaved = localStorage.getItem("privacy-notice");
+
+  if (!noticeSaved) {
+    notice.style.display = "block";
+  }
+
+  window.acceptNotice = function () {
+    localStorage.setItem("privacy-notice", "accepted");
+    notice.style.display = "none";
+  };
 
   updateButton();
 })();
