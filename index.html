@@ -7,7 +7,6 @@
 <meta name="description" content="Professional portfolio of Jibran Hussain">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -21,15 +20,54 @@ html[data-theme="dark"]{
 --line:#334155;--accent:#60a5fa;--accent-soft:#1e3a8a;
 }
 
+/* Strong Readable / Dyslexia Mode */
 html.readable-mode body,
 html.readable-mode input,
 html.readable-mode textarea,
 html.readable-mode button,
 html.readable-mode a{
-font-family:'Lexend',sans-serif;
-letter-spacing:.02em;
-word-spacing:.08em;
-line-height:1.9;
+font-family:'Lexend',sans-serif !important;
+letter-spacing:.05em;
+word-spacing:.16em;
+line-height:2.15;
+font-weight:500;
+}
+
+html.readable-mode p,
+html.readable-mode span,
+html.readable-mode li,
+html.readable-mode input,
+html.readable-mode textarea{
+font-size:1.08em;
+}
+
+html.readable-mode h1{font-size:72px;}
+html.readable-mode h2{font-size:28px;}
+html.readable-mode h3{font-size:17px;letter-spacing:.12em;}
+
+html.readable-mode .intro,
+html.readable-mode .status,
+html.readable-mode .actions a,
+html.readable-mode .submit-btn{
+font-size:19px;
+}
+
+html.readable-mode .tags{gap:18px;}
+
+html.readable-mode .tags span{
+padding:18px 20px;
+border-radius:20px;
+}
+
+html.readable-mode input,
+html.readable-mode textarea{
+padding:18px;
+border-width:2px;
+}
+
+html.readable-mode .theme-toggle{
+font-size:15px;
+padding:10px 16px;
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -102,12 +140,7 @@ border:1px solid var(--line);
 }
 
 h1{font-size:64px;line-height:1.02;}
-
-h2{
-font-size:24px;
-color:var(--muted);
-margin-top:18px;
-}
+h2{font-size:24px;color:var(--muted);margin-top:18px;}
 
 .eyebrow{
 font-size:12px;
@@ -201,9 +234,7 @@ font-size:14px;
 color:var(--muted);
 }
 
-.hidden-field{
-display:none;
-}
+.hidden-field{display:none;}
 
 footer{
 margin-top:80px;
@@ -238,7 +269,7 @@ h2{font-size:20px;}
 <div class="controls">
 <button id="speak-btn" class="theme-toggle">🔊 Read</button>
 <button id="stop-btn" class="theme-toggle">⏹ Stop</button>
-<button id="readable-toggle" class="theme-toggle">🧠 Readable</button>
+<button id="readable-toggle" class="theme-toggle">🧠 Readable Mode</button>
 <button id="theme-toggle" class="theme-toggle">🌙 Dark</button>
 </div>
 </div>
@@ -330,7 +361,13 @@ root.classList.add("readable-mode");
 
 function updateReadable(){
 const on=root.classList.contains("readable-mode");
-readableBtn.textContent=on?"🧠 Standard":"🧠 Readable";
+
+readableBtn.style.fontFamily=on?"'Lexend',sans-serif":"'Inter',sans-serif";
+readableBtn.style.letterSpacing=on?".05em":"normal";
+readableBtn.style.wordSpacing=on?".16em":"normal";
+readableBtn.style.fontWeight=on?"700":"600";
+
+readableBtn.textContent=on?"🧠 Standard Mode":"🧠 Readable Mode";
 }
 
 readableBtn.onclick=function(){
