@@ -49,6 +49,9 @@ function isSectionVisible(sectionData) {
     if (sectionData._meta?.hide !== undefined) {
       return !parseToggle(sectionData._meta.hide);
     }
+    if (sectionData._meta?.hidden !== undefined) {
+      return !parseToggle(sectionData._meta.hidden);
+    }
     return true;
   }
   if (typeof sectionData === 'object') {
@@ -57,6 +60,9 @@ function isSectionVisible(sectionData) {
     }
     if (sectionData.hide !== undefined) {
       return !parseToggle(sectionData.hide);
+    }
+    if (sectionData.hidden !== undefined) {
+      return !parseToggle(sectionData.hidden);
     }
   }
   return true;
@@ -94,7 +100,16 @@ function parseContent(raw) {
     if (listItemMatch && currentSection) {
       const currentValue = listItemMatch[1].trim();
       if (!Array.isArray(data[currentSection])) {
-        data[currentSection] = [];
+        const existingValue = data[currentSection];
+        const arrayData = [];
+        if (existingValue && typeof existingValue === 'object' && !Array.isArray(existingValue) && Object.keys(existingValue).length) {
+          Object.defineProperty(arrayData, '_meta', {
+            value: { ...existingValue },
+            enumerable: false,
+            writable: true
+          });
+        }
+        data[currentSection] = arrayData;
       }
 
       const inlineObjectMatch = currentValue.match(/^([^:]+):\s*(.*)$/);

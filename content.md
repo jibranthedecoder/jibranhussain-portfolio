@@ -101,7 +101,7 @@ visible: false
   description: Ongoing studies covering electrical safety, standards, and compliant engineering practices.
 
 # Achievements
-hide: true
+hidden: true
 - Combined engineering studies with practical maintenance work experience.
 - Developed troubleshooting and preventive maintenance skills through real technical tasks.
 - Growing long-term expertise in electrical engineering and automation through continuous learning.
