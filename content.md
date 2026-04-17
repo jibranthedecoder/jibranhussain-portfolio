@@ -3,7 +3,7 @@ name: Jibran Hussain
 headline: Electrical & Automation Engineering student
 subtitle: Practical maintenance experience with a strong interest in automation, troubleshooting, and real-world problem solving
 email: contact@jibranhussain.com
-location: Espoo, Finland
+location: Finland
 resume: assets/resume.pdf
 cta_text: Let's connect
 cta_link: mailto:contact@jibranhussain.com
