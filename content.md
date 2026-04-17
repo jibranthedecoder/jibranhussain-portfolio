@@ -108,8 +108,8 @@ text: |
   quote: "Jibran is dependable, practical, and motivated to learn technical systems."
 
 # Blog
-- title: Why Practical Work Matters in Engineering
-  summary: Real maintenance environments teach troubleshooting, teamwork, and system reliability in ways that theory alone cannot.
+- title: 
+  summary:
   link:
 
 # Contact
