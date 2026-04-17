@@ -272,14 +272,11 @@ function updateSpeechControlState() {
   const isPlaying = speechState === 'playing';
   const isPaused = speechState === 'paused';
 
-  const synthActive = window.speechSynthesis.speaking || window.speechSynthesis.paused || window.speechSynthesis.pending;
-  const shouldShowPause = (isPlaying || isPaused) && synthActive;
+  const visible = speechState !== 'idle';
+  pauseToggle.hidden = !visible;
+  pauseToggle.style.display = visible ? '' : 'none';
+  pauseToggle.disabled = !visible;
 
-  if (!synthActive && speechState !== 'idle') {
-    speechState = 'idle';
-  }
-
-  pauseToggle.hidden = !shouldShowPause;
   pauseToggle.textContent = isPaused ? translations[currentLang].play : translations[currentLang].pause;
   pauseToggle.setAttribute('aria-label', isPaused ? 'Resume reading' : 'Pause reading');
 
@@ -326,6 +323,9 @@ function stopReading() {
     window.speechSynthesis.cancel();
   }
   speechState = 'idle';
+  pauseToggle.hidden = true;
+  pauseToggle.style.display = 'none';
+  pauseToggle.disabled = true;
   updateSpeechControlState();
 }
 
@@ -352,6 +352,8 @@ function initializeSpeakControls() {
   speakToggle.textContent = translations[currentLang].readLabel;
   pauseToggle.textContent = translations[currentLang].pause;
   pauseToggle.hidden = true;
+  pauseToggle.style.display = 'none';
+  pauseToggle.disabled = true;
 
   speakToggle.addEventListener('click', () => {
     if (speechState !== 'idle') {
@@ -368,22 +370,26 @@ function initializeSpeakControls() {
 
 function showPrivacyBanner() {
   privacyBanner.hidden = false;
+  privacyBanner.style.display = '';
   privacyBanner.setAttribute('aria-hidden', 'false');
 }
 
 function hidePrivacyBanner() {
   privacyBanner.hidden = true;
+  privacyBanner.style.display = 'none';
   privacyBanner.setAttribute('aria-hidden', 'true');
 }
 
 function openPrivacyModal() {
   privacyModal.hidden = false;
+  privacyModal.style.display = '';
   privacyModal.setAttribute('aria-hidden', 'false');
   privacyClose.focus();
 }
 
 function closePrivacyModal() {
   privacyModal.hidden = true;
+  privacyModal.style.display = 'none';
   privacyModal.setAttribute('aria-hidden', 'true');
 }
 
@@ -393,13 +399,25 @@ function initializePrivacy() {
     showPrivacyBanner();
   }
 
-  privacyAccept.addEventListener('click', () => {
-    localStorage.setItem('portfolio-privacy-accepted', 'true');
-    hidePrivacyBanner();
-  });
+  if (privacyAccept) {
+    privacyAccept.addEventListener('click', event => {
+      event.preventDefault();
+      try {
+        localStorage.setItem('portfolio-privacy-accepted', 'true');
+      } catch (error) {
+        console.warn('Could not save privacy acceptance to localStorage.', error);
+      }
+      hidePrivacyBanner();
+      closePrivacyModal();
+    });
+  }
 
-  privacyDetails.addEventListener('click', openPrivacyModal);
-  privacyClose.addEventListener('click', closePrivacyModal);
+  if (privacyDetails) {
+    privacyDetails.addEventListener('click', openPrivacyModal);
+  }
+  if (privacyClose) {
+    privacyClose.addEventListener('click', closePrivacyModal);
+  }
 
   privacyModal.addEventListener('click', event => {
     if (event.target === privacyModal) {
