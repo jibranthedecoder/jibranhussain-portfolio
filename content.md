@@ -94,7 +94,7 @@ hide: true
   description: Focused on electrical systems, automation, maintenance, PLC programming, measurements, and technical development.
 
 # Certifications
-hide: true
+visible: false 
 - title: Academic Electrical Safety & Standards Studies
   issuer: HAMK University of Applied Sciences
   year:
