@@ -126,6 +126,6 @@ text: I am open to internship opportunities, practical engineering roles, and pr
   link:
 
 # Languages
-- English (Mother tongue)
-- Finnish (Bilingual)
+- English 
+- Finnish 
 - French (Basic)
