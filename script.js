@@ -46,13 +46,32 @@ function parseContent(raw) {
   const data = {};
   let currentSection = null;
   let currentObject = null;
+  let pendingBlock = null;
+  let blockLines = [];
+
+  function commitBlock() {
+    if (!pendingBlock || !currentSection) return;
+    const value = blockLines.join('\n').trim();
+    if (Array.isArray(data[currentSection])) {
+      data[currentSection]._meta = data[currentSection]._meta || {};
+      data[currentSection]._meta[pendingBlock] = value;
+    } else {
+      data[currentSection][pendingBlock] = value;
+    }
+    pendingBlock = null;
+    blockLines = [];
+  }
 
   for (const rawLine of lines) {
     const line = rawLine.replace(/\t/g, '  ');
     const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith('//') || trimmed.startsWith('<!--')) continue;
+    if (!trimmed || trimmed.startsWith('//') || trimmed.startsWith('<!--')) {
+      if (pendingBlock) blockLines.push('');
+      continue;
+    }
 
     if (trimmed.startsWith('#')) {
+      commitBlock();
       currentSection = trimmed.replace(/^#+\s*/, '').trim().toLowerCase().replace(/\s+/g, '_');
       currentObject = null;
       if (!data[currentSection]) {
@@ -61,8 +80,18 @@ function parseContent(raw) {
       continue;
     }
 
+    if (!currentSection) continue;
+
+    if (pendingBlock) {
+      if (/^\s+/.test(line)) {
+        blockLines.push(line.trim());
+        continue;
+      }
+      commitBlock();
+    }
+
     const listItemMatch = line.match(/^\s*-\s*(.*)$/);
-    if (listItemMatch && currentSection) {
+    if (listItemMatch) {
       const currentValue = listItemMatch[1].trim();
       if (!Array.isArray(data[currentSection])) {
         data[currentSection] = [];
@@ -90,9 +119,14 @@ function parseContent(raw) {
     }
 
     const pairMatch = line.match(/^([^:]+):\s*(.*)$/);
-    if (pairMatch && currentSection) {
+    if (pairMatch) {
       const key = pairMatch[1].trim();
-      const value = pairMatch[2].trim();
+      const value = pairMatch[2];
+      if (value === '|') {
+        pendingBlock = key;
+        blockLines = [];
+        continue;
+      }
       if (Array.isArray(data[currentSection])) {
         if (!data[currentSection]._meta) {
           Object.defineProperty(data[currentSection], '_meta', {
@@ -101,14 +135,15 @@ function parseContent(raw) {
             writable: true
           });
         }
-        data[currentSection]._meta[key] = value;
+        data[currentSection]._meta[key] = value.trim();
       } else {
-        data[currentSection][key] = value;
+        data[currentSection][key] = value.trim();
       }
       currentObject = null;
     }
   }
 
+  commitBlock();
   return data;
 }
 
