@@ -1,37 +1,174 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio</title>
-  <meta name="description" content="Modern portfolio template powered by content.md">
-  <meta name="theme-color" content="#2563eb">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Jibran Hussain | Electrical & Automation Engineering Student</title>
+  <meta name="description" content="Portfolio of Jibran Hussain, Electrical & Automation Engineering student in Finland. Practical maintenance experience, automation interests, and technical development." />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="color-scheme" content="dark light" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23384d77'/%3E%3Ctext x='50' y='55' font-size='50' text-anchor='middle' fill='white' font-family='system-ui, sans-serif'%3EJ%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
+  <a class="skip-link" href="#main">Skip to main content</a>
   <div class="page-shell">
     <header class="site-header">
       <div class="brand">
-        <span class="brand-label">Portfolio</span>
-        <a id="brand-name" class="brand-name" href="#">Your Name</a>
+        <p class="eyebrow">Electrical & Automation Engineering Student</p>
+        <a class="logo" href="#home">Jibran Hussain</a>
       </div>
 
-      <nav class="primary-nav" aria-label="Primary navigation"></nav>
+      <button class="nav-toggle" id="navToggle" aria-controls="primary-navigation" aria-expanded="false">
+        <span>Menu</span>
+        <span class="nav-toggle-icon"></span>
+      </button>
 
-      <div class="header-actions">
-        <button id="theme-toggle" class="button button-secondary" type="button" aria-label="Toggle theme">🌙 Dark</button>
-      </div>
+      <nav id="primary-navigation" class="primary-nav" aria-label="Primary navigation">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#education">Education</a>
+        <a href="#tools">Tools</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">Dark mode</button>
     </header>
 
-    <main id="main-content" class="main-content">
-      <div class="loader">Loading portfolio content…</div>
+    <main id="main">
+      <section id="home" class="hero section reveal">
+        <div class="hero-copy">
+          <p class="eyebrow">Finland  Privacy-first portfolio</p>
+          <h1>Engineering systems with practical maintenance and automation focus.</h1>
+          <p class="hero-text">I am an Electrical & Automation Engineering student building hands-on experience in maintenance, troubleshooting, electrical systems, and reliable automation solutions. I bring a calm, analytical approach to engineering problems and a strong commitment to safe, practical outcomes.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="mailto:contact@jibranhussain.com">Email me</a>
+            <a class="button button-secondary" href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+
+        <div class="hero-panel">
+          <div class="profile-card">
+            <div class="profile-image-frame">
+              <img src="assets/profile.png" alt="Portrait of Jibran Hussain" loading="lazy" />
+            </div>
+            <div class="profile-details">
+              <p class="profile-title">Jibran Hussain</p>
+              <p class="profile-subtitle">Electrical & Automation Engineering Student</p>
+              <p class="profile-meta">Finland  contact@jibranhussain.com</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section reveal">
+        <div class="section-header">
+          <p class="section-label">About</p>
+          <h2>Focused on practical engineering and dependable systems.</h2>
+        </div>
+        <p>I study electrical and automation engineering while applying my knowledge in real maintenance environments. My interests are automation systems, troubleshooting, electrical systems, and documentation that makes technical work safer and easier to maintain.</p>
+      </section>
+
+      <section id="skills" class="section reveal">
+        <div class="section-header">
+          <p class="section-label">Skills</p>
+          <h2>What I do well.</h2>
+        </div>
+        <div class="grid-2">
+          <div class="card-soft">
+            <h3>Core strengths</h3>
+            <ul class="list-simple">
+              <li>Preventive maintenance</li>
+              <li>Troubleshooting</li>
+              <li>PLC programming</li>
+              <li>Electrical systems</li>
+            </ul>
+          </div>
+          <div class="card-soft">
+            <h3>Work approach</h3>
+            <ul class="list-simple">
+              <li>Technical documentation</li>
+              <li>Safety awareness</li>
+              <li>Teamwork</li>
+              <li>Continuous learning</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience" class="section reveal">
+        <div class="section-header">
+          <p class="section-label">Experience</p>
+          <h2>Hands-on roles and practical training.</h2>
+        </div>
+        <div class="timeline">
+          <article class="timeline-item">
+            <p class="timeline-meta">Maintenance Technician  ARE Oy</p>
+            <p class="timeline-date">20232025</p>
+            <p>Supported preventive maintenance, troubleshooting, and inspections on electrical and automation equipment. I focused on reliability, safe workflows, and practical system improvements.</p>
+          </article>
+          <article class="timeline-item">
+            <p class="timeline-meta">Intern  ARE Oy</p>
+            <p class="timeline-date">2023</p>
+            <p>Assisted maintenance operations with practical site tasks and gained exposure to industrial electrical systems, control panels, and automation diagnostics.</p>
+          </article>
+          <article class="timeline-item">
+            <p class="timeline-meta">Student roles</p>
+            <p class="timeline-date">20202023</p>
+            <p>Delivered support work on construction and maintenance teams while learning how disciplined project routines and teamwork improve technical results.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="education" class="section reveal">
+        <div class="section-header">
+          <p class="section-label">Education</p>
+          <h2>Formal training in automation and electrical systems.</h2>
+        </div>
+        <div class="card-soft">
+          <p class="timeline-meta">Bachelors Degree Programme in Electrical and Automation Engineering</p>
+          <p class="timeline-date">HAMK University of Applied Sciences  20252027 (Expected)</p>
+          <p>Focused on electrical systems, automation, PLC programming, measurements, and technical development for practical engineering workflows.</p>
+        </div>
+      </section>
+
+      <section id="tools" class="section reveal">
+        <div class="section-header">
+          <p class="section-label">Tools & Tech</p>
+          <h2>Software and systems I use.</h2>
+        </div>
+        <div class="pill-grid">
+          <span>TwinCAT Beckhoff</span>
+          <span>Siemens TIA Portal</span>
+          <span>PLC logic</span>
+          <span>AutoCAD</span>
+          <span>Python basics</span>
+          <span>GitHub</span>
+          <span>VS Code</span>
+          <span>Excel</span>
+          <span>HVAC systems</span>
+        </div>
+      </section>
+
+      <section id="contact" class="section reveal contact-panel">
+        <div>
+          <p class="section-label">Contact</p>
+          <h2>Ready for internship and engineering opportunities.</h2>
+          <p>If you are looking for a student who values practical engineering, safe systems, and steady progress, please get in touch. I am available for internship roles, maintenance support, and automation projects.</p>
+        </div>
+        <div class="contact-actions">
+          <a class="button button-primary" href="mailto:contact@jibranhussain.com">Email contact@jibranhussain.com</a>
+          <a class="button button-secondary" href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener">LinkedIn profile</a>
+        </div>
+      </section>
     </main>
 
-    <footer class="footer" id="footer"></footer>
+    <footer class="footer">
+      <p> 2026 Jibran Hussain. Built for clarity, privacy, and fast delivery.</p>
+      <p><a href="https://www.jibranhussain.com" target="_blank" rel="noopener">www.jibranhussain.com</a></p>
+    </footer>
   </div>
 
   <script src="script.js"></script>
