@@ -33,6 +33,35 @@ function safeText(value) {
   return String(value || '').trim();
 }
 
+function parseToggle(value) {
+  const normalized = String(value || '').trim().toLowerCase();
+  if (normalized === '') return true;
+  if (['false', '0', 'no', 'hide', 'hidden', 'off'].includes(normalized)) return false;
+  return true;
+}
+
+function isSectionVisible(sectionData) {
+  if (!sectionData) return false;
+  if (Array.isArray(sectionData)) {
+    if (sectionData._meta?.visible !== undefined) {
+      return parseToggle(sectionData._meta.visible);
+    }
+    if (sectionData._meta?.hide !== undefined) {
+      return !parseToggle(sectionData._meta.hide);
+    }
+    return true;
+  }
+  if (typeof sectionData === 'object') {
+    if (sectionData.visible !== undefined) {
+      return parseToggle(sectionData.visible);
+    }
+    if (sectionData.hide !== undefined) {
+      return !parseToggle(sectionData.hide);
+    }
+  }
+  return true;
+}
+
 function slugify(text) {
   return String(text)
     .toLowerCase()
@@ -46,32 +75,13 @@ function parseContent(raw) {
   const data = {};
   let currentSection = null;
   let currentObject = null;
-  let pendingBlock = null;
-  let blockLines = [];
-
-  function commitBlock() {
-    if (!pendingBlock || !currentSection) return;
-    const value = blockLines.join('\n').trim();
-    if (Array.isArray(data[currentSection])) {
-      data[currentSection]._meta = data[currentSection]._meta || {};
-      data[currentSection]._meta[pendingBlock] = value;
-    } else {
-      data[currentSection][pendingBlock] = value;
-    }
-    pendingBlock = null;
-    blockLines = [];
-  }
 
   for (const rawLine of lines) {
     const line = rawLine.replace(/\t/g, '  ');
     const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith('//') || trimmed.startsWith('<!--')) {
-      if (pendingBlock) blockLines.push('');
-      continue;
-    }
+    if (!trimmed || trimmed.startsWith('//') || trimmed.startsWith('<!--')) continue;
 
     if (trimmed.startsWith('#')) {
-      commitBlock();
       currentSection = trimmed.replace(/^#+\s*/, '').trim().toLowerCase().replace(/\s+/g, '_');
       currentObject = null;
       if (!data[currentSection]) {
@@ -80,18 +90,8 @@ function parseContent(raw) {
       continue;
     }
 
-    if (!currentSection) continue;
-
-    if (pendingBlock) {
-      if (/^\s+/.test(line)) {
-        blockLines.push(line.trim());
-        continue;
-      }
-      commitBlock();
-    }
-
     const listItemMatch = line.match(/^\s*-\s*(.*)$/);
-    if (listItemMatch) {
+    if (listItemMatch && currentSection) {
       const currentValue = listItemMatch[1].trim();
       if (!Array.isArray(data[currentSection])) {
         data[currentSection] = [];
@@ -119,14 +119,9 @@ function parseContent(raw) {
     }
 
     const pairMatch = line.match(/^([^:]+):\s*(.*)$/);
-    if (pairMatch) {
+    if (pairMatch && currentSection) {
       const key = pairMatch[1].trim();
-      const value = pairMatch[2];
-      if (value === '|') {
-        pendingBlock = key;
-        blockLines = [];
-        continue;
-      }
+      const value = pairMatch[2].trim();
       if (Array.isArray(data[currentSection])) {
         if (!data[currentSection]._meta) {
           Object.defineProperty(data[currentSection], '_meta', {
@@ -135,15 +130,14 @@ function parseContent(raw) {
             writable: true
           });
         }
-        data[currentSection]._meta[key] = value.trim();
+        data[currentSection]._meta[key] = value;
       } else {
-        data[currentSection][key] = value.trim();
+        data[currentSection][key] = value;
       }
       currentObject = null;
     }
   }
 
-  commitBlock();
   return data;
 }
 
@@ -394,44 +388,49 @@ function renderContent(data) {
   const sections = [];
   const navItems = [];
 
-  const hero = renderHero(data);
-  if (hero) {
-    sections.push(hero);
-    navItems.push({ id: 'hero', label: 'Home' });
+  if (isSectionVisible(data.basic_info)) {
+    const hero = renderHero(data);
+    if (hero) {
+      sections.push(hero);
+      navItems.push({ id: 'hero', label: 'Home' });
+    }
   }
 
   const renderers = [
-    renderAbout,
-    data => renderSimpleList('skills', data.skills),
-    data => renderSimpleList('tech_stack', data.tech_stack),
-    data => renderSimpleList('services', data.services),
-    data => renderProjects(data, 'projects'),
-    data => renderProjects(data, 'featured_projects'),
-    data => renderRecords('experience', data, { title: 'role', subtitle: 'company', period: 'period', details: 'description' }),
-    data => renderRecords('education', data, { title: 'degree', subtitle: 'institution', period: 'period', details: 'description' }),
-    data => renderRecords('certifications', data, { title: 'title', subtitle: 'issuer', period: 'year', details: 'description' }),
-    renderAchievements,
-    renderTestimonials,
-    renderBlog,
-    renderFaq,
-    renderGallery,
-    renderTimeline,
-    data => renderSimpleList('languages', data.languages),
-    data => renderSimpleList('tools', data.tools),
-    data => renderSimpleList('interests', data.interests)
+    { key: 'about', fn: renderAbout },
+    { key: 'skills', fn: data => renderSimpleList('skills', data.skills) },
+    { key: 'tech_stack', fn: data => renderSimpleList('tech_stack', data.tech_stack) },
+    { key: 'services', fn: data => renderSimpleList('services', data.services) },
+    { key: 'projects', fn: data => renderProjects(data, 'projects') },
+    { key: 'featured_projects', fn: data => renderProjects(data, 'featured_projects') },
+    { key: 'experience', fn: data => renderRecords('experience', data, { title: 'role', subtitle: 'company', period: 'period', details: 'description' }) },
+    { key: 'education', fn: data => renderRecords('education', data, { title: 'degree', subtitle: 'institution', period: 'period', details: 'description' }) },
+    { key: 'certifications', fn: data => renderRecords('certifications', data, { title: 'title', subtitle: 'issuer', period: 'year', details: 'description' }) },
+    { key: 'achievements', fn: renderAchievements },
+    { key: 'testimonials', fn: renderTestimonials },
+    { key: 'blog', fn: renderBlog },
+    { key: 'faq', fn: renderFaq },
+    { key: 'gallery', fn: renderGallery },
+    { key: 'timeline', fn: renderTimeline },
+    { key: 'languages', fn: data => renderSimpleList('languages', data.languages) },
+    { key: 'tools', fn: data => renderSimpleList('tools', data.tools) },
+    { key: 'interests', fn: data => renderSimpleList('interests', data.interests) }
   ];
 
   renderers.forEach(renderer => {
-    const section = renderer(data);
+    if (!isSectionVisible(data[renderer.key])) return;
+    const section = renderer.fn(data);
     if (!section) return;
     sections.push(section);
     navItems.push({ id: section.id, label: sectionTitles[section.id] || section.id });
   });
 
-  const contact = renderContact(data, data.social_links || []);
-  if (contact) {
-    sections.push(contact);
-    navItems.push({ id: 'contact', label: sectionTitles.contact });
+  if (isSectionVisible(data.contact)) {
+    const contact = renderContact(data, data.social_links || []);
+    if (contact) {
+      sections.push(contact);
+      navItems.push({ id: 'contact', label: sectionTitles.contact });
+    }
   }
 
   contentRoot.innerHTML = '';

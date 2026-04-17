@@ -3,7 +3,7 @@ name: Jibran Hussain
 headline: Electrical & Automation Engineering student
 subtitle: Practical maintenance experience with a strong interest in automation, troubleshooting, and real-world problem solving
 email: contact@jibranhussain.com
-location: Espoo, Finland
+location: Finland
 resume: assets/resume.pdf
 cta_text: Let's connect
 cta_link: mailto:contact@jibranhussain.com
@@ -61,6 +61,7 @@ text: |
 - Troubleshooting support
 
 # Projects
+hide: true
 - title: PLC Conveyor Lift Project
   description: Developed PLC control logic and HMI visualization for a conveyor lift system using TwinCAT Beckhoff PLC and Function Block Diagram structure.
   link:
@@ -70,6 +71,7 @@ text: |
   link:
 
 # Experience
+hide: true
 - role: Maintenance Technician
   company: ARE Oy
   period: 2023-2025
@@ -92,22 +94,26 @@ text: |
   description: Focused on electrical systems, automation, maintenance, PLC programming, measurements, and technical development.
 
 # Certifications
+hide: true
 - title: Academic Electrical Safety & Standards Studies
   issuer: HAMK University of Applied Sciences
   year:
   description: Ongoing studies covering electrical safety, standards, and compliant engineering practices.
 
 # Achievements
+hide: true
 - Combined engineering studies with practical maintenance work experience.
 - Developed troubleshooting and preventive maintenance skills through real technical tasks.
 - Growing long-term expertise in electrical engineering and automation through continuous learning.
 
 # Testimonials
+hide: true
 - name: Supervisor
   role: Maintenance Operations
   quote: "Jibran is dependable, practical, and motivated to learn technical systems."
 
 # Blog
+hide: true
 - title: 
   summary:
   link:
@@ -121,9 +127,6 @@ text: I am open to internship opportunities, practical engineering roles, and pr
 
 - platform: LinkedIn
   link: https://www.linkedin.com/in/jibranhussainatwork
-
-- platform: GitHub
-  link:
 
 # Languages
 - English 
