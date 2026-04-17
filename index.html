@@ -1,12 +1,15 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Jibran Hussain | Electrical & Automation Engineering Student</title>
   <meta name="description" content="Portfolio of Jibran Hussain, Electrical & Automation Engineering student in Finland. Practical maintenance experience, automation interests, and technical development." />
   <meta name="theme-color" content="#0f172a" />
   <meta name="color-scheme" content="dark light" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23384d77'/%3E%3Ctext x='50' y='55' font-size='50' text-anchor='middle' fill='white' font-family='system-ui, sans-serif'%3EJ%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -15,34 +18,63 @@
   <a class="skip-link" href="#main">Skip to main content</a>
   <div class="page-shell">
     <header class="site-header">
-      <div class="brand">
-        <p class="eyebrow">Electrical & Automation Engineering Student</p>
-        <a class="logo" href="#home">Jibran Hussain</a>
+      <div class="header-top">
+        <a class="logo" href="#home" data-i18n="logoName">Jibran Hussain</a>
+
+        <div class="header-controls" aria-label="Accessibility and language controls">
+          <div class="language-switcher" role="group" aria-label="Language selection">
+            <button id="langEn" type="button" class="control-button" aria-pressed="false">EN</button>
+            <button id="langFi" type="button" class="control-button" aria-pressed="false">FI</button>
+          </div>
+          <button id="speakToggle" type="button" class="control-button" aria-pressed="false">Read aloud</button>
+          <button id="speakStop" type="button" class="control-button" aria-label="Stop reading" disabled>Stop</button>
+          <button id="readableToggle" type="button" class="control-button" aria-pressed="false">Readable mode</button>
+          <button id="themeToggle" class="theme-toggle control-button" type="button" aria-label="Toggle dark mode" data-i18n="themeDark">Dark mode</button>
+        </div>
+
+        <button class="nav-toggle" id="navToggle" aria-controls="primary-navigation" aria-expanded="false">
+          <span>Menu</span>
+          <span class="nav-toggle-icon"></span>
+        </button>
       </div>
 
-      <button class="nav-toggle" id="navToggle" aria-controls="primary-navigation" aria-expanded="false">
-        <span>Menu</span>
-        <span class="nav-toggle-icon"></span>
-      </button>
-
       <nav id="primary-navigation" class="primary-nav" aria-label="Primary navigation">
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#experience">Experience</a>
-        <a href="#education">Education</a>
-        <a href="#tools">Tools</a>
-        <a href="#contact">Contact</a>
+        <a href="#about" data-i18n="navAbout">About</a>
+        <a href="#skills" data-i18n="navSkills">Skills</a>
+        <a href="#experience" data-i18n="navExperience">Experience</a>
+        <a href="#education" data-i18n="navEducation">Education</a>
+        <a href="#tools" data-i18n="navTools">Tools</a>
+        <a href="#contact" data-i18n="navContact">Contact</a>
       </nav>
-
-      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">Dark mode</button>
     </header>
+
+    <div id="privacyBanner" class="privacy-banner" aria-live="polite" hidden>
+      <p data-i18n="privacyBannerText">We store only minimal local preferences and may use privacy-friendly analytics to improve the experience.</p>
+      <div class="privacy-actions">
+        <button id="privacyDetails" class="button button-secondary" type="button" data-i18n="privacyDetails">Details</button>
+        <button id="privacyAccept" class="button button-primary" type="button" data-i18n="privacyAccept">Accept</button>
+      </div>
+    </div>
+
+    <div id="privacyModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="privacyModalTitle" hidden>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="privacyModalTitle" data-i18n="privacyModalTitle">Privacy policy</h2>
+          <button id="privacyClose" class="modal-close" type="button" aria-label="Close privacy details">×</button>
+        </div>
+        <div class="modal-body">
+          <p data-i18n="privacyModalText1">This site stores only essential local preferences, such as language and readable mode. No tracking cookies are used without permission.</p>
+          <p data-i18n="privacyModalText2">You can change preferences anytime from your browser. This experience is built to be privacy-friendly and non-intrusive.</p>
+        </div>
+      </div>
+    </div>
 
     <main id="main">
       <section id="home" class="hero section reveal">
         <div class="hero-copy">
-          <p class="eyebrow">Portfolio</p>
-          <h1>Jibran Hussain</h1>
-          <p class="hero-text">I am an Electrical & Automation Engineering student building hands-on experience in maintenance, troubleshooting, electrical systems, and reliable automation solutions. I bring a calm, analytical approach to engineering problems and a strong commitment to safe, practical outcomes.</p>
+          <p class="eyebrow" data-i18n="heroEyebrow">Portfolio</p>
+          <h1 data-i18n="heroTitle">Jibran Hussain</h1>
+          <p class="hero-text" data-i18n="heroText">I am an Electrical & Automation Engineering student building hands-on experience in maintenance, troubleshooting, electrical systems, and reliable automation solutions. I bring a calm, analytical approach to engineering problems and a strong commitment to safe, practical outcomes.</p>
         </div>
 
         <div class="hero-panel">
@@ -51,9 +83,9 @@
               <img src="assets/profile.png" alt="Portrait of Jibran Hussain" loading="lazy" />
             </div>
             <div class="profile-details">
-              <p class="profile-title">Jibran Hussain</p>
-              <p class="profile-subtitle">Electrical & Automation Engineering Student</p>
-              <p class="profile-meta">Finland  contact@jibranhussain.com</p>
+              <p class="profile-title" data-i18n="heroTitle">Jibran Hussain</p>
+              <p class="profile-subtitle" data-i18n="profileSubtitle">Electrical & Automation Engineering Student</p>
+              <p class="profile-meta" data-i18n="profileMeta">Finland • contact@jibranhussain.com</p>
             </div>
           </div>
         </div>
@@ -61,35 +93,35 @@
 
       <section id="about" class="section reveal">
         <div class="section-header">
-          <p class="section-label">About</p>
-          <h2>Focused on practical engineering and dependable systems.</h2>
+          <p class="section-label" data-i18n="aboutLabel">About</p>
+          <h2 data-i18n="aboutHeading">Focused on practical engineering and dependable systems.</h2>
         </div>
-        <p>Practical and reliable professional with hands-on experience in maintenance and technical environments. Known for a calm, solution-oriented approach, strong work ethic, and willingness to learn new systems and methods. Works carefully, takes responsibility, and values doing tasks properly from the first time.</p>
-        <p>Brings a combination of technical understanding and real workplace experience, with interest in automation, electrical systems, troubleshooting, and continuous improvement. Appreciates clear communication, cooperation, and steady progress. Aims to contribute to dependable, efficient, and future-focused engineering work.</p>
+        <p data-i18n="aboutParagraph1">Practical and reliable professional with hands-on experience in maintenance and technical environments. Known for a calm, solution-oriented approach, strong work ethic, and willingness to learn new systems and methods. Works carefully, takes responsibility, and values doing tasks properly from the first time.</p>
+        <p data-i18n="aboutParagraph2">Brings a combination of technical understanding and real workplace experience, with interest in automation, electrical systems, troubleshooting, and continuous improvement. Appreciates clear communication, cooperation, and steady progress. Aims to contribute to dependable, efficient, and future-focused engineering work.</p>
       </section>
 
       <section id="skills" class="section reveal">
         <div class="section-header">
-          <p class="section-label">Skills</p>
-          <h2>What I do well.</h2>
+          <p class="section-label" data-i18n="skillsLabel">Skills</p>
+          <h2 data-i18n="skillsHeading">What I do well.</h2>
         </div>
         <div class="grid-2">
           <div class="card-soft">
-            <h3>Core strengths</h3>
+            <h3 data-i18n="coreStrengthsTitle">Core strengths</h3>
             <ul class="list-simple">
-              <li>Preventive maintenance</li>
-              <li>Troubleshooting</li>
-              <li>PLC programming</li>
-              <li>Electrical systems</li>
+              <li data-i18n="skill1">Preventive maintenance</li>
+              <li data-i18n="skill2">Troubleshooting</li>
+              <li data-i18n="skill3">PLC programming</li>
+              <li data-i18n="skill4">Electrical systems</li>
             </ul>
           </div>
           <div class="card-soft">
-            <h3>Work approach</h3>
+            <h3 data-i18n="workApproachTitle">Work approach</h3>
             <ul class="list-simple">
-              <li>Technical documentation</li>
-              <li>Safety awareness</li>
-              <li>Teamwork</li>
-              <li>Continuous learning</li>
+              <li data-i18n="skill5">Technical documentation</li>
+              <li data-i18n="skill6">Safety awareness</li>
+              <li data-i18n="skill7">Teamwork</li>
+              <li data-i18n="skill8">Continuous learning</li>
             </ul>
           </div>
         </div>
@@ -97,44 +129,44 @@
 
       <section id="experience" class="section reveal">
         <div class="section-header">
-          <p class="section-label">Experience</p>
-          <h2>Hands-on roles and practical training.</h2>
+          <p class="section-label" data-i18n="experienceLabel">Experience</p>
+          <h2 data-i18n="experienceHeading">Hands-on roles and practical training.</h2>
         </div>
         <div class="timeline">
           <article class="timeline-item">
-            <p class="timeline-meta">Maintenance Technician  ARE Oy</p>
-            <p class="timeline-date">2023-2025</p>
-            <p>Supported preventive maintenance, troubleshooting, and inspections on electrical and automation equipment. I focused on reliability, safe workflows, and practical system improvements.</p>
+            <p class="timeline-meta" data-i18n="experienceItem1Title">Maintenance Technician ARE Oy</p>
+            <p class="timeline-date" data-i18n="experienceItem1Date">2023-2025</p>
+            <p data-i18n="experienceItem1Text">Supported preventive maintenance, troubleshooting, and inspections on electrical and automation equipment. I focused on reliability, safe workflows, and practical system improvements.</p>
           </article>
           <article class="timeline-item">
-            <p class="timeline-meta">Intern  ARE Oy</p>
-            <p class="timeline-date">2023</p>
-            <p>Assisted maintenance operations with practical site tasks and gained exposure to industrial electrical systems, control panels, and automation diagnostics.</p>
+            <p class="timeline-meta" data-i18n="experienceItem2Title">Intern ARE Oy</p>
+            <p class="timeline-date" data-i18n="experienceItem2Date">2023</p>
+            <p data-i18n="experienceItem2Text">Assisted maintenance operations with practical site tasks and gained exposure to industrial electrical systems, control panels, and automation diagnostics.</p>
           </article>
           <article class="timeline-item">
-            <p class="timeline-meta">Student roles</p>
-            <p class="timeline-date">2020-2023</p>
-            <p>Delivered support work on construction and maintenance teams while learning how disciplined project routines and teamwork improve technical results.</p>
+            <p class="timeline-meta" data-i18n="experienceItem3Title">Student roles</p>
+            <p class="timeline-date" data-i18n="experienceItem3Date">2020-2023</p>
+            <p data-i18n="experienceItem3Text">Delivered support work on construction and maintenance teams while learning how disciplined project routines and teamwork improve technical results.</p>
           </article>
         </div>
       </section>
 
       <section id="education" class="section reveal">
         <div class="section-header">
-          <p class="section-label">Education</p>
-          <h2>Formal training in automation and electrical systems.</h2>
+          <p class="section-label" data-i18n="educationLabel">Education</p>
+          <h2 data-i18n="educationHeading">Formal training in automation and electrical systems.</h2>
         </div>
         <div class="card-soft">
-          <p class="timeline-meta">Bachelors Degree Programme in Electrical and Automation Engineering</p>
-          <p class="timeline-date">HAMK University of Applied Sciences  2025-2027 (Expected)</p>
-          <p>Focused on electrical systems, automation, PLC programming, measurements, and technical development for practical engineering workflows.</p>
+          <p class="timeline-meta" data-i18n="educationDegree">Bachelors Degree Programme in Electrical and Automation Engineering</p>
+          <p class="timeline-date" data-i18n="educationDate">HAMK University of Applied Sciences  2025-2027 (Expected)</p>
+          <p data-i18n="educationText">Focused on electrical systems, automation, PLC programming, measurements, and technical development for practical engineering workflows.</p>
         </div>
       </section>
 
       <section id="tools" class="section reveal">
         <div class="section-header">
-          <p class="section-label">Tools & Tech</p>
-          <h2>Software and systems I use.</h2>
+          <p class="section-label" data-i18n="toolsLabel">Tools & Tech</p>
+          <h2 data-i18n="toolsHeading">Software and systems I use.</h2>
         </div>
         <div class="pill-grid">
           <span>TwinCAT Beckhoff</span>
@@ -151,19 +183,19 @@
 
       <section id="contact" class="section reveal contact-panel">
         <div>
-          <p class="section-label">Contact</p>
-          <h2>Ready for internship and engineering opportunities.</h2>
-          <p>If you are looking for a student who values practical engineering, safe systems, and steady progress, please get in touch. I am available for internship roles, maintenance support, and automation projects.</p>
+          <p class="section-label" data-i18n="contactLabel">Contact</p>
+          <h2 data-i18n="contactHeading">Ready for internship and engineering opportunities.</h2>
+          <p data-i18n="contactText">If you are looking for a student who values practical engineering, safe systems, and steady progress, please get in touch. I am available for internship roles, maintenance support, and automation projects.</p>
         </div>
         <div class="contact-actions">
-          <a class="button button-primary" href="mailto:contact@jibranhussain.com">Email contact@jibranhussain.com</a>
-          <a class="button button-secondary" href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener">LinkedIn profile</a>
+          <a id="contactEmail" class="button button-primary" href="mailto:contact@jibranhussain.com" data-i18n="contactEmail">Email contact@jibranhussain.com</a>
+          <a id="contactLinkedin" class="button button-secondary" href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener" data-i18n="contactLinkedin">LinkedIn profile</a>
         </div>
       </section>
     </main>
 
     <footer class="footer">
-      <p> 2026 Jibran Hussain.</p>
+      <p data-i18n="footerText">2026 Jibran Hussain.</p>
       <p><a href="https://www.jibranhussain.com" target="_blank" rel="noopener">www.jibranhussain.com</a></p>
     </footer>
   </div>

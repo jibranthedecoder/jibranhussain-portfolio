@@ -1,69 +1,30 @@
-# Markdown-driven portfolio template
+# Jibran Hussain Portfolio
 
-This repository is now a reusable portfolio website system where the layout is fixed and the content is driven entirely from `content.md`.
+A responsive personal portfolio website for Electrical & Automation Engineering student **Jibran Hussain**.
 
-## What is included
+The site is built with vanilla HTML, CSS, and JavaScript and includes polished styling, responsive layout, dark/light theming, and accessibility-first enhancements.
 
-- `index.html` — page template and structure
-- `styles.css` — responsive design, dark mode, and polished section styles
-- `script.js` — content loader, markdown parser, rendering logic, theme toggle
-- `content.md` — single editable content file for the whole site
-- `assets/` — asset folder for images
+## Project structure
 
-## How to edit content
+- `index.html` — main portfolio page structure and content
+- `styles.css` — responsive styling, theme support, and readable mode design
+- `script.js` — interactivity, theme management, language switching, speech synthesis, and privacy preferences
+- `assets/` — image assets used in the site
 
-Open `content.md` and update the values inside each section.
+## Key features
 
-Example fields:
+- Responsive hero, about, skills, experience, education, tools, and contact sections
+- Dark/light mode toggle with local preference persistence
+- Automatic browser language detection with Finnish and English support
+- Manual language switch buttons that override auto-detection
+- Read aloud feature using the browser SpeechSynthesis API
+- Readable / dyslexia-friendly mode with larger spacing and Lexend font support
+- Minimal privacy banner and modal with consent persistence in `localStorage`
+- Accessible navigation, ARIA labels, and keyboard-friendly controls
 
-```md
-# Basic Info
-name: Your Name
-headline: Electrical & Automation Engineering student
-location: Finland
-email: contact@example.com
-linkedin: https://www.linkedin.com/in/example
-github: https://github.com/example
-resume: resume.pdf
-cta_text: Contact me
-cta_link: mailto:contact@example.com
-```
+## Running locally
 
-Use lists for skills, services, languages, and more:
-
-```md
-# Skills
-- PLC programming
-- Electrical maintenance
-- Control systems
-```
-
-Add structured content with objects for projects, experience, certifications, and FAQ:
-
-```md
-# Projects
-- title: Control panel support
-  description: Assisted with documentation and automation testing.
-  link: https://example.com
-```
-
-## How to add new projects
-
-1. Open `content.md`
-2. Find the `# Projects` section
-3. Add a new `- title:` block with `description:` and optional `link:`.
-
-Example:
-
-```md
-- title: New maintenance project
-  description: Supported a site visit with electrical checks and controls review.
-  link: https://example.com
-```
-
-## Run locally
-
-Because the site loads `content.md`, run a local server instead of opening the file directly.
+Open the project using a local server for best browser compatibility.
 
 ### Python
 
@@ -71,35 +32,21 @@ Because the site loads `content.md`, run a local server instead of opening the f
 python -m http.server 8000
 ```
 
-Then open `http://localhost:8000`.
+Then open `http://localhost:8000` in your browser.
 
-## Deploy to GitHub Pages
+## Deploying
 
 1. Commit all files to your repository.
 2. Push to the `main` branch.
-3. In GitHub repository settings, enable Pages for the `main` branch and root folder.
-4. Visit the provided GitHub Pages URL.
+3. Enable GitHub Pages for the `main` branch and root folder.
+4. Visit the published Pages URL.
 
-## Customize colors and fonts
+## Editing content
 
-### Colors
-You can set custom color variables inside `content.md` under the `# Colors` section.
-
-Example:
-
-```md
-# Colors
-primary_color: #2563eb
-accent_color: #1d4ed8
-background_color: #eef4fb
-text_color: #0f172a
-```
-
-### Fonts
-Edit the Google Fonts import in `index.html` and update font families in `styles.css`.
+Update the content directly in `index.html` for this portfolio project. The page is currently built as a stable site template rather than a content-driven markdown system.
 
 ## Notes
 
-- If a section has no content, it is hidden automatically.
-- Add or remove sections in `content.md`; the template renders only what is available.
-- Use `assets/` for images and update the paths in `content.md` if required.
+- The site keeps user preferences for theme, language, readable mode, and privacy consent in `localStorage`.
+- The read aloud feature uses browser support for `speechSynthesis`; if unsupported, it disables cleanly.
+- The design preserves the existing layout and navigation while improving usability and accessibility.
