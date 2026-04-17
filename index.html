@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jibran Hussain — Electrical & Automation Engineering Student</title>
-  <meta name="description" content="Electrical & Automation Engineering student in Finland with hands-on maintenance experience and growing automation skills.">
+  <title>Portfolio</title>
+  <meta name="description" content="Modern portfolio template powered by content.md">
+  <meta name="theme-color" content="#2563eb">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,116 +17,21 @@
     <header class="site-header">
       <div class="brand">
         <span class="brand-label">Portfolio</span>
-        <a href="index.html" class="brand-name">Jibran Hussain</a>
+        <a id="brand-name" class="brand-name" href="#">Your Name</a>
       </div>
 
-      <nav class="primary-nav" aria-label="Primary navigation">
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#contact">Contact</a>
-      </nav>
+      <nav class="primary-nav" aria-label="Primary navigation"></nav>
 
       <div class="header-actions">
-        <button id="theme-toggle" class="button" type="button" aria-label="Toggle theme">🌙 Dark mode</button>
-        <button id="readable-toggle" class="button" type="button" aria-label="Toggle readable text">🧠 Readable text</button>
-        <button id="speak-btn" class="button" type="button" aria-label="Read page aloud">🔊 Read</button>
-        <button id="stop-btn" class="button" type="button" aria-label="Stop reading">⏹ Stop</button>
+        <button id="theme-toggle" class="button button-secondary" type="button" aria-label="Toggle theme">🌙 Dark</button>
       </div>
     </header>
 
-    <main id="page-content">
-      <section class="hero">
-        <div class="hero-copy">
-          <span class="brand-label">Engineering portfolio</span>
-          <h1>Practical automation and electrical maintenance while I grow as an engineering student.</h1>
-          <p class="lead">I am an Electrical & Automation Engineering student in Finland with hands-on maintenance experience. I learn from equipment service, control tasks, and practical problem solving as I build my technical skills.</p>
-          <div class="hero-actions">
-            <a href="#contact" class="button button-primary">Contact me</a>
-            <a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener" class="button">View LinkedIn</a>
-          </div>
-        </div>
-
-        <div class="hero-card hero-visual">
-          <img src="profile.png" alt="Portrait of Jibran Hussain">
-        </div>
-      </section>
-
-      <section id="about" class="section">
-        <h2>About</h2>
-        <h3 class="section-title">Learning through practical engineering work.</h3>
-        <p class="section-text">I am studying Electrical & Automation Engineering in Finland while gaining experience from maintenance assignments and automation tasks. I focus on understanding how equipment operates, improving reliability, and making systems easier to maintain.</p>
-      </section>
-
-      <section id="skills" class="section">
-        <h2>Core skills</h2>
-        <div class="cards-grid">
-          <div class="card">
-            <p class="card-title">Automation & controls</p>
-            <p class="card-text">Supporting PLC work and control logic while learning to document systems clearly and keep them functional.</p>
-          </div>
-          <div class="card">
-            <p class="card-title">Electrical systems</p>
-            <p class="card-text">Working with wiring, distribution, and maintenance tasks with a focus on safe, dependable practice.</p>
-          </div>
-          <div class="card">
-            <p class="card-title">Troubleshooting</p>
-            <p class="card-text">Diagnosing issues, testing components, and helping systems recover through practical investigation.</p>
-          </div>
-        </div>
-
-        <div class="tags-list" style="margin-top: 24px;">
-          <span class="tag">PLC & control logic</span>
-          <span class="tag">Electrical systems</span>
-          <span class="tag">Automation foundations</span>
-          <span class="tag">Troubleshooting</span>
-          <span class="tag">Continuous improvement</span>
-        </div>
-      </section>
-
-      <section id="contact" class="section">
-        <h2>Contact</h2>
-        <div class="contact-grid">
-          <div class="contact-panel">
-            <h3 class="section-title">Let's connect.</h3>
-            <p class="section-text">I am open to internships, practical learning opportunities, and support roles in electrical automation. Reach out if you want to talk about a project or a way I can contribute while continuing to learn.</p>
-            <div class="actions-row">
-              <a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener" class="button button-primary">LinkedIn</a>
-              <a href="mailto:contact@jibranhussain.com" class="button link-button secondary">Email</a>
-            </div>
-          </div>
-
-          <div class="hero-card">
-            <form id="contact-form" class="form-grid" novalidate>
-              <div class="field-group">
-                <label class="label-hidden" for="name">Name</label>
-                <input id="name" name="name" type="text" placeholder="Your name" required>
-              </div>
-              <div class="field-group">
-                <label class="label-hidden" for="email">Email</label>
-                <input id="email" name="email" type="email" placeholder="Your email" required>
-              </div>
-              <div class="label-hidden">
-                <label for="website">Website</label>
-                <input id="website" name="website" type="text" class="hidden-field" autocomplete="off">
-              </div>
-              <div class="field-group">
-                <label class="label-hidden" for="message">Message</label>
-                <textarea id="message" name="message" placeholder="Tell me about your project or opportunity" required></textarea>
-              </div>
-              <div class="form-meta">
-                <button type="submit" class="button button-primary">Send message</button>
-                <span id="form-status" class="form-status" aria-live="polite"></span>
-              </div>
-            </form>
-          </div>
-        </div>
-      </section>
+    <main id="main-content" class="main-content">
+      <div class="loader">Loading portfolio content…</div>
     </main>
 
-    <footer class="footer">
-      <small>© 2026 Jibran Hussain</small>
-      <small>Built for clarity, speed, and accessibility.</small>
-    </footer>
+    <footer class="footer" id="footer"></footer>
   </div>
 
   <script src="script.js"></script>
