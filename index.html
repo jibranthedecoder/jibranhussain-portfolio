@@ -1,436 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jibran Hussain</title>
-<meta name="description" content="Professional portfolio of Jibran Hussain">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-:root{
---bg:#f4f7fb;--card:#ffffff;--text:#0f172a;--muted:#475569;
---line:#dbe3ee;--accent:#2563eb;--accent-soft:#dbeafe;
-}
-
-html[data-theme="dark"]{
---bg:#0b1220;--card:#111827;--text:#f8fafc;--muted:#cbd5e1;
---line:#334155;--accent:#60a5fa;--accent-soft:#1e3a8a;
-}
-
-/* Strong Readable / Dyslexia Mode */
-html.readable-mode body,
-html.readable-mode input,
-html.readable-mode textarea,
-html.readable-mode button,
-html.readable-mode a{
-font-family:'Lexend',sans-serif !important;
-letter-spacing:.05em;
-word-spacing:.16em;
-line-height:2.15;
-font-weight:500;
-}
-
-html.readable-mode p,
-html.readable-mode span,
-html.readable-mode li,
-html.readable-mode input,
-html.readable-mode textarea{
-font-size:1.08em;
-}
-
-html.readable-mode h1{font-size:72px;}
-html.readable-mode h2{font-size:28px;}
-html.readable-mode h3{font-size:17px;letter-spacing:.12em;}
-
-html.readable-mode .intro,
-html.readable-mode .status,
-html.readable-mode .actions a,
-html.readable-mode .submit-btn{
-font-size:19px;
-}
-
-html.readable-mode .tags{gap:18px;}
-
-html.readable-mode .tags span{
-padding:18px 20px;
-border-radius:20px;
-}
-
-html.readable-mode input,
-html.readable-mode textarea{
-padding:18px;
-border-width:2px;
-}
-
-html.readable-mode .theme-toggle{
-font-size:15px;
-padding:10px 16px;
-}
-
-*{margin:0;padding:0;box-sizing:border-box;}
-
-body{
-font-family:'Inter',sans-serif;
-background:var(--bg);
-color:var(--text);
-padding:40px 20px;
-transition:.3s ease;
-}
-
-.container{max-width:980px;margin:0 auto;}
-
-main{
-background:var(--card);
-border:1px solid var(--line);
-border-radius:28px;
-padding:70px 55px;
-box-shadow:0 20px 60px rgba(15,23,42,.08);
-}
-
-.top-bar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:28px;
-gap:16px;
-flex-wrap:wrap;
-}
-
-.controls{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-
-.lang-switch{display:flex;gap:10px;}
-
-.lang-switch a,.theme-toggle{
-text-decoration:none;
-padding:8px 14px;
-border-radius:999px;
-border:1px solid var(--line);
-background:var(--card);
-color:var(--text);
-font-weight:600;
-cursor:pointer;
-}
-
-.lang-switch a.active{
-background:var(--accent);
-color:#fff;
-border-color:var(--accent);
-}
-
-.hero-grid{
-display:grid;
-grid-template-columns:1.35fr .9fr;
-gap:42px;
-align-items:center;
-}
-
-.hero-photo img{
-width:290px;
-height:290px;
-object-fit:cover;
-border-radius:26px;
-border:1px solid var(--line);
-}
-
-h1{font-size:64px;line-height:1.02;}
-h2{font-size:24px;color:var(--muted);margin-top:18px;}
-
-.eyebrow{
-font-size:12px;
-letter-spacing:.28em;
-color:var(--accent);
-font-weight:700;
-margin-bottom:20px;
-}
-
-.intro{
-margin-top:28px;
-font-size:18px;
-line-height:1.8;
-color:var(--muted);
-}
-
-section{margin-top:70px;}
-
-h3{
-font-size:15px;
-text-transform:uppercase;
-letter-spacing:.18em;
-color:var(--accent);
-margin-bottom:24px;
-}
-
-.tags{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:14px;
-}
-
-.tags span{
-padding:14px 18px;
-background:var(--accent-soft);
-border:1px solid var(--line);
-border-radius:18px;
-font-weight:500;
-}
-
-.actions{
-margin-top:28px;
-display:flex;
-gap:14px;
-flex-wrap:wrap;
-}
-
-.actions a,.submit-btn{
-text-decoration:none;
-padding:14px 22px;
-border-radius:14px;
-font-weight:600;
-border:none;
-cursor:pointer;
-}
-
-.actions a:first-child,.submit-btn{
-background:var(--accent);
-color:#fff;
-}
-
-.actions a:last-child{
-border:1px solid var(--line);
-background:var(--card);
-color:var(--text);
-}
-
-form{
-display:grid;
-gap:16px;
-max-width:700px;
-}
-
-input,textarea{
-width:100%;
-padding:14px 16px;
-border-radius:14px;
-border:1px solid var(--line);
-background:var(--card);
-color:var(--text);
-font:inherit;
-}
-
-textarea{
-min-height:160px;
-resize:vertical;
-}
-
-.status{
-font-size:14px;
-color:var(--muted);
-}
-
-.hidden-field{display:none;}
-
-footer{
-margin-top:80px;
-padding-top:24px;
-border-top:1px solid var(--line);
-font-size:14px;
-color:var(--muted);
-}
-
-@media(max-width:768px){
-main{padding:42px 26px;}
-.hero-grid{grid-template-columns:1fr;}
-.hero-photo{order:-1;text-align:center;}
-.hero-photo img{width:220px;height:220px;}
-h1{font-size:44px;}
-h2{font-size:20px;}
-.top-bar{flex-direction:column;align-items:stretch;}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jibran Hussain — Automation & Electrical Portfolio</title>
+  <meta name="description" content="Jibran Hussain is an Electrical and Automation Engineering student building reliable maintenance and automation systems.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-<div class="container">
-<main id="page-content">
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="brand">
+        <span class="brand-label">Portfolio</span>
+        <a href="index.html" class="brand-name">Jibran Hussain</a>
+      </div>
 
-<div class="top-bar">
-<div class="lang-switch">
-<a href="index.html" class="active">EN</a>
-<a href="fi.html">FI</a>
-</div>
+      <nav class="primary-nav" aria-label="Primary navigation">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
 
-<div class="controls">
-<button id="speak-btn" class="theme-toggle">🔊 Read</button>
-<button id="stop-btn" class="theme-toggle">⏹ Stop</button>
-<button id="readable-toggle" class="theme-toggle">🧠 Readable Mode</button>
-<button id="theme-toggle" class="theme-toggle">🌙 Dark</button>
-</div>
-</div>
+      <div class="header-actions">
+        <button id="theme-toggle" class="button" type="button" aria-label="Toggle theme">🌙 Dark mode</button>
+        <button id="readable-toggle" class="button" type="button" aria-label="Toggle readable text">🧠 Readable text</button>
+        <button id="speak-btn" class="button" type="button" aria-label="Read page aloud">🔊 Read</button>
+        <button id="stop-btn" class="button" type="button" aria-label="Stop reading">⏹ Stop</button>
+      </div>
+    </header>
 
-<header class="hero hero-grid">
-<div>
-<p class="eyebrow">PORTFOLIO</p>
-<h1>Jibran Hussain</h1>
-<h2>Electrical & Automation Engineering Student</h2>
+    <main id="page-content">
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="brand-label">Engineering portfolio</span>
+          <h1>Reliable automation, robust electrical systems, and real-world impact.</h1>
+          <p class="lead">I am an Electrical & Automation Engineering student focused on practical maintenance, automation systems, and solving technical challenges with dependable engineering work.</p>
+          <div class="hero-actions">
+            <a href="#contact" class="button button-primary">Contact me</a>
+            <a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener" class="button">View LinkedIn</a>
+          </div>
+        </div>
 
-<p class="intro">
-Electrical & Automation Engineering student focused on practical skills in maintenance, automation systems, and problem-solving through hands-on learning.
-</p>
-</div>
+        <div class="hero-card hero-visual">
+          <img src="profile.png" alt="Portrait of Jibran Hussain">
+        </div>
+      </section>
 
-<div class="hero-photo">
-<img src="profile.png" alt="Jibran Hussain">
-</div>
-</header>
+      <section id="about" class="section">
+        <h2>About</h2>
+        <h3 class="section-title">Engineering focus with a practical edge.</h3>
+        <p class="section-text">I combine hands-on automation support with systems thinking and practical maintenance experience. I work to make controls reliable, processes clearer, and engineering systems easier to operate and maintain.</p>
+      </section>
 
-<section>
-<h3>Core Skills</h3>
-<div class="tags">
-<span>PLC & Control Logic</span>
-<span>Electrical Systems</span>
-<span>Automation Foundations</span>
-<span>Practical Troubleshooting</span>
-<span>Continuous Improvement</span>
-</div>
-</section>
+      <section id="skills" class="section">
+        <h2>Core skills</h2>
+        <div class="cards-grid">
+          <div class="card">
+            <p class="card-title">Automation & controls</p>
+            <p class="card-text">PLC programming, control logic, and implementation for industrial automation that runs consistently.</p>
+          </div>
+          <div class="card">
+            <p class="card-title">Electrical systems</p>
+            <p class="card-text">Power distribution, wiring standards, and safe maintenance practices for equipment that performs reliably.</p>
+          </div>
+          <div class="card">
+            <p class="card-title">Troubleshooting</p>
+            <p class="card-text">Fast diagnostics, instrumentation support, and pragmatic problem solving in active systems.</p>
+          </div>
+        </div>
 
-<section>
-<h3>Contact</h3>
+        <div class="tags-list" style="margin-top: 24px;">
+          <span class="tag">PLC & control logic</span>
+          <span class="tag">Electrical systems</span>
+          <span class="tag">Automation foundations</span>
+          <span class="tag">Troubleshooting</span>
+          <span class="tag">Continuous improvement</span>
+        </div>
+      </section>
 
-<form id="contact-form">
-<input type="text" name="name" placeholder="Your name" required>
-<input type="email" name="email" placeholder="Your email" required>
-<input type="text" name="website" class="hidden-field" autocomplete="off">
-<textarea name="message" placeholder="Your message" required></textarea>
+      <section id="contact" class="section">
+        <h2>Contact</h2>
+        <div class="contact-grid">
+          <div class="contact-panel">
+            <h3 class="section-title">Let's connect.</h3>
+            <p class="section-text">If you're looking for support in automation, maintenance, or practical engineering, send a note and I’ll reply as soon as possible.</p>
+            <div class="actions-row">
+              <a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener" class="button button-primary">LinkedIn</a>
+              <a href="mailto:contact@jibranhussain.com" class="button link-button secondary">Email</a>
+            </div>
+          </div>
 
-<button type="submit" class="submit-btn">Send Message</button>
-<div id="form-status" class="status"></div>
-</form>
+          <div class="hero-card">
+            <form id="contact-form" class="form-grid" novalidate>
+              <div class="field-group">
+                <label class="label-hidden" for="name">Name</label>
+                <input id="name" name="name" type="text" placeholder="Your name" required>
+              </div>
+              <div class="field-group">
+                <label class="label-hidden" for="email">Email</label>
+                <input id="email" name="email" type="email" placeholder="Your email" required>
+              </div>
+              <div class="label-hidden">
+                <label for="website">Website</label>
+                <input id="website" name="website" type="text" class="hidden-field" autocomplete="off">
+              </div>
+              <div class="field-group">
+                <label class="label-hidden" for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Tell me about your project or opportunity" required></textarea>
+              </div>
+              <div class="form-meta">
+                <button type="submit" class="button button-primary">Send message</button>
+                <span id="form-status" class="form-status" aria-live="polite"></span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
 
-<div class="actions">
-<a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank">LinkedIn</a>
-<a href="mailto:contact@jibranhussain.com">Email</a>
-</div>
-</section>
+    <footer class="footer">
+      <small>© 2026 Jibran Hussain</small>
+      <small>Built for clarity, speed, and accessibility.</small>
+    </footer>
+  </div>
 
-<footer>© 2026 Jibran Hussain · Privacy First</footer>
-
-</main>
-</div>
-
-<script>
-(function(){
-
-const root=document.documentElement;
-
-/* Theme */
-const btn=document.getElementById("theme-toggle");
-const savedTheme=localStorage.getItem("theme");
-const prefersDark=window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-if(savedTheme){root.setAttribute("data-theme",savedTheme);}
-else if(prefersDark){root.setAttribute("data-theme","dark");}
-
-function updateTheme(){
-const dark=root.getAttribute("data-theme")==="dark";
-btn.textContent=dark?"☀️ Light":"🌙 Dark";
-}
-
-btn.onclick=function(){
-const next=root.getAttribute("data-theme")==="dark"?"light":"dark";
-root.setAttribute("data-theme",next);
-localStorage.setItem("theme",next);
-updateTheme();
-};
-
-updateTheme();
-
-/* Readable Mode */
-const readableBtn=document.getElementById("readable-toggle");
-
-if(localStorage.getItem("readable-mode")==="on"){
-root.classList.add("readable-mode");
-}
-
-function updateReadable(){
-const on=root.classList.contains("readable-mode");
-
-readableBtn.style.fontFamily=on?"'Lexend',sans-serif":"'Inter',sans-serif";
-readableBtn.style.letterSpacing=on?".05em":"normal";
-readableBtn.style.wordSpacing=on?".16em":"normal";
-readableBtn.style.fontWeight=on?"700":"600";
-
-readableBtn.textContent=on?"🧠 Standard Mode":"🧠 Readable Mode";
-}
-
-readableBtn.onclick=function(){
-root.classList.toggle("readable-mode");
-const on=root.classList.contains("readable-mode");
-localStorage.setItem("readable-mode",on?"on":"off");
-updateReadable();
-};
-
-updateReadable();
-
-/* Read Aloud */
-const speakBtn=document.getElementById("speak-btn");
-const stopBtn=document.getElementById("stop-btn");
-
-speakBtn.onclick=function(){
-const text=document.getElementById("page-content").innerText;
-const msg=new SpeechSynthesisUtterance(text);
-msg.lang=document.documentElement.lang==="fi"?"fi-FI":"en-US";
-msg.rate=1;
-msg.pitch=1;
-window.speechSynthesis.cancel();
-window.speechSynthesis.speak(msg);
-};
-
-stopBtn.onclick=function(){
-window.speechSynthesis.cancel();
-};
-
-/* Contact Form */
-const form=document.getElementById("contact-form");
-const status=document.getElementById("form-status");
-
-form.addEventListener("submit",async function(e){
-e.preventDefault();
-status.textContent="Sending...";
-
-const data=new FormData(form);
-
-if(data.get("website")){
-status.textContent="Spam blocked.";
-return;
-}
-
-try{
-const res=await fetch("/api/contact",{
-method:"POST",
-body:data
-});
-
-if(res.ok){
-status.textContent="Message sent successfully.";
-form.reset();
-}else{
-status.textContent="Something went wrong.";
-}
-}catch(err){
-status.textContent="Connection error.";
-}
-});
-
-})();
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>
