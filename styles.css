@@ -1,4 +1,5 @@
-﻿/* Minimal premium palette with dark mode support */
+﻿@import url('https://fonts.cdnfonts.com/css/open-dyslexic');
+/* Minimal premium palette with dark mode support */
 :root {
   color-scheme: dark;
   --bg: #070d18;
@@ -94,12 +95,25 @@ html[data-theme="light"] .site-header {
   background: rgba(255, 255, 255, 0.9);
 }
 
-.header-top {
+.header-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 16px;
   flex-wrap: wrap;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.header-left {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .logo {
@@ -129,9 +143,10 @@ html[data-theme="light"] .site-header {
 
 .primary-nav {
   display: flex;
-  gap: 22px;
-  flex-wrap: wrap;
+  gap: 14px;
+  flex-wrap: nowrap;
   align-items: center;
+  overflow-x: auto;
 }
 
 .primary-nav a {
@@ -443,28 +458,90 @@ html[data-theme="dark"] .card-soft {
   transform: translateY(0);
 }
 
-.header-controls {
+.header-controls,
+.header-right {
   display: flex;
-  flex-wrap: wrap;
   gap: 10px;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-end;
   min-width: 0;
 }
 
+.language-switcher {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.language-switcher .control-button {
+  min-width: 48px;
+  padding: 8px 10px;
+  font-size: 0.86rem;
+}
+
+.toggle-button {
+  border-radius: 999px;
+}
+
+html.dyslexic-mode,
+html.dyslexic-mode body,
+html.dyslexic-mode .page-shell,
+html.dyslexic-mode .section,
+html.dyslexic-mode .hero,
+html.dyslexic-mode .profile-card {
+  font-family: 'Open-Dyslexic', 'Open Dyslexic', system-ui, sans-serif;
+}
+
+html.dyslexic-mode .hero-text,
+html.dyslexic-mode .section p,
+html.dyslexic-mode .profile-details,
+html.dyslexic-mode .list-simple li {
+  line-height: 1.95;
+}
+
 .control-button {
-  min-width: 88px;
-  padding: 10px 14px;
+  min-width: 84px;
+  padding: 10px 12px;
   font-size: 0.95rem;
 }
 
 .theme-toggle.control-button {
-  min-width: 100px;
+  min-width: 78px;
 }
 
 .nav-toggle {
+  display: none;
   min-width: 92px;
   padding: 10px 14px;
+}
+
+@media (max-width: 900px) {
+  .site-header {
+    padding: 16px 18px;
+  }
+
+  .header-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-left,
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .primary-nav {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .header-right {
+    justify-content: flex-start;
+  }
 }
 
 @media (max-width: 900px) {

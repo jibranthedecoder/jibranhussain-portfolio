@@ -18,34 +18,33 @@
   <a class="skip-link" href="#main">Skip to main content</a>
   <div class="page-shell">
     <header class="site-header">
-      <div class="header-top">
-        <a class="logo" href="#home" data-i18n="logoName">Jibran Hussain</a>
-
-        <div class="header-controls" aria-label="Accessibility and language controls">
-          <div class="language-switcher" role="group" aria-label="Language selection">
-            <button id="langEn" type="button" class="control-button" aria-pressed="false">EN</button>
-            <button id="langFi" type="button" class="control-button" aria-pressed="false">FI</button>
-          </div>
-          <button id="speakToggle" type="button" class="control-button" aria-pressed="false">Read aloud</button>
-          <button id="speakStop" type="button" class="control-button" aria-label="Stop reading" disabled>Stop</button>
-          <button id="readableToggle" type="button" class="control-button" aria-pressed="false">Readable mode</button>
-          <button id="themeToggle" class="theme-toggle control-button" type="button" aria-label="Toggle dark mode" data-i18n="themeDark">Dark mode</button>
+      <div class="header-row">
+        <div class="header-left">
+          <a class="logo" href="#home" data-i18n="logoName">Jibran Hussain</a>
+          <nav id="primary-navigation" class="primary-nav" aria-label="Primary navigation">
+            <a href="#about" data-i18n="navAbout">About</a>
+            <a href="#skills" data-i18n="navSkills">Skills</a>
+            <a href="#experience" data-i18n="navExperience">Experience</a>
+            <a href="#education" data-i18n="navEducation">Education</a>
+            <a href="#tools" data-i18n="navTools">Tools</a>
+            <a href="#contact" data-i18n="navContact">Contact</a>
+          </nav>
+          <button class="nav-toggle" id="navToggle" aria-controls="primary-navigation" aria-expanded="false">
+            <span>Menu</span>
+            <span class="nav-toggle-icon"></span>
+          </button>
         </div>
 
-        <button class="nav-toggle" id="navToggle" aria-controls="primary-navigation" aria-expanded="false">
-          <span>Menu</span>
-          <span class="nav-toggle-icon"></span>
-        </button>
+        <div class="header-right" aria-label="Utility controls">
+          <div class="language-switcher" role="group" aria-label="Language selection">
+            <button id="langToggle" type="button" class="control-button toggle-button" aria-pressed="false">FI</button>
+          </div>
+          <button id="pauseToggle" type="button" class="control-button pause-toggle" hidden data-i18n="pause">Pause</button>
+          <button id="speakToggle" type="button" class="control-button" aria-pressed="false" data-i18n="readLabel">Read</button>
+          <button id="readableToggle" type="button" class="control-button" aria-pressed="false" aria-label="Toggle dyslexic font mode">Dyslexic</button>
+          <button id="themeToggle" class="theme-toggle control-button" type="button" aria-label="Toggle theme mode">Light</button>
+        </div>
       </div>
-
-      <nav id="primary-navigation" class="primary-nav" aria-label="Primary navigation">
-        <a href="#about" data-i18n="navAbout">About</a>
-        <a href="#skills" data-i18n="navSkills">Skills</a>
-        <a href="#experience" data-i18n="navExperience">Experience</a>
-        <a href="#education" data-i18n="navEducation">Education</a>
-        <a href="#tools" data-i18n="navTools">Tools</a>
-        <a href="#contact" data-i18n="navContact">Contact</a>
-      </nav>
     </header>
 
     <div id="privacyBanner" class="privacy-banner" aria-live="polite" hidden>

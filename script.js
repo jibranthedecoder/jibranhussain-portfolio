@@ -3,10 +3,9 @@ const body = document.body;
 const themeToggle = document.getElementById('themeToggle');
 const navToggle = document.getElementById('navToggle');
 const navMenu = document.getElementById('primary-navigation');
-const langEnBtn = document.getElementById('langEn');
-const langFiBtn = document.getElementById('langFi');
+const langToggle = document.getElementById('langToggle');
+const pauseToggle = document.getElementById('pauseToggle');
 const speakToggle = document.getElementById('speakToggle');
-const speakStop = document.getElementById('speakStop');
 const readableToggle = document.getElementById('readableToggle');
 const privacyBanner = document.getElementById('privacyBanner');
 const privacyAccept = document.getElementById('privacyAccept');
@@ -14,9 +13,10 @@ const privacyDetails = document.getElementById('privacyDetails');
 const privacyModal = document.getElementById('privacyModal');
 const privacyClose = document.getElementById('privacyClose');
 const i18nElements = document.querySelectorAll('[data-i18n]');
-const savedTheme = localStorage.getItem('portfolio-theme');
 const savedLanguage = localStorage.getItem('portfolio-language');
 const savedReadable = localStorage.getItem('portfolio-readable');
+const savedDyslexic = localStorage.getItem('portfolio-dyslexic');
+const savedTheme = localStorage.getItem('portfolio-theme');
 
 const translations = {
   en: {
@@ -29,8 +29,10 @@ const translations = {
     navEducation: 'Education',
     navTools: 'Tools',
     navContact: 'Contact',
-    themeDark: 'Dark mode',
-    themeLight: 'Light mode',
+    themeDark: 'Dark',
+    themeLight: 'Light',
+    dyslexic: 'Dyslexic',
+    normal: 'Normal',
     heroEyebrow: 'Portfolio',
     heroTitle: 'Jibran Hussain',
     heroText: 'I am an Electrical & Automation Engineering student building hands-on experience in maintenance, troubleshooting, electrical systems, and reliable automation solutions. I bring a calm, analytical approach to engineering problems and a strong commitment to safe, practical outcomes.',
@@ -82,10 +84,15 @@ const translations = {
     privacyModalTitle: 'Privacy policy',
     privacyModalText1: 'This site stores only essential local preferences, such as language and readable mode. No tracking cookies are used without permission.',
     privacyModalText2: 'You can change preferences anytime from your browser. This experience is built to be privacy-friendly and non-intrusive.',
-    readAloud: 'Read aloud',
-    reading: 'Reading...',
+    readLabel: 'Read',
+    reading: 'Stop',
+    pause: 'Pause',
+    play: 'Play',
     stop: 'Stop',
-    readableMode: 'Readable mode',
+    pause: 'Pause',
+    play: 'Play',
+    readable: 'Readable',
+    themeLabel: 'Theme',
   },
   fi: {
     lang: 'fi',
@@ -97,8 +104,10 @@ const translations = {
     navEducation: 'Koulutus',
     navTools: 'Työkalut',
     navContact: 'Yhteystiedot',
-    themeDark: 'Tumma tila',
-    themeLight: 'Vaalea tila',
+    themeDark: 'Tumma',
+    themeLight: 'Vaalea',
+    dyslexic: 'Dysleptinen',
+    normal: 'Normaali',
     heroEyebrow: 'Portfolion',
     heroTitle: 'Jibran Hussain',
     heroText: 'Olen sähkö- ja automaatiotekniikan opiskelija, jolla on käytännön kokemusta kunnossapidosta, vianetsinnästä, sähköjärjestelmistä ja luotettavista automaatioratkaisuista. Lähestyn teknisiä haasteita rauhallisesti ja analyyttisesti ja arvostan turvallisia, käytännöllisiä tuloksia.',
@@ -150,15 +159,21 @@ const translations = {
     privacyModalTitle: 'Tietosuojakäytäntö',
     privacyModalText1: 'Tämä sivusto säilyttää vain olennaiset paikalliset valinnat, kuten kielen ja luettavuustilan. Seurantaevästeitä ei käytetä ilman lupaa.',
     privacyModalText2: 'Voit muuttaa asetuksia milloin tahansa selaimen asetuksista. Tämä kokemus on suunniteltu yksityisyyttä kunnioittavaksi ja häiritsemättömäksi.',
-    readAloud: 'Lue ääneen',
-    reading: 'Lukee...',
+    pause: 'Keskeytä',
+    play: 'Toista',
+    readLabel: 'Lue',
+    reading: 'Pysäytä',
     stop: 'Pysäytä',
-    readableMode: 'Luettava tila',
+    pause: 'Keskeytä',
+    play: 'Toista',
+    readable: 'Luettava',
+    themeLabel: 'Teema',
   },
 };
 
 let currentLang = 'en';
 let speechUtterance = null;
+let speechState = 'idle'; // 'idle', 'playing', 'paused'
 let voices = [];
 
 function detectUserLanguage() {
@@ -185,25 +200,28 @@ function updateTextContent(language) {
   });
 }
 
-function updateLanguageButtons(language) {
-  langEnBtn.setAttribute('aria-pressed', String(language === 'en'));
-  langFiBtn.setAttribute('aria-pressed', String(language === 'fi'));
+function updateLanguageToggle(language) {
+  langToggle.setAttribute('aria-pressed', String(language === 'fi'));
+  langToggle.textContent = language === 'en' ? 'FI' : 'EN';
+  langToggle.setAttribute('aria-label', language === 'en' ? 'Switch to Finnish' : 'Switch to English');
 }
 
 function setLanguage(language, manual = false) {
   currentLang = translations[language] ? language : 'en';
   root.setAttribute('lang', currentLang);
   updateTextContent(currentLang);
-  updateLanguageButtons(currentLang);
+  updateLanguageToggle(currentLang);
   if (manual || !savedLanguage) {
     localStorage.setItem('portfolio-language', currentLang);
   }
+  updateFontToggleLabel();
   updateThemeToggleLabel();
 }
 
 function updateThemeToggleLabel() {
   const theme = root.getAttribute('data-theme');
   themeToggle.textContent = theme === 'dark' ? translations[currentLang].themeLight : translations[currentLang].themeDark;
+  themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
 }
 
 function applyTheme(theme) {
@@ -212,7 +230,20 @@ function applyTheme(theme) {
   updateThemeToggleLabel();
 }
 
+function updateFontToggleLabel() {
+  const isDyslexic = root.classList.contains('dyslexic-mode');
+  readableToggle.textContent = isDyslexic ? translations[currentLang].normal : translations[currentLang].dyslexic;
+  readableToggle.setAttribute('aria-label', isDyslexic ? 'Switch to normal font' : 'Switch to dyslexic font');
+}
+
+function setDyslexicMode(enabled) {
+  root.classList.toggle('dyslexic-mode', enabled);
+  localStorage.setItem('portfolio-dyslexic', String(enabled));
+  updateFontToggleLabel();
+}
+
 function setReadableMode(enabled) {
+  // Legacy support: no longer used for the new dyslexic font toggle.
   body.classList.toggle('readable-mode', enabled);
   readableToggle.setAttribute('aria-pressed', String(enabled));
   localStorage.setItem('portfolio-readable', String(enabled));
@@ -237,10 +268,23 @@ function createReadText() {
   return main ? main.innerText.replace(/\s+/g, ' ').trim() : '';
 }
 
-function setSpeechButtonsState(isSpeaking) {
-  speakStop.disabled = !isSpeaking;
-  speakToggle.setAttribute('aria-pressed', String(isSpeaking));
-  speakToggle.textContent = isSpeaking ? translations[currentLang].reading : translations[currentLang].readAloud;
+function updateSpeechControlState() {
+  const isPlaying = speechState === 'playing';
+  const isPaused = speechState === 'paused';
+
+  const synthActive = window.speechSynthesis.speaking || window.speechSynthesis.paused || window.speechSynthesis.pending;
+  const shouldShowPause = (isPlaying || isPaused) && synthActive;
+
+  if (!synthActive && speechState !== 'idle') {
+    speechState = 'idle';
+  }
+
+  pauseToggle.hidden = !shouldShowPause;
+  pauseToggle.textContent = isPaused ? translations[currentLang].play : translations[currentLang].pause;
+  pauseToggle.setAttribute('aria-label', isPaused ? 'Resume reading' : 'Pause reading');
+
+  speakToggle.setAttribute('aria-pressed', String(isPlaying));
+  speakToggle.textContent = speechState === 'idle' ? translations[currentLang].readLabel : translations[currentLang].stop;
 }
 
 function startReading() {
@@ -252,28 +296,74 @@ function startReading() {
   const text = createReadText();
   if (!text) return;
 
-  if (window.speechSynthesis.speaking) {
+  if (window.speechSynthesis.speaking || window.speechSynthesis.paused || window.speechSynthesis.pending) {
     window.speechSynthesis.cancel();
   }
 
   speechUtterance = new SpeechSynthesisUtterance(text);
-  speechUtterance.lang = currentLang === 'fi' ? 'fi-FI' : 'en-US';
   const voice = getVoice(currentLang);
-  if (voice) speechUtterance.voice = voice;
-  speechUtterance.rate = 1;
+  if (voice) {
+    speechUtterance.voice = voice;
+  }
+  speechUtterance.lang = currentLang === 'fi' ? 'fi-FI' : 'en-US';
 
-  speechUtterance.onend = () => setSpeechButtonsState(false);
-  speechUtterance.onerror = () => setSpeechButtonsState(false);
+  speechUtterance.onend = () => {
+    speechState = 'idle';
+    updateSpeechControlState();
+  };
+  speechUtterance.onerror = () => {
+    speechState = 'idle';
+    updateSpeechControlState();
+  };
 
+  speechState = 'playing';
   window.speechSynthesis.speak(speechUtterance);
-  setSpeechButtonsState(true);
+  updateSpeechControlState();
 }
 
 function stopReading() {
-  if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+  if (window.speechSynthesis.speaking || window.speechSynthesis.pending || window.speechSynthesis.paused) {
     window.speechSynthesis.cancel();
   }
-  setSpeechButtonsState(false);
+  speechState = 'idle';
+  updateSpeechControlState();
+}
+
+function toggleSpeechPause() {
+  if (speechState === 'playing') {
+    window.speechSynthesis.pause();
+    speechState = 'paused';
+  } else if (speechState === 'paused') {
+    window.speechSynthesis.resume();
+    speechState = 'playing';
+  }
+  updateSpeechControlState();
+}
+
+function initializeSpeakControls() {
+  updateVoices();
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.onvoiceschanged = updateVoices;
+  } else {
+    speakToggle.disabled = true;
+    pauseToggle.disabled = true;
+  }
+
+  speakToggle.textContent = translations[currentLang].readLabel;
+  pauseToggle.textContent = translations[currentLang].pause;
+  pauseToggle.hidden = true;
+
+  speakToggle.addEventListener('click', () => {
+    if (speechState !== 'idle') {
+      stopReading();
+      return;
+    }
+    startReading();
+  });
+
+  pauseToggle.addEventListener('click', () => {
+    toggleSpeechPause();
+  });
 }
 
 function showPrivacyBanner() {
@@ -325,8 +415,7 @@ function initializePrivacy() {
 }
 
 function initializeTheme() {
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+  const theme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   applyTheme(theme);
 
   themeToggle.addEventListener('click', () => {
@@ -339,42 +428,19 @@ function initializeLanguage() {
   const language = getSavedOrDetectedLanguage();
   setLanguage(language);
 
-  langEnBtn.addEventListener('click', () => setLanguage('en', true));
-  langFiBtn.addEventListener('click', () => setLanguage('fi', true));
+  langToggle.addEventListener('click', () => {
+    setLanguage(currentLang === 'en' ? 'fi' : 'en', true);
+  });
 }
 
 function initializeReadableMode() {
-  const enabled = savedReadable === 'true';
-  setReadableMode(enabled);
-  readableToggle.textContent = translations[currentLang].readableMode;
+  const enabled = savedDyslexic === 'true';
+  setDyslexicMode(enabled);
+
   readableToggle.addEventListener('click', () => {
-    const nextState = body.classList.toggle('readable-mode');
-    setReadableMode(nextState);
+    const wasEnabled = root.classList.contains('dyslexic-mode');
+    setDyslexicMode(!wasEnabled);
   });
-}
-
-function initializeSpeakControls() {
-  updateVoices();
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.onvoiceschanged = updateVoices;
-  } else {
-    speakToggle.disabled = true;
-    speakStop.disabled = true;
-  }
-
-  speakToggle.textContent = translations[currentLang].readAloud;
-  speakStop.textContent = translations[currentLang].stop;
-  speakStop.disabled = true;
-
-  speakToggle.addEventListener('click', () => {
-    if (window.speechSynthesis.speaking) {
-      stopReading();
-      return;
-    }
-    startReading();
-  });
-
-  speakStop.addEventListener('click', stopReading);
 }
 
 function initializeNav() {
