@@ -74,7 +74,7 @@ textarea {
 .page-shell {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 26px 24px 56px;
+  padding: 0 24px 56px;
 }
 
 .site-header {
