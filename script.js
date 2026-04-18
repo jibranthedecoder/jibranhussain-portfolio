@@ -86,11 +86,11 @@ const translations = {
     privacyModalTitle: 'Privacy policy',
     privacyModalText1: 'This site stores only essential local preferences, such as language and readable mode. No tracking cookies are used without permission.',
     privacyModalText2: 'You can change preferences anytime from your browser. This experience is built to be privacy-friendly and non-intrusive.',
-    readLabel: '🔊',
-    reading: '■',
-    pause: '⏸',
-    play: '▶',
-    stop: '■',
+    readLabel: 'Read',
+    reading: 'Stop',
+    pause: 'Pause',
+    play: 'Play',
+    stop: 'Stop',
     readable: 'Readable',
     themeLabel: 'Theme',
   },
@@ -161,11 +161,11 @@ const translations = {
     privacyModalTitle: 'Tietosuojakäytäntö',
     privacyModalText1: 'Tämä sivusto säilyttää vain olennaiset paikalliset valinnat, kuten kielen ja luettavuustilan. Seurantaevästeitä ei käytetä ilman lupaa.',
     privacyModalText2: 'Voit muuttaa asetuksia milloin tahansa selaimen asetuksista. Tämä kokemus on suunniteltu yksityisyyttä kunnioittavaksi ja häiritsemättömäksi.',
-    readLabel: '🔊',
-    reading: '■',
-    pause: '⏸',
-    play: '▶',
-    stop: '■',
+    readLabel: 'Lue',
+    reading: 'Pysäytä',
+    pause: 'Keskeytä',
+    play: 'Toista',
+    stop: 'Pysäytä',
     readable: 'Luettava',
     themeLabel: 'Teema',
   },
@@ -277,11 +277,26 @@ function updateSpeechControlState() {
   pauseToggle.style.display = visible ? '' : 'none';
   pauseToggle.disabled = !visible;
 
-  pauseToggle.textContent = isPaused ? translations[currentLang].play : translations[currentLang].pause;
-  pauseToggle.setAttribute('aria-label', isPaused ? 'Resume reading' : 'Pause reading');
+  const pauseLabel = pauseToggle.querySelector('.sr-only');
+  const pauseIcon = pauseToggle.querySelector('.button-icon');
+  if (pauseIcon) {
+    pauseIcon.textContent = isPaused ? '▶' : '⏸';
+  }
+  if (pauseLabel) {
+    pauseLabel.textContent = isPaused ? translations[currentLang].play : translations[currentLang].pause;
+  }
+  pauseToggle.setAttribute('aria-label', isPaused ? translations[currentLang].play : translations[currentLang].pause);
 
+  const speakLabel = speakToggle.querySelector('.sr-only');
+  const speakIcon = speakToggle.querySelector('.button-icon');
+  if (speakIcon) {
+    speakIcon.innerHTML = speechState === 'idle' ? '<svg viewBox="0 0 24 24" class="speaker-icon" aria-hidden="true" focusable="false"><path d="M5 9v6h4l5 5V4L9 9H5z"></path><path d="M15.54 8.46a5 5 0 010 7.07"></path><path d="M17.66 6.34a9 9 0 010 12.72"></path></svg>' : '■';
+  }
+  if (speakLabel) {
+    speakLabel.textContent = speechState === 'idle' ? translations[currentLang].readLabel : translations[currentLang].stop;
+  }
   speakToggle.setAttribute('aria-pressed', String(isPlaying));
-  speakToggle.textContent = speechState === 'idle' ? translations[currentLang].readLabel : translations[currentLang].stop;
+  speakToggle.setAttribute('aria-label', speechState === 'idle' ? translations[currentLang].readLabel : translations[currentLang].stop);
 }
 
 function startReading() {

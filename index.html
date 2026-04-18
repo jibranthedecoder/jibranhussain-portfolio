@@ -38,8 +38,16 @@
           <div class="language-switcher" role="group" aria-label="Language selection">
             <button id="langToggle" type="button" class="control-button toggle-button" aria-pressed="false">FI</button>
           </div>
-          <button id="pauseToggle" type="button" class="control-button pause-toggle icon-button" hidden data-i18n="pause" aria-label="Pause reading" title="Pause reading">⏸</button>
-          <button id="speakToggle" type="button" class="control-button icon-button" aria-pressed="false" aria-label="Read aloud" title="Read aloud" data-i18n="readLabel">🔊</button>
+          <button id="pauseToggle" type="button" class="control-button pause-toggle icon-button" hidden aria-label="Pause reading" title="Pause reading">
+            <span class="button-icon" aria-hidden="true">⏸</span>
+            <span class="sr-only" data-i18n="pause">Pause</span>
+          </button>
+          <button id="speakToggle" type="button" class="control-button icon-button" aria-pressed="false" aria-label="Read aloud" title="Read aloud">
+            <span class="button-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="speaker-icon" aria-hidden="true" focusable="false"><path d="M5 9v6h4l5 5V4L9 9H5z"/><path d="M15.54 8.46a5 5 0 010 7.07"/><path d="M17.66 6.34a9 9 0 010 12.72"/></svg>
+            </span>
+            <span class="sr-only" data-i18n="readLabel">Read</span>
+          </button>
           <button id="readableToggle" type="button" class="control-button icon-button" aria-pressed="false" aria-label="Toggle dyslexic font mode" title="Toggle dyslexic mode">Aa</button>
           <button id="themeToggle" class="theme-toggle control-button icon-button" type="button" aria-label="Toggle theme mode" title="Toggle theme mode">☾</button>
         </div>
