@@ -96,6 +96,7 @@ const translations = {
     contactSuccess: 'Message sent successfully. Thank you for reaching out.',
     contactError: 'Message could not be sent right now. Please try again or email contact@jibranhussain.com.',
     contactNetworkError: 'Connection failed while sending your message. Please try again or email contact@jibranhussain.com.',
+    contactEndpointError: 'The contact form backend is not active on this deployment. If you are testing locally, run the site with Cloudflare Pages dev instead of a static server.',
     contactEmail: 'Email contact@jibranhussain.com',
     contactLinkedin: 'LinkedIn profile',
     footerText: '2026 Jibran Hussain.',
@@ -185,6 +186,7 @@ const translations = {
     contactSuccess: 'Viesti lähetettiin onnistuneesti. Kiitos yhteydenotostasi.',
     contactError: 'Viestin lähetys ei onnistunut juuri nyt. Yritä uudelleen tai lähetä sähköposti osoitteeseen contact@jibranhussain.com.',
     contactNetworkError: 'Yhteys katkesi viestiä lähetettäessä. Yritä uudelleen tai lähetä sähköposti osoitteeseen contact@jibranhussain.com.',
+    contactEndpointError: 'Yhteyslomakkeen taustapalvelu ei ole aktiivinen tässä julkaisussa. Jos testaat paikallisesti, käytä Cloudflare Pages dev -ympäristöä tavallisen staattisen palvelimen sijaan.',
     contactEmail: 'Lähetä sähköpostia contact@jibranhussain.com',
     contactLinkedin: 'LinkedIn-profiili',
     footerText: '2026 Jibran Hussain.',
@@ -747,6 +749,9 @@ function initializeContactForm() {
       const payload = await response.json().catch(() => ({}));
 
       if (!response.ok) {
+        if (response.status === 404 || response.status === 405 || response.status === 501) {
+          throw new Error(translations[currentLang].contactEndpointError);
+        }
         throw new Error(payload?.message || `Form submission failed with status ${response.status}`);
       }
 

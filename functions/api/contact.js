@@ -3,6 +3,10 @@ const JSON_HEADERS = {
   'Cache-Control': 'no-store',
 };
 
+const METHOD_HEADERS = {
+  Allow: 'GET, POST, OPTIONS',
+};
+
 const DEFAULT_ALLOWED_HOSTNAMES = new Set([
   'jibranhussain.com',
   'www.jibranhussain.com',
@@ -14,7 +18,17 @@ const DEFAULT_ALLOWED_HOSTNAMES = new Set([
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
-    headers: JSON_HEADERS,
+    headers: {
+      ...JSON_HEADERS,
+      ...METHOD_HEADERS,
+    },
+  });
+}
+
+function empty(status = 204) {
+  return new Response(null, {
+    status,
+    headers: METHOD_HEADERS,
   });
 }
 
@@ -290,4 +304,16 @@ export async function onRequestPost(context) {
       502
     );
   }
+}
+
+export async function onRequestGet() {
+  return json({
+    ok: true,
+    route: '/api/contact',
+    message: 'Contact endpoint is available. Submit with POST.',
+  });
+}
+
+export async function onRequestOptions() {
+  return empty(204);
 }
