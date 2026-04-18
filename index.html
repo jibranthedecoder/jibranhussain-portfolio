@@ -15,8 +15,7 @@
   <script>
     try {
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const introSeenThisSession = sessionStorage.getItem('portfolio-intro-session') === 'true';
-      if (!reduceMotion && !introSeenThisSession) {
+      if (!reduceMotion) {
         document.documentElement.classList.add('intro-pending');
       }
     } catch (error) {

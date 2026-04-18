@@ -229,7 +229,6 @@ let pageIntroCleanupTimer = null;
 let pageIntroTypeTimer = null;
 let pageIntroSkipHandler = null;
 const introSeenStorageKey = 'portfolio-intro-visited';
-const introSessionStorageKey = 'portfolio-intro-session';
 const turnstileSiteKey = contactTurnstile?.dataset.sitekey || '';
 
 const icons = {
@@ -321,14 +320,9 @@ function getIntroMode() {
 
   try {
     const introSeen = localStorage.getItem(introSeenStorageKey) === 'true';
-    const introSeenThisSession = sessionStorage.getItem(introSessionStorageKey) === 'true';
 
     if (!introSeen) {
       return 'full';
-    }
-
-    if (introSeenThisSession) {
-      return 'skip';
     }
 
     return 'short';
@@ -340,7 +334,6 @@ function getIntroMode() {
 function persistIntroSeenState() {
   try {
     localStorage.setItem(introSeenStorageKey, 'true');
-    sessionStorage.setItem(introSessionStorageKey, 'true');
   } catch (error) {
     console.warn('Could not persist intro state.', error);
   }
@@ -402,13 +395,13 @@ function initializePageIntro() {
   const introLanguage = translations[getSavedOrDetectedLanguage()] ? getSavedOrDetectedLanguage() : 'en';
   const introText = translations[introLanguage].introWord;
   const typeIntervals = introMode === 'short'
-    ? [34, 30, 28, 28, 26, 28, 34, 42]
-    : [112, 92, 80, 72, 68, 74, 96, 122];
-  const startDelay = introMode === 'short' ? 90 : 220;
-  const holdDelay = introMode === 'short' ? 120 : 360;
-  const shellDelay = introMode === 'short' ? '300ms' : '1220ms';
-  const atmosphereDelay = introMode === 'short' ? '260ms' : '1160ms';
-  const exitDelay = introMode === 'short' ? '460ms' : '1680ms';
+    ? [90, 82, 78, 74, 72, 76, 92, 112, 130, 148, 164, 182]
+    : [180, 154, 138, 126, 120, 128, 148, 174, 196, 214, 236, 258];
+  const startDelay = introMode === 'short' ? 220 : 420;
+  const holdDelay = introMode === 'short' ? 680 : 1260;
+  const shellDelay = introMode === 'short' ? '760ms' : '1880ms';
+  const atmosphereDelay = introMode === 'short' ? '700ms' : '1800ms';
+  const exitDelay = introMode === 'short' ? '1080ms' : '2480ms';
   let index = 0;
 
   pageIntroText.textContent = '';
