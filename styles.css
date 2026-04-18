@@ -516,6 +516,11 @@ html[data-theme="dark"] .contact-form-card {
   transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
 }
 
+.form-field input:user-invalid,
+.form-field textarea:user-invalid {
+  border-color: rgba(185, 28, 28, 0.45);
+}
+
 .form-field textarea {
   resize: vertical;
   min-height: 140px;
@@ -530,6 +535,14 @@ html[data-theme="dark"] .contact-form-card {
 .contact-honeypot {
   position: absolute;
   left: -9999px;
+}
+
+.contact-turnstile {
+  min-height: 65px;
+}
+
+.contact-turnstile iframe {
+  max-width: 100%;
 }
 
 .contact-actions {

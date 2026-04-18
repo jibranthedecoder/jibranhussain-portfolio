@@ -12,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23384d77'/%3E%3Ctext x='50' y='55' font-size='50' text-anchor='middle' fill='white' font-family='system-ui, sans-serif'%3EJ%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 </head>
 
 <body>
@@ -167,7 +168,7 @@
             <li>Python for analytics</li>
             <li>C++ basic</li>
             <li>MATLAB script language</li>
-            <li>Altair Activate simulation logic</li>
+            <li>Altair Activate logic</li>
             <li>Advanced Excel</li>
           </ul>
         </div>
@@ -217,7 +218,7 @@
         <div class="pill-grid">
           <span>TwinCAT Beckhoff</span>
           <span>Siemens TIA Portal</span>
-          <span>PLC logic</span>
+          <span>CODESYS</span>
           <span>AutoCAD</span>
           <span>GitHub</span>
           <span>VS Code</span>
@@ -230,36 +231,32 @@
           <p class="section-label" data-i18n="contactLabel">Contact</p>
           <h2 data-i18n="contactHeading">Ready for internship and engineering opportunities.</h2>
           <p data-i18n="contactText">If you are looking for a student who values practical engineering, safe systems, and steady progress, please get in touch. I am available for internship roles, maintenance support, and automation projects.</p>
-          <p class="contact-note" data-i18n="contactFormIntro">Send a message directly here and it will be delivered to contact@jibranhussain.com.</p>
+          <p class="contact-note" data-i18n="contactFormIntro">Send a message directly here and it will be delivered securely.</p>
         </div>
         <div class="contact-form-card">
-          <form id="contactForm" class="contact-form" action="https://formsubmit.co/contact@jibranhussain.com" method="POST">
-            <input type="hidden" name="_subject" value="New Portfolio Message" />
-            <input type="hidden" name="_template" value="table" />
-            <input type="hidden" name="_captcha" value="false" />
-            <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="contact-honeypot" />
-
+          <form id="contactForm" class="contact-form" action="/api/contact" method="POST" novalidate>
             <div class="form-grid">
               <label class="form-field">
                 <span data-i18n="contactNameLabel">Name</span>
-                <input type="text" name="name" autocomplete="name" required />
+                <input type="text" name="name" autocomplete="name" required minlength="2" maxlength="120" />
               </label>
               <label class="form-field">
                 <span data-i18n="contactEmailLabel">Email</span>
-                <input type="email" name="email" autocomplete="email" required />
+                <input type="email" name="email" autocomplete="email" required maxlength="160" />
               </label>
             </div>
 
             <label class="form-field">
               <span data-i18n="contactSubjectLabel">Subject</span>
-              <input type="text" name="subject" required />
+              <input type="text" name="subject" required minlength="3" maxlength="160" />
             </label>
 
             <label class="form-field">
               <span data-i18n="contactMessageLabel">Message</span>
-              <textarea name="message" rows="5" required></textarea>
+              <textarea name="message" rows="5" required minlength="10" maxlength="4000"></textarea>
             </label>
 
+            <div id="contactTurnstile" class="contact-turnstile" aria-live="polite"></div>
             <p id="contactFormStatus" class="contact-form-status" aria-live="polite"></p>
 
             <div class="contact-actions">
