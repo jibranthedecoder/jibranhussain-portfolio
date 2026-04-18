@@ -178,6 +178,12 @@ html[data-theme="light"] .site-header {
   transition: transform var(--transition), background var(--transition), border-color var(--transition), color var(--transition);
 }
 
+.icon-button {
+  gap: 0;
+  min-width: 44px;
+  padding: 12px;
+}
+
 .theme-toggle:hover,
 .nav-toggle:hover,
 .button:hover,
