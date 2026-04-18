@@ -90,3 +90,4 @@ Update the content directly in `index.html` for this portfolio project. The page
 - The contact form frontend renders Turnstile directly with the public site key, while the backend uses `TURNSTILE_SECRET_KEY` to verify tokens before sending mail through Resend with `RESEND_API_KEY`.
 - The `/api/contact` `GET` route acts as a safe health check for Pages Functions runtime bindings and hostname allowlist behavior.
 - The design preserves the existing layout and navigation while improving usability and accessibility.
+- Making a timestamp change to redeploy-
