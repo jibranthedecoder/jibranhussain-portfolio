@@ -15,6 +15,14 @@ const DEFAULT_ALLOWED_HOSTNAMES = new Set([
   '127.0.0.1',
 ]);
 
+const EXPECTED_ENV_KEYS = [
+  'TURNSTILE_SECRET_KEY',
+  'CONTACT_TO_EMAIL',
+  'CONTACT_FROM_EMAIL',
+  'CONTACT_FROM_NAME',
+  'CONTACT_ALLOWED_ORIGINS',
+];
+
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
@@ -39,6 +47,24 @@ function sanitize(value, maxLength) {
     .slice(0, maxLength);
 }
 
+function readEnvString(env, key, maxLength = 4000) {
+  return sanitize(env?.[key], maxLength);
+}
+
+function hasEnvString(env, key) {
+  return readEnvString(env, key).length > 0;
+}
+
+function getRuntimeConfig(env) {
+  return {
+    turnstileSecretKey: readEnvString(env, 'TURNSTILE_SECRET_KEY', 2048),
+    contactToEmail: readEnvString(env, 'CONTACT_TO_EMAIL', 320),
+    contactFromEmail: readEnvString(env, 'CONTACT_FROM_EMAIL', 320),
+    contactFromName: readEnvString(env, 'CONTACT_FROM_NAME', 320),
+    contactAllowedOrigins: readEnvString(env, 'CONTACT_ALLOWED_ORIGINS', 2000),
+  };
+}
+
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -53,7 +79,7 @@ function escapeHtml(value) {
 }
 
 function getAllowedHostnames(env) {
-  const configured = sanitize(env.CONTACT_ALLOWED_ORIGINS, 2000)
+  const configured = readEnvString(env, 'CONTACT_ALLOWED_ORIGINS', 2000)
     .split(',')
     .map(value => value.trim())
     .filter(Boolean);
@@ -131,6 +157,34 @@ function getTurnstileErrorMessage(errorCodes = []) {
   }
 
   return 'Spam protection verification failed. Please try again.';
+}
+
+function getConfigDiagnostics(env, request) {
+  const runtimeConfig = getRuntimeConfig(env);
+  const requestHostname = getRequestHostname(request);
+  const allowedHostnames = getAllowedHostnames(env);
+
+  return {
+    ok: hasEnvString(env, 'TURNSTILE_SECRET_KEY') && hasEnvString(env, 'CONTACT_TO_EMAIL'),
+    route: '/api/contact',
+    runtime: 'cloudflare-pages-functions',
+    request: {
+      method: request.method,
+      hostname: requestHostname || null,
+      originHeaderPresent: Boolean(request.headers.get('Origin')),
+      refererHeaderPresent: Boolean(request.headers.get('Referer')),
+      allowedHostname: isAllowedHostname(requestHostname, allowedHostnames),
+    },
+    config: {
+      expectedEnvKeys: EXPECTED_ENV_KEYS,
+      hasTurnstileSecretKey: runtimeConfig.turnstileSecretKey.length > 0,
+      hasContactToEmail: runtimeConfig.contactToEmail.length > 0,
+      hasContactFromEmail: runtimeConfig.contactFromEmail.length > 0,
+      hasContactFromName: runtimeConfig.contactFromName.length > 0,
+      hasContactAllowedOrigins: runtimeConfig.contactAllowedOrigins.length > 0,
+      allowedHostnames: Array.from(allowedHostnames),
+    },
+  };
 }
 
 async function verifyTurnstile(token, secret, ip) {
@@ -249,15 +303,30 @@ function validatePayload(body) {
 
 export async function onRequestPost(context) {
   const { request, env } = context;
+  const runtimeConfig = getRuntimeConfig(env);
   const allowedHostnames = getAllowedHostnames(env);
   const requestHostname = getRequestHostname(request);
 
-  if (!env.TURNSTILE_SECRET_KEY) {
-    return json({ message: 'Turnstile secret key is not configured.' }, 500);
+  if (!runtimeConfig.turnstileSecretKey) {
+    return json(
+      {
+        message:
+          'TURNSTILE_SECRET_KEY is unavailable in this Cloudflare Pages runtime. Confirm it is set for the active environment and redeploy.',
+        diagnostics: getConfigDiagnostics(env, request),
+      },
+      500
+    );
   }
 
-  if (!env.CONTACT_TO_EMAIL) {
-    return json({ message: 'Recipient email is not configured.' }, 500);
+  if (!runtimeConfig.contactToEmail) {
+    return json(
+      {
+        message:
+          'CONTACT_TO_EMAIL is unavailable in this Cloudflare Pages runtime. Confirm it is set for the active environment and redeploy.',
+        diagnostics: getConfigDiagnostics(env, request),
+      },
+      500
+    );
   }
 
   if (!isAllowedHostname(requestHostname, allowedHostnames)) {
@@ -282,7 +351,7 @@ export async function onRequestPost(context) {
   }
 
   try {
-    const turnstile = await verifyTurnstile(payload.turnstileToken, env.TURNSTILE_SECRET_KEY, getClientIp(request));
+    const turnstile = await verifyTurnstile(payload.turnstileToken, runtimeConfig.turnstileSecretKey, getClientIp(request));
 
     if (!turnstile.success) {
       return json({ message: getTurnstileErrorMessage(turnstile['error-codes']) }, 400);
@@ -306,11 +375,15 @@ export async function onRequestPost(context) {
   }
 }
 
-export async function onRequestGet() {
+export async function onRequestGet(context) {
+  const { request, env } = context;
+  const diagnostics = getConfigDiagnostics(env, request);
+
   return json({
-    ok: true,
-    route: '/api/contact',
-    message: 'Contact endpoint is available. Submit with POST.',
+    ...diagnostics,
+    message: diagnostics.ok
+      ? 'Contact endpoint is available and required runtime config is present. Submit with POST.'
+      : 'Contact endpoint is available, but required runtime config is missing for this deployment.',
   });
 }
 
