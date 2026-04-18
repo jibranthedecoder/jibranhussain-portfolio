@@ -41,6 +41,9 @@ const translations = {
     dyslexic: 'Aa',
     normal: 'A',
     heroEyebrow: 'Portfolio',
+    introMeta: 'Portfolio',
+    introWord: 'Welcome.',
+    introSkip: 'Click or press any key to continue',
     heroTitle: 'Jibran Hussain',
     heroText: 'I am an Electrical & Automation Engineering student building hands-on experience in maintenance, troubleshooting, electrical systems, and reliable automation solutions. I bring a calm, analytical approach to engineering problems and a strong commitment to safe, practical outcomes.',
     heroPrimaryAction: 'Start a conversation',
@@ -133,6 +136,9 @@ const translations = {
     dyslexic: 'Aa',
     normal: 'A',
     heroEyebrow: 'Portfolion',
+    introMeta: 'Portfolio',
+    introWord: 'Tervetuloa.',
+    introSkip: 'Klikkaa tai paina mitä tahansa näppäintä jatkaaksesi',
     heroTitle: 'Jibran Hussain',
     heroText: 'Olen sähkö- ja automaatiotekniikan opiskelija, jolla on käytännön kokemusta kunnossapidosta, vianetsinnästä, sähköjärjestelmistä ja luotettavista automaatioratkaisuista. Lähestyn teknisiä haasteita rauhallisesti ja analyyttisesti ja arvostan turvallisia, käytännöllisiä tuloksia.',
     heroPrimaryAction: 'Aloita yhteydenotto',
@@ -222,6 +228,8 @@ let contactSuccessAnimationTimer = null;
 let pageIntroCleanupTimer = null;
 let pageIntroTypeTimer = null;
 let pageIntroSkipHandler = null;
+const introSeenStorageKey = 'portfolio-intro-visited';
+const introSessionStorageKey = 'portfolio-intro-session';
 const turnstileSiteKey = contactTurnstile?.dataset.sitekey || '';
 
 const icons = {
@@ -306,9 +314,42 @@ function clearPageIntroTimers() {
   }
 }
 
+function getIntroMode() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return 'skip';
+  }
+
+  try {
+    const introSeen = localStorage.getItem(introSeenStorageKey) === 'true';
+    const introSeenThisSession = sessionStorage.getItem(introSessionStorageKey) === 'true';
+
+    if (!introSeen) {
+      return 'full';
+    }
+
+    if (introSeenThisSession) {
+      return 'skip';
+    }
+
+    return 'short';
+  } catch (error) {
+    return 'full';
+  }
+}
+
+function persistIntroSeenState() {
+  try {
+    localStorage.setItem(introSeenStorageKey, 'true');
+    sessionStorage.setItem(introSessionStorageKey, 'true');
+  } catch (error) {
+    console.warn('Could not persist intro state.', error);
+  }
+}
+
 function cleanupPageIntroListeners() {
   if (!pageIntroSkipHandler) return;
 
+  pageIntro?.removeEventListener('pointerdown', pageIntroSkipHandler);
   pageIntro?.removeEventListener('click', pageIntroSkipHandler);
   window.removeEventListener('keydown', pageIntroSkipHandler);
   pageIntroSkipHandler = null;
@@ -317,47 +358,88 @@ function cleanupPageIntroListeners() {
 function finishPageIntro(immediate = false) {
   clearPageIntroTimers();
   cleanupPageIntroListeners();
+  persistIntroSeenState();
+  const introLanguage = translations[getSavedOrDetectedLanguage()] ? getSavedOrDetectedLanguage() : 'en';
+  const introWord = translations[introLanguage].introWord;
 
   if (immediate) {
     root.classList.remove('intro-pending', 'intro-active');
-    pageIntroText.textContent = 'Welcome.';
+    pageIntroText.textContent = introWord;
+    root.style.removeProperty('--intro-shell-delay');
+    root.style.removeProperty('--intro-atmosphere-delay');
+    root.style.removeProperty('--intro-exit-delay');
     return;
   }
 
-  const minimumTypedText = pageIntroText.textContent || 'Welcome.';
+  const minimumTypedText = pageIntroText.textContent || introWord;
   pageIntroText.textContent = minimumTypedText;
   root.classList.add('intro-active');
   pageIntroCleanupTimer = window.setTimeout(() => {
     root.classList.remove('intro-pending', 'intro-active');
     pageIntroCleanupTimer = null;
-  }, 2200);
+    root.style.removeProperty('--intro-shell-delay');
+    root.style.removeProperty('--intro-atmosphere-delay');
+    root.style.removeProperty('--intro-exit-delay');
+  }, 2050);
 }
 
 function initializePageIntro() {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  if (!pageIntro || !pageIntroText) {
+    return;
+  }
+
+  const introMode = getIntroMode();
+
+  if (introMode === 'skip') {
     finishPageIntro(true);
     return;
   }
 
   if (!root.classList.contains('intro-pending')) {
-    return;
+    root.classList.add('intro-pending');
   }
 
-  const introText = 'Welcome.';
-  const typeIntervals = [90, 84, 82, 78, 74, 78, 92, 104];
+  const introLanguage = translations[getSavedOrDetectedLanguage()] ? getSavedOrDetectedLanguage() : 'en';
+  const introText = translations[introLanguage].introWord;
+  const typeIntervals = introMode === 'short'
+    ? [34, 30, 28, 28, 26, 28, 34, 42]
+    : [112, 92, 80, 72, 68, 74, 96, 122];
+  const startDelay = introMode === 'short' ? 90 : 220;
+  const holdDelay = introMode === 'short' ? 120 : 360;
+  const shellDelay = introMode === 'short' ? '300ms' : '1220ms';
+  const atmosphereDelay = introMode === 'short' ? '260ms' : '1160ms';
+  const exitDelay = introMode === 'short' ? '460ms' : '1680ms';
   let index = 0;
 
   pageIntroText.textContent = '';
+  root.style.setProperty('--intro-shell-delay', shellDelay);
+  root.style.setProperty('--intro-atmosphere-delay', atmosphereDelay);
+  root.style.setProperty('--intro-exit-delay', exitDelay);
   root.classList.add('intro-active');
 
   pageIntroSkipHandler = event => {
-    if (event.type === 'keydown' && event.key === 'Tab') {
+    if (event.type === 'keydown') {
+      if (event.key === 'Tab') {
+        return;
+      }
+
+      if (event.metaKey || event.ctrlKey || event.altKey) {
+        return;
+      }
+    }
+
+    if (event.type === 'pointerdown' || event.type === 'click') {
+      event.preventDefault();
+    }
+
+    if (!root.classList.contains('intro-pending')) {
       return;
     }
 
     finishPageIntro(true);
   };
 
+  pageIntro?.addEventListener('pointerdown', pageIntroSkipHandler);
   pageIntro?.addEventListener('click', pageIntroSkipHandler);
   window.addEventListener('keydown', pageIntroSkipHandler);
 
@@ -368,14 +450,14 @@ function initializePageIntro() {
     if (index >= introText.length) {
       pageIntroTypeTimer = window.setTimeout(() => {
         finishPageIntro(false);
-      }, 300);
+      }, holdDelay);
       return;
     }
 
     pageIntroTypeTimer = window.setTimeout(typeNextCharacter, typeIntervals[index - 1] || 82);
   }
 
-  pageIntroTypeTimer = window.setTimeout(typeNextCharacter, 180);
+  pageIntroTypeTimer = window.setTimeout(typeNextCharacter, startDelay);
 }
 
 function setButtonIcon(button, iconMarkup) {
