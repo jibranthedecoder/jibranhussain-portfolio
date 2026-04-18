@@ -41,6 +41,8 @@ const translations = {
     heroEyebrow: 'Portfolio',
     heroTitle: 'Jibran Hussain',
     heroText: 'I am an Electrical & Automation Engineering student building hands-on experience in maintenance, troubleshooting, electrical systems, and reliable automation solutions. I bring a calm, analytical approach to engineering problems and a strong commitment to safe, practical outcomes.',
+    heroPrimaryAction: 'Start a conversation',
+    heroSecondaryAction: 'View LinkedIn',
     profileSubtitle: 'Electrical & Automation Engineering Student',
     profileMeta: 'Finland • contact@jibranhussain.com',
     aboutLabel: 'About',
@@ -131,6 +133,8 @@ const translations = {
     heroEyebrow: 'Portfolion',
     heroTitle: 'Jibran Hussain',
     heroText: 'Olen sähkö- ja automaatiotekniikan opiskelija, jolla on käytännön kokemusta kunnossapidosta, vianetsinnästä, sähköjärjestelmistä ja luotettavista automaatioratkaisuista. Lähestyn teknisiä haasteita rauhallisesti ja analyyttisesti ja arvostan turvallisia, käytännöllisiä tuloksia.',
+    heroPrimaryAction: 'Aloita yhteydenotto',
+    heroSecondaryAction: 'Avaa LinkedIn',
     profileSubtitle: 'Sähkö- ja automaatiotekniikan opiskelija',
     profileMeta: 'Suomi • contact@jibranhussain.com',
     aboutLabel: 'Tietoa',
@@ -274,6 +278,15 @@ const icons = {
     </svg>
   `,
 };
+
+function applyStaggerIndexes() {
+  document.querySelectorAll('.stagger-group').forEach(group => {
+    Array.from(group.children).forEach((child, index) => {
+      child.classList.add('reveal');
+      child.style.setProperty('--stagger-index', String(index));
+    });
+  });
+}
 
 function setButtonIcon(button, iconMarkup) {
   const icon = button?.querySelector('.button-icon');
@@ -586,12 +599,25 @@ function setContactFormStatus(message = '', status = '') {
   if (!contactFormStatus) return;
 
   contactFormStatus.textContent = message;
-  contactFormStatus.classList.remove('is-success', 'is-error');
+  contactFormStatus.classList.remove('is-success', 'is-error', 'is-pop');
   if (status === 'success') {
     contactFormStatus.classList.add('is-success');
   } else if (status === 'error') {
     contactFormStatus.classList.add('is-error');
   }
+}
+
+function playContactSuccessAnimation() {
+  const contactFormCard = document.querySelector('.contact-form-card');
+  if (!contactFormCard || !contactFormStatus) return;
+
+  contactFormCard.classList.remove('is-success-pop');
+  contactFormStatus.classList.remove('is-pop');
+
+  void contactFormCard.offsetWidth;
+
+  contactFormCard.classList.add('is-success-pop');
+  contactFormStatus.classList.add('is-pop');
 }
 
 function updateContactFormIdleState() {
@@ -758,6 +784,7 @@ function initializeContactForm() {
       contactForm.reset();
       resetTurnstileWidget();
       setContactFormStatus(payload?.message || translations[currentLang].contactSuccess, 'success');
+      playContactSuccessAnimation();
     } catch (error) {
       console.warn('Contact form submission failed.', error);
       resetTurnstileWidget();
@@ -798,7 +825,8 @@ function initializeScrollReveal() {
       });
     },
     {
-      threshold: 0.12,
+      threshold: 0.16,
+      rootMargin: '0px 0px -8% 0px',
     }
   );
 
@@ -806,6 +834,7 @@ function initializeScrollReveal() {
 }
 
 function initialize() {
+  applyStaggerIndexes();
   initializeTheme();
   initializeLanguage();
   initializeReadableMode();
