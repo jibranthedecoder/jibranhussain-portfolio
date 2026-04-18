@@ -41,9 +41,9 @@ const translations = {
     dyslexic: 'Aa',
     normal: 'A',
     heroEyebrow: 'Portfolio',
-    introMeta: 'Portfolio',
+    introMeta: 'Portfolio - Jibran Husain',
     introWord: 'Welcome.',
-    introSkip: 'Click or press any key to continue',
+    introSkip: 'Click or press any key to skip this',
     heroTitle: 'Jibran Hussain',
     heroText: 'I am an Electrical & Automation Engineering student building hands-on experience in maintenance, troubleshooting, electrical systems, and reliable automation solutions. I bring a calm, analytical approach to engineering problems and a strong commitment to safe, practical outcomes.',
     heroPrimaryAction: 'Start a conversation',
@@ -138,7 +138,7 @@ const translations = {
     heroEyebrow: 'Portfolion',
     introMeta: 'Portfolio',
     introWord: 'Tervetuloa.',
-    introSkip: 'Klikkaa tai paina mitä tahansa näppäintä jatkaaksesi',
+    introSkip: 'Klikkaa tai paina mitä tahansa näppäintä ohittaaksesi tämän',
     heroTitle: 'Jibran Hussain',
     heroText: 'Olen sähkö- ja automaatiotekniikan opiskelija, jolla on käytännön kokemusta kunnossapidosta, vianetsinnästä, sähköjärjestelmistä ja luotettavista automaatioratkaisuista. Lähestyn teknisiä haasteita rauhallisesti ja analyyttisesti ja arvostan turvallisia, käytännöllisiä tuloksia.',
     heroPrimaryAction: 'Aloita yhteydenotto',
@@ -395,13 +395,17 @@ function initializePageIntro() {
   const introLanguage = translations[getSavedOrDetectedLanguage()] ? getSavedOrDetectedLanguage() : 'en';
   const introText = translations[introLanguage].introWord;
   const typeIntervals = introMode === 'short'
-    ? [90, 82, 78, 74, 72, 76, 92, 112, 130, 148, 164, 182]
-    : [180, 154, 138, 126, 120, 128, 148, 174, 196, 214, 236, 258];
-  const startDelay = introMode === 'short' ? 220 : 420;
-  const holdDelay = introMode === 'short' ? 680 : 1260;
-  const shellDelay = introMode === 'short' ? '760ms' : '1880ms';
-  const atmosphereDelay = introMode === 'short' ? '700ms' : '1800ms';
-  const exitDelay = introMode === 'short' ? '1080ms' : '2480ms';
+    ? [150, 138, 132, 126, 122, 128, 148, 170, 192, 214, 236, 258]
+    : [290, 252, 232, 214, 206, 216, 238, 266, 294, 322, 350, 378];
+  const startDelay = introMode === 'short' ? 420 : 860;
+  const typingDuration = typeIntervals
+    .slice(0, Math.max(introText.length - 1, 0))
+    .reduce((total, interval) => total + interval, 0);
+  const holdDelay = 1000;
+  const exitStartMs = startDelay + typingDuration + holdDelay;
+  const shellDelay = `${Math.max(exitStartMs - 180, 0)}ms`;
+  const atmosphereDelay = `${Math.max(exitStartMs - 240, 0)}ms`;
+  const exitDelay = `${exitStartMs}ms`;
   let index = 0;
 
   pageIntroText.textContent = '';
