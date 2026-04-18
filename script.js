@@ -216,6 +216,7 @@ let speechState = 'idle'; // 'idle', 'playing', 'paused'
 let voices = [];
 let turnstileWidgetId = null;
 let turnstileToken = '';
+let contactSuccessAnimationTimer = null;
 const turnstileSiteKey = contactTurnstile?.dataset.sitekey || '';
 
 const icons = {
@@ -611,6 +612,10 @@ function playContactSuccessAnimation() {
   const contactFormCard = document.querySelector('.contact-form-card');
   if (!contactFormCard || !contactFormStatus) return;
 
+  if (contactSuccessAnimationTimer) {
+    window.clearTimeout(contactSuccessAnimationTimer);
+  }
+
   contactFormCard.classList.remove('is-success-pop');
   contactFormStatus.classList.remove('is-pop');
 
@@ -618,6 +623,12 @@ function playContactSuccessAnimation() {
 
   contactFormCard.classList.add('is-success-pop');
   contactFormStatus.classList.add('is-pop');
+
+  contactSuccessAnimationTimer = window.setTimeout(() => {
+    contactFormCard.classList.remove('is-success-pop');
+    contactFormStatus.classList.remove('is-pop');
+    contactSuccessAnimationTimer = null;
+  }, 1500);
 }
 
 function updateContactFormIdleState() {
