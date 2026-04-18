@@ -16,6 +16,7 @@ const contactForm = document.getElementById('contactForm');
 const contactSubmitButton = document.getElementById('contactSubmitButton');
 const contactFormStatus = document.getElementById('contactFormStatus');
 const contactTurnstile = document.getElementById('contactTurnstile');
+const turnstileScript = document.getElementById('turnstileScript');
 const i18nElements = document.querySelectorAll('[data-i18n]');
 const savedLanguage = localStorage.getItem('portfolio-language');
 const savedReadable = localStorage.getItem('portfolio-readable');
@@ -94,6 +95,7 @@ const translations = {
     contactSending: 'Sending your message...',
     contactSuccess: 'Message sent successfully. Thank you for reaching out.',
     contactError: 'Message could not be sent right now. Please try again or email contact@jibranhussain.com.',
+    contactNetworkError: 'Connection failed while sending your message. Please try again or email contact@jibranhussain.com.',
     contactEmail: 'Email contact@jibranhussain.com',
     contactLinkedin: 'LinkedIn profile',
     footerText: '2026 Jibran Hussain.',
@@ -182,6 +184,7 @@ const translations = {
     contactSending: 'Lähetetään viestiä...',
     contactSuccess: 'Viesti lähetettiin onnistuneesti. Kiitos yhteydenotostasi.',
     contactError: 'Viestin lähetys ei onnistunut juuri nyt. Yritä uudelleen tai lähetä sähköposti osoitteeseen contact@jibranhussain.com.',
+    contactNetworkError: 'Yhteys katkesi viestiä lähetettäessä. Yritä uudelleen tai lähetä sähköposti osoitteeseen contact@jibranhussain.com.',
     contactEmail: 'Lähetä sähköpostia contact@jibranhussain.com',
     contactLinkedin: 'LinkedIn-profiili',
     footerText: '2026 Jibran Hussain.',
@@ -205,9 +208,9 @@ let currentLang = 'en';
 let speechUtterance = null;
 let speechState = 'idle'; // 'idle', 'playing', 'paused'
 let voices = [];
-let contactFormConfig = null;
 let turnstileWidgetId = null;
 let turnstileToken = '';
+const turnstileSiteKey = contactTurnstile?.dataset.sitekey || '';
 
 const icons = {
   speaker: `
@@ -605,37 +608,50 @@ function setContactSubmittingState(isSubmitting) {
 function waitForTurnstileApi(timeoutMs = 12000) {
   return new Promise((resolve, reject) => {
     const startedAt = Date.now();
+    let pollTimer = null;
+
+    function cleanup() {
+      if (pollTimer !== null) {
+        window.clearTimeout(pollTimer);
+      }
+      turnstileScript?.removeEventListener('error', handleScriptError);
+    }
+
+    function handleScriptError() {
+      cleanup();
+      reject(new Error('Turnstile script failed to load.'));
+    }
 
     function check() {
       if (window.turnstile && typeof window.turnstile.render === 'function') {
+        cleanup();
         resolve(window.turnstile);
         return;
       }
 
+      if (turnstileScript?.dataset.loadError === 'true') {
+        cleanup();
+        reject(new Error('Turnstile script failed to load.'));
+        return;
+      }
+
       if (Date.now() - startedAt >= timeoutMs) {
+        cleanup();
         reject(new Error('Turnstile API timed out.'));
         return;
       }
 
-      window.setTimeout(check, 150);
+      pollTimer = window.setTimeout(check, 150);
     }
 
+    if (!turnstileScript) {
+      reject(new Error('Turnstile script element is missing.'));
+      return;
+    }
+
+    turnstileScript.addEventListener('error', handleScriptError, { once: true });
     check();
   });
-}
-
-async function loadContactFormConfig() {
-  const response = await fetch('/api/contact-config', {
-    headers: {
-      Accept: 'application/json',
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(`Config request failed with status ${response.status}`);
-  }
-
-  return response.json();
 }
 
 function resetTurnstileWidget() {
@@ -650,15 +666,20 @@ async function renderContactTurnstile() {
 
   contactTurnstile.textContent = translations[currentLang].contactChallengeLoading;
 
-  if (!contactFormConfig?.turnstileSiteKey) {
+  if (!turnstileSiteKey) {
     throw new Error('Missing Turnstile site key.');
   }
 
   const turnstile = await waitForTurnstileApi();
   contactTurnstile.textContent = '';
 
+  if (turnstileWidgetId !== null) {
+    turnstile.remove(turnstileWidgetId);
+    turnstileWidgetId = null;
+  }
+
   turnstileWidgetId = turnstile.render(contactTurnstile, {
-    sitekey: contactFormConfig.turnstileSiteKey,
+    sitekey: turnstileSiteKey,
     theme: 'auto',
     size: 'flexible',
     appearance: 'interaction-only',
@@ -685,13 +706,9 @@ function initializeContactForm() {
   updateContactFormIdleState();
   setContactFormStatus(translations[currentLang].contactChallengeLoading, '');
 
-  loadContactFormConfig()
-    .then(config => {
-      contactFormConfig = config;
-      return renderContactTurnstile();
-    })
+  renderContactTurnstile()
     .catch(error => {
-      console.warn('Contact form configuration failed.', error);
+      console.warn('Contact form setup failed.', error);
       setContactFormStatus(translations[currentLang].contactChallengeError, 'error');
       contactSubmitButton.disabled = true;
     });
@@ -739,7 +756,11 @@ function initializeContactForm() {
     } catch (error) {
       console.warn('Contact form submission failed.', error);
       resetTurnstileWidget();
-      setContactFormStatus(error.message || translations[currentLang].contactError, 'error');
+      const message =
+        error instanceof TypeError
+          ? translations[currentLang].contactNetworkError
+          : error.message || translations[currentLang].contactError;
+      setContactFormStatus(message, 'error');
     } finally {
       setContactSubmittingState(false);
     }

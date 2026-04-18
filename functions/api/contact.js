@@ -3,6 +3,14 @@ const JSON_HEADERS = {
   'Cache-Control': 'no-store',
 };
 
+const DEFAULT_ALLOWED_HOSTNAMES = new Set([
+  'jibranhussain.com',
+  'www.jibranhussain.com',
+  'jibranhussain-portfolio.pages.dev',
+  'localhost',
+  '127.0.0.1',
+]);
+
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
@@ -21,10 +29,101 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function escapeHtml(value) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function getAllowedHostnames(env) {
+  const configured = sanitize(env.CONTACT_ALLOWED_ORIGINS, 2000)
+    .split(',')
+    .map(value => value.trim())
+    .filter(Boolean);
+
+  const hostnames = new Set(DEFAULT_ALLOWED_HOSTNAMES);
+
+  configured.forEach(value => {
+    try {
+      hostnames.add(new URL(value).hostname.toLowerCase());
+    } catch {
+      hostnames.add(value.toLowerCase());
+    }
+  });
+
+  return hostnames;
+}
+
+function extractHostname(value) {
+  if (!value) return '';
+
+  try {
+    return new URL(value).hostname.toLowerCase();
+  } catch {
+    return '';
+  }
+}
+
+function getClientIp(request) {
+  const cfIp = sanitize(request.headers.get('CF-Connecting-IP'), 64);
+  if (cfIp) {
+    return cfIp;
+  }
+
+  const forwardedFor = sanitize(request.headers.get('X-Forwarded-For'), 256);
+  if (!forwardedFor) {
+    return '';
+  }
+
+  return forwardedFor.split(',')[0].trim();
+}
+
+function getRequestHostname(request) {
+  const originHostname = extractHostname(request.headers.get('Origin'));
+  if (originHostname) {
+    return originHostname;
+  }
+
+  const refererHostname = extractHostname(request.headers.get('Referer'));
+  if (refererHostname) {
+    return refererHostname;
+  }
+
+  return extractHostname(request.url);
+}
+
+function isAllowedHostname(hostname, allowedHostnames) {
+  return Boolean(hostname) && allowedHostnames.has(hostname.toLowerCase());
+}
+
+function getTurnstileErrorMessage(errorCodes = []) {
+  if (errorCodes.includes('timeout-or-duplicate')) {
+    return 'Spam protection expired. Please complete the check again.';
+  }
+
+  if (
+    errorCodes.includes('invalid-input-response') ||
+    errorCodes.includes('bad-request') ||
+    errorCodes.includes('missing-input-response')
+  ) {
+    return 'Spam protection verification failed. Please try again.';
+  }
+
+  if (errorCodes.includes('internal-error')) {
+    return 'Spam protection service is temporarily unavailable. Please try again.';
+  }
+
+  return 'Spam protection verification failed. Please try again.';
+}
+
 async function verifyTurnstile(token, secret, ip) {
   const formData = new URLSearchParams();
   formData.set('secret', secret);
   formData.set('response', token);
+
   if (ip) {
     formData.set('remoteip', ip);
   }
@@ -102,15 +201,6 @@ async function sendContactEmail(env, payload) {
   }
 }
 
-function escapeHtml(value) {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
 function validatePayload(body) {
   const payload = {
     name: sanitize(body?.name, 120),
@@ -137,7 +227,7 @@ function validatePayload(body) {
   }
 
   if (!payload.turnstileToken) {
-    return { error: 'Spam protection check is required.' };
+    return { error: 'Please complete the spam protection check before sending.' };
   }
 
   return { payload };
@@ -145,19 +235,24 @@ function validatePayload(body) {
 
 export async function onRequestPost(context) {
   const { request, env } = context;
+  const allowedHostnames = getAllowedHostnames(env);
+  const requestHostname = getRequestHostname(request);
 
-  if (!env.TURNSTILE_SECRET) {
-    return json({ message: 'Turnstile secret is not configured.' }, 500);
+  if (!env.TURNSTILE_SECRET_KEY) {
+    return json({ message: 'Turnstile secret key is not configured.' }, 500);
   }
 
   if (!env.CONTACT_TO_EMAIL) {
     return json({ message: 'Recipient email is not configured.' }, 500);
   }
 
-  const origin = request.headers.get('Origin');
-  const allowedOrigin = env.CONTACT_ALLOWED_ORIGIN;
-  if (allowedOrigin && origin && origin !== allowedOrigin) {
-    return json({ message: 'Origin is not allowed.' }, 403);
+  if (!isAllowedHostname(requestHostname, allowedHostnames)) {
+    return json({ message: 'This form can only be submitted from approved domains.' }, 403);
+  }
+
+  const contentType = sanitize(request.headers.get('Content-Type'), 100).toLowerCase();
+  if (!contentType.includes('application/json')) {
+    return json({ message: 'Invalid request format.' }, 415);
   }
 
   let body;
@@ -173,14 +268,14 @@ export async function onRequestPost(context) {
   }
 
   try {
-    const turnstile = await verifyTurnstile(
-      payload.turnstileToken,
-      env.TURNSTILE_SECRET,
-      request.headers.get('CF-Connecting-IP')
-    );
+    const turnstile = await verifyTurnstile(payload.turnstileToken, env.TURNSTILE_SECRET_KEY, getClientIp(request));
 
     if (!turnstile.success) {
-      return json({ message: 'Spam protection verification failed. Please try again.' }, 400);
+      return json({ message: getTurnstileErrorMessage(turnstile['error-codes']) }, 400);
+    }
+
+    if (turnstile.hostname && !isAllowedHostname(turnstile.hostname, allowedHostnames)) {
+      return json({ message: 'Spam protection verification did not match an approved hostname.' }, 400);
     }
 
     await sendContactEmail(env, payload);
@@ -190,7 +285,7 @@ export async function onRequestPost(context) {
     console.error('Contact form submission failed.', error);
     return json(
       {
-        message: 'Message could not be sent right now. Please try again later.',
+        message: 'Message could not be sent right now. Please try again later or email contact@jibranhussain.com.',
       },
       502
     );

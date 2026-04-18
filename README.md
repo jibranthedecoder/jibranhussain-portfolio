@@ -10,7 +10,6 @@ The site is built with vanilla HTML, CSS, JavaScript, and Cloudflare Pages Funct
 - `styles.css` - responsive styling, theme support, and readable mode design
 - `script.js` - interactivity, theme management, language switching, speech synthesis, privacy preferences, and contact form handling
 - `functions/api/contact.js` - Cloudflare Pages Function for validation, Turnstile verification, and message delivery
-- `functions/api/contact-config.js` - exposes the public Turnstile site key to the frontend
 - `wrangler.toml` - Cloudflare local development and Pages configuration
 - `assets/` - image assets used in the site
 
@@ -38,6 +37,8 @@ python -m http.server 8000
 
 Then open `http://localhost:8000` in your browser.
 
+Note: the contact form itself requires Cloudflare Pages Functions, so Turnstile verification and email delivery will only work locally when you use `wrangler pages dev .`.
+
 ### Cloudflare Pages local dev
 
 ```bash
@@ -48,17 +49,16 @@ wrangler pages dev .
 
 Set these Cloudflare Pages environment variables for both preview and production:
 
-- `TURNSTILE_SITE_KEY` - public site key from Cloudflare Turnstile
-- `TURNSTILE_SECRET` - Turnstile secret key
+- `TURNSTILE_SECRET_KEY` - Turnstile secret key used only in the backend function
 - `CONTACT_TO_EMAIL` - destination inbox, for example `contact@jibranhussain.com`
 - `CONTACT_FROM_EMAIL` - verified sender address for worker mail delivery
 - `CONTACT_FROM_NAME` - optional display name for outgoing mail
-- `CONTACT_ALLOWED_ORIGIN` - optional strict origin, for example `https://jibranhussain.com`
+- `CONTACT_ALLOWED_ORIGINS` - optional comma-separated extra origins or hostnames beyond the built-in allowlist
 
 Recommended flow:
 
 1. Create a Turnstile widget in Cloudflare and allow your production domain.
-2. Add the site key and secret in Cloudflare Pages environment settings.
+2. Use the site key `0x4AAAAAAC_WnzOWpDebVPCC` in the frontend and add only `TURNSTILE_SECRET_KEY` in Cloudflare Pages environment settings.
 3. Set the contact email variables.
 4. Deploy the site to Cloudflare Pages.
 5. Submit the contact form once from the deployed site and confirm delivery.
@@ -80,5 +80,5 @@ Update the content directly in `index.html` for this portfolio project. The page
 
 - The site keeps user preferences for theme, language, dyslexia mode, and privacy consent in `localStorage`.
 - The read aloud feature uses browser support for `speechSynthesis`; if unsupported, it disables cleanly.
-- The contact form backend uses Cloudflare Pages Functions plus Turnstile verification before sending mail.
+- The contact form frontend renders Turnstile directly with the public site key, while the backend uses `TURNSTILE_SECRET_KEY` to verify tokens before sending mail.
 - The design preserves the existing layout and navigation while improving usability and accessibility.
