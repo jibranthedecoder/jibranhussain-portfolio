@@ -226,14 +226,45 @@
       </section>
 
       <section id="contact" class="section reveal contact-panel">
-        <div>
+        <div class="contact-copy">
           <p class="section-label" data-i18n="contactLabel">Contact</p>
           <h2 data-i18n="contactHeading">Ready for internship and engineering opportunities.</h2>
           <p data-i18n="contactText">If you are looking for a student who values practical engineering, safe systems, and steady progress, please get in touch. I am available for internship roles, maintenance support, and automation projects.</p>
+          <p class="contact-note" data-i18n="contactFormIntro">Send a message directly here and it will be delivered to contact@jibranhussain.com.</p>
         </div>
-        <div class="contact-actions">
-          <a id="contactEmail" class="button button-primary" href="mailto:contact@jibranhussain.com" data-i18n="contactEmail">Email contact@jibranhussain.com</a>
-          <a id="contactLinkedin" class="button button-secondary" href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener" data-i18n="contactLinkedin">LinkedIn profile</a>
+        <div class="contact-form-card">
+          <form class="contact-form" action="https://formsubmit.co/contact@jibranhussain.com" method="POST">
+            <input type="hidden" name="_subject" value="New portfolio contact form message" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="contact-honeypot" />
+
+            <div class="form-grid">
+              <label class="form-field">
+                <span data-i18n="contactNameLabel">Name</span>
+                <input type="text" name="name" autocomplete="name" required />
+              </label>
+              <label class="form-field">
+                <span data-i18n="contactEmailLabel">Email</span>
+                <input type="email" name="email" autocomplete="email" required />
+              </label>
+            </div>
+
+            <label class="form-field">
+              <span data-i18n="contactSubjectLabel">Subject</span>
+              <input type="text" name="subject" required />
+            </label>
+
+            <label class="form-field">
+              <span data-i18n="contactMessageLabel">Message</span>
+              <textarea name="message" rows="5" required></textarea>
+            </label>
+
+            <div class="contact-actions">
+              <button class="button button-primary" type="submit" data-i18n="contactSubmit">Send message</button>
+              <a id="contactEmail" class="button button-secondary" href="mailto:contact@jibranhussain.com" data-i18n="contactEmail">Email contact@jibranhussain.com</a>
+              <a id="contactLinkedin" class="button button-secondary" href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener" data-i18n="contactLinkedin">LinkedIn profile</a>
+            </div>
+          </form>
         </div>
       </section>
     </main>

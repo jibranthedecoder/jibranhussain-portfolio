@@ -439,7 +439,82 @@ html[data-theme="dark"] .card-soft {
   display: grid;
   grid-template-columns: 1.4fr 0.9fr;
   gap: 28px;
-  align-items: center;
+  align-items: start;
+}
+
+.contact-copy {
+  display: grid;
+  gap: 14px;
+}
+
+.contact-copy p:last-child {
+  margin-bottom: 0;
+}
+
+.contact-note {
+  color: var(--muted);
+  max-width: 44ch;
+}
+
+.contact-form-card {
+  padding: 24px;
+  border-radius: 26px;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+}
+
+html[data-theme="dark"] .contact-form-card {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.contact-form {
+  display: grid;
+  gap: 16px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.form-field {
+  display: grid;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.form-field span {
+  font-weight: 600;
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  color: var(--text);
+  padding: 14px 16px;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.contact-honeypot {
+  position: absolute;
+  left: -9999px;
 }
 
 .contact-actions {
@@ -900,6 +975,10 @@ html.readable-mode .hero-copy h1 {
 
   .contact-actions {
     width: 100%;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
   }
 
   .privacy-banner {
