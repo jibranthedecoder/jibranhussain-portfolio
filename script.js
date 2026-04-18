@@ -41,7 +41,7 @@ const translations = {
     dyslexic: 'Aa',
     normal: 'A',
     heroEyebrow: 'Portfolio',
-    introMeta: 'Portfolio - Jibran Husain',
+    introMeta: 'Portfolio - Jibran Hussain',
     introWord: 'Welcome.',
     introSkip: 'Click or press any key to skip this',
     heroTitle: 'Jibran Hussain',
@@ -398,14 +398,10 @@ function initializePageIntro() {
     ? [150, 138, 132, 126, 122, 128, 148, 170, 192, 214, 236, 258]
     : [290, 252, 232, 214, 206, 216, 238, 266, 294, 322, 350, 378];
   const startDelay = introMode === 'short' ? 420 : 860;
-  const typingDuration = typeIntervals
-    .slice(0, Math.max(introText.length - 1, 0))
-    .reduce((total, interval) => total + interval, 0);
-  const holdDelay = 1000;
-  const exitStartMs = startDelay + typingDuration + holdDelay;
-  const shellDelay = `${Math.max(exitStartMs - 180, 0)}ms`;
-  const atmosphereDelay = `${Math.max(exitStartMs - 240, 0)}ms`;
-  const exitDelay = `${exitStartMs}ms`;
+  const holdDelay = introMode === 'short' ? 1320 : 2280;
+  const shellDelay = introMode === 'short' ? '1480ms' : '3620ms';
+  const atmosphereDelay = introMode === 'short' ? '1400ms' : '3500ms';
+  const exitDelay = introMode === 'short' ? '1960ms' : '4540ms';
   let index = 0;
 
   pageIntroText.textContent = '';
