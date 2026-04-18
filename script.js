@@ -17,6 +17,8 @@ const contactSubmitButton = document.getElementById('contactSubmitButton');
 const contactFormStatus = document.getElementById('contactFormStatus');
 const contactTurnstile = document.getElementById('contactTurnstile');
 const turnstileScript = document.getElementById('turnstileScript');
+const pageIntro = document.getElementById('pageIntro');
+const pageIntroText = document.getElementById('pageIntroText');
 const i18nElements = document.querySelectorAll('[data-i18n]');
 const savedLanguage = localStorage.getItem('portfolio-language');
 const savedReadable = localStorage.getItem('portfolio-readable');
@@ -217,6 +219,9 @@ let voices = [];
 let turnstileWidgetId = null;
 let turnstileToken = '';
 let contactSuccessAnimationTimer = null;
+let pageIntroCleanupTimer = null;
+let pageIntroTypeTimer = null;
+let pageIntroSkipHandler = null;
 const turnstileSiteKey = contactTurnstile?.dataset.sitekey || '';
 
 const icons = {
@@ -287,6 +292,90 @@ function applyStaggerIndexes() {
       child.style.setProperty('--stagger-index', String(index));
     });
   });
+}
+
+function clearPageIntroTimers() {
+  if (pageIntroTypeTimer) {
+    window.clearTimeout(pageIntroTypeTimer);
+    pageIntroTypeTimer = null;
+  }
+
+  if (pageIntroCleanupTimer) {
+    window.clearTimeout(pageIntroCleanupTimer);
+    pageIntroCleanupTimer = null;
+  }
+}
+
+function cleanupPageIntroListeners() {
+  if (!pageIntroSkipHandler) return;
+
+  pageIntro?.removeEventListener('click', pageIntroSkipHandler);
+  window.removeEventListener('keydown', pageIntroSkipHandler);
+  pageIntroSkipHandler = null;
+}
+
+function finishPageIntro(immediate = false) {
+  clearPageIntroTimers();
+  cleanupPageIntroListeners();
+
+  if (immediate) {
+    root.classList.remove('intro-pending', 'intro-active');
+    pageIntroText.textContent = 'Welcome.';
+    return;
+  }
+
+  const minimumTypedText = pageIntroText.textContent || 'Welcome.';
+  pageIntroText.textContent = minimumTypedText;
+  root.classList.add('intro-active');
+  pageIntroCleanupTimer = window.setTimeout(() => {
+    root.classList.remove('intro-pending', 'intro-active');
+    pageIntroCleanupTimer = null;
+  }, 2200);
+}
+
+function initializePageIntro() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    finishPageIntro(true);
+    return;
+  }
+
+  if (!root.classList.contains('intro-pending')) {
+    return;
+  }
+
+  const introText = 'Welcome.';
+  const typeIntervals = [90, 84, 82, 78, 74, 78, 92, 104];
+  let index = 0;
+
+  pageIntroText.textContent = '';
+  root.classList.add('intro-active');
+
+  pageIntroSkipHandler = event => {
+    if (event.type === 'keydown' && event.key === 'Tab') {
+      return;
+    }
+
+    finishPageIntro(true);
+  };
+
+  pageIntro?.addEventListener('click', pageIntroSkipHandler);
+  window.addEventListener('keydown', pageIntroSkipHandler);
+
+  function typeNextCharacter() {
+    pageIntroText.textContent = introText.slice(0, index + 1);
+    index += 1;
+
+    if (index >= introText.length) {
+      pageIntroTypeTimer = window.setTimeout(() => {
+        finishPageIntro(false);
+      }, 300);
+      return;
+    }
+
+    pageIntroTypeTimer = window.setTimeout(typeNextCharacter, typeIntervals[index - 1] || 82);
+  }
+
+  pageIntroTypeTimer = window.setTimeout(typeNextCharacter, 180);
 }
 
 function setButtonIcon(button, iconMarkup) {
@@ -846,6 +935,7 @@ function initializeScrollReveal() {
 
 function initialize() {
   applyStaggerIndexes();
+  initializePageIntro();
   initializeTheme();
   initializeLanguage();
   initializeReadableMode();

@@ -64,6 +64,74 @@ body {
   overflow-x: clip;
 }
 
+.page-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 12;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  cursor: pointer;
+  opacity: 0;
+  color: inherit;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(96, 165, 250, 0.08), transparent 28%),
+    radial-gradient(circle at 78% 72%, rgba(255, 255, 255, 0.06), transparent 28%),
+    linear-gradient(180deg, rgba(3, 7, 18, 0.99), rgba(5, 10, 22, 0.98));
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+}
+
+.page-intro::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 88%);
+  opacity: 0.18;
+}
+
+.page-intro-panel {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.page-intro-line {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.18em;
+  min-height: 1.2em;
+  padding: 0.18em 0;
+  font-family: "SFMono-Regular", "Cascadia Code", "IBM Plex Mono", "Fira Code", monospace;
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: rgba(238, 242, 255, 0.96);
+  text-shadow: 0 0 24px rgba(96, 165, 250, 0.08);
+}
+
+.page-intro-text {
+  display: inline-block;
+  min-width: 0.5ch;
+}
+
+.page-intro-cursor {
+  width: 0.62ch;
+  height: 1.1em;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(96, 165, 250, 0.85));
+  box-shadow: 0 0 18px rgba(96, 165, 250, 0.18);
+  opacity: 0;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -94,6 +162,46 @@ textarea {
   padding: 0 24px 56px;
   position: relative;
   z-index: 1;
+}
+
+html.intro-pending .page-shell {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0) scale(0.982);
+  filter: blur(18px);
+}
+
+html.intro-pending .page-atmosphere {
+  opacity: 0.12;
+  transform: scale(1.03);
+}
+
+html.intro-active .page-intro {
+  opacity: 1;
+  animation: introEditorExit 780ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 1360ms;
+}
+
+html.intro-active .page-intro-panel {
+  animation: introPanelSettle 1480ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+html.intro-active .page-intro-text {
+  animation: introTextFade 200ms ease-out forwards;
+}
+
+html.intro-active .page-intro-cursor {
+  opacity: 1;
+  animation: introCursorBlink 460ms steps(1, end) infinite;
+}
+
+html.intro-active .page-shell {
+  animation: pageReveal 1180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 980ms;
+}
+
+html.intro-active .page-atmosphere {
+  animation: atmosphereReveal 1260ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 940ms;
 }
 
 .page-atmosphere {
@@ -966,6 +1074,85 @@ html[data-theme="dark"] .contact-form-card {
   }
 }
 
+@keyframes pageReveal {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.982);
+    filter: blur(18px);
+  }
+  55% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes atmosphereReveal {
+  0% {
+    opacity: 0.12;
+    transform: scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes introPanelSettle {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  72% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.018);
+  }
+}
+
+@keyframes introEditorExit {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes introTextFade {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 4px, 0);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0);
+  }
+}
+
+@keyframes introCursorBlink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  46%,
+  100% {
+    opacity: 0.2;
+  }
+}
+
 @keyframes driftGlowMinor {
   0% {
     transform: translate3d(0, 0, 0) scale(1);
@@ -1626,5 +1813,9 @@ html.readable-mode .hero-copy h1 {
     animation-iteration-count: 1 !important;
     transition-duration: 0ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .page-intro {
+    display: none !important;
   }
 }

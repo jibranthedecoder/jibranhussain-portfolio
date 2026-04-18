@@ -12,6 +12,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23384d77'/%3E%3Ctext x='50' y='55' font-size='50' text-anchor='middle' fill='white' font-family='system-ui, sans-serif'%3EJ%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="styles.css" />
+  <script>
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('intro-pending');
+    }
+  </script>
   <script
     id="turnstileScript"
     src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
@@ -22,6 +27,14 @@
 
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
+  <button class="page-intro" id="pageIntro" type="button" aria-label="Skip intro">
+    <span class="page-intro-panel">
+      <span class="page-intro-line">
+        <span class="page-intro-text" id="pageIntroText"></span>
+        <span class="page-intro-cursor" aria-hidden="true"></span>
+      </span>
+    </span>
+  </button>
   <div class="page-atmosphere" aria-hidden="true">
     <span class="atmosphere-glow glow-orbit glow-orbit-one"></span>
     <span class="atmosphere-glow glow-orbit glow-orbit-two"></span>
