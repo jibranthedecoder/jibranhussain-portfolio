@@ -178,35 +178,35 @@ let voices = [];
 
 const icons = {
   speaker: `
-    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false">
+    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
       <path d="M11 5 6 9H3v6h3l5 4z"></path>
       <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
       <path d="M18.5 5.5a9 9 0 0 1 0 13"></path>
     </svg>
   `,
   stop: `
-    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false">
+    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false" fill="currentColor" stroke="none">
       <rect x="6" y="6" width="12" height="12" rx="2"></rect>
     </svg>
   `,
   pause: `
-    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false">
+    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false" fill="currentColor" stroke="none">
       <rect x="6" y="5" width="4" height="14" rx="1.5"></rect>
       <rect x="14" y="5" width="4" height="14" rx="1.5"></rect>
     </svg>
   `,
   play: `
-    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false">
+    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false" fill="currentColor" stroke="none">
       <path d="m8 5 11 7-11 7z"></path>
     </svg>
   `,
   moon: `
-    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false">
+    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 3a7.5 7.5 0 1 0 9 9A9 9 0 1 1 12 3"></path>
     </svg>
   `,
   sun: `
-    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false">
+    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="4"></circle>
       <path d="M12 2v2.5"></path>
       <path d="M12 19.5V22"></path>
@@ -219,7 +219,7 @@ const icons = {
     </svg>
   `,
   dyslexicOff: `
-    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false">
+    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
       <path d="M4 19 9.5 5h1L16 19"></path>
       <path d="M6.2 14h7.6"></path>
       <path d="M18.5 8v11"></path>
@@ -227,7 +227,7 @@ const icons = {
     </svg>
   `,
   dyslexicOn: `
-    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false">
+    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
       <path d="M4 19 9.5 5h1L16 19"></path>
       <path d="M6.2 14h7.6"></path>
       <path d="M18.5 8v11"></path>
