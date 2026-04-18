@@ -627,6 +627,18 @@ html.dyslexic-mode .list-simple li {
   min-width: 120px;
 }
 
+.control-button.icon-button {
+  gap: 0;
+  min-width: 44px;
+  width: 44px;
+  padding: 0;
+}
+
+.theme-toggle.control-button.icon-button {
+  min-width: 44px;
+  width: 44px;
+}
+
 @media (max-width: 900px) {
   .site-header {
     padding: 18px 18px;
