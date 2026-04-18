@@ -17,6 +17,7 @@ const DEFAULT_ALLOWED_HOSTNAMES = new Set([
 
 const EXPECTED_ENV_KEYS = [
   'TURNSTILE_SECRET_KEY',
+  'RESEND_API_KEY',
   'CONTACT_TO_EMAIL',
   'CONTACT_FROM_EMAIL',
   'CONTACT_FROM_NAME',
@@ -58,6 +59,7 @@ function hasEnvString(env, key) {
 function getRuntimeConfig(env) {
   return {
     turnstileSecretKey: readEnvString(env, 'TURNSTILE_SECRET_KEY', 2048),
+    resendApiKey: readEnvString(env, 'RESEND_API_KEY', 2048),
     contactToEmail: readEnvString(env, 'CONTACT_TO_EMAIL', 320),
     contactFromEmail: readEnvString(env, 'CONTACT_FROM_EMAIL', 320),
     contactFromName: readEnvString(env, 'CONTACT_FROM_NAME', 320),
@@ -165,7 +167,10 @@ function getConfigDiagnostics(env, request) {
   const allowedHostnames = getAllowedHostnames(env);
 
   return {
-    ok: hasEnvString(env, 'TURNSTILE_SECRET_KEY') && hasEnvString(env, 'CONTACT_TO_EMAIL'),
+    ok:
+      hasEnvString(env, 'TURNSTILE_SECRET_KEY') &&
+      hasEnvString(env, 'RESEND_API_KEY') &&
+      hasEnvString(env, 'CONTACT_TO_EMAIL'),
     route: '/api/contact',
     runtime: 'cloudflare-pages-functions',
     request: {
@@ -178,6 +183,7 @@ function getConfigDiagnostics(env, request) {
     config: {
       expectedEnvKeys: EXPECTED_ENV_KEYS,
       hasTurnstileSecretKey: runtimeConfig.turnstileSecretKey.length > 0,
+      hasResendApiKey: runtimeConfig.resendApiKey.length > 0,
       hasContactToEmail: runtimeConfig.contactToEmail.length > 0,
       hasContactFromEmail: runtimeConfig.contactFromEmail.length > 0,
       hasContactFromName: runtimeConfig.contactFromName.length > 0,
@@ -208,64 +214,56 @@ async function verifyTurnstile(token, secret, ip) {
   return response.json();
 }
 
-async function sendContactEmail(env, payload) {
-  const fromEmail = env.CONTACT_FROM_EMAIL || 'portfolio@jibranhussain.com';
-  const fromName = env.CONTACT_FROM_NAME || 'Jibran Hussain Portfolio';
-  const toEmail = env.CONTACT_TO_EMAIL;
+async function sendContactEmail(runtimeConfig, payload) {
+  const fromEmail = runtimeConfig.contactFromEmail || 'portfolio@jibranhussain.com';
+  const fromName = runtimeConfig.contactFromName || 'Jibran Hussain Portfolio';
+  const toEmail = runtimeConfig.contactToEmail;
+
+  if (!runtimeConfig.resendApiKey) {
+    throw new Error('RESEND_API_KEY is not configured.');
+  }
 
   if (!toEmail) {
     throw new Error('CONTACT_TO_EMAIL is not configured.');
   }
 
-  const response = await fetch('https://api.mailchannels.net/tx/v1/send', {
+  const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${runtimeConfig.resendApiKey}`,
       'Content-Type': 'application/json',
+      'User-Agent': 'jibranhussain-portfolio/1.0',
     },
     body: JSON.stringify({
-      personalizations: [
-        {
-          to: [{ email: toEmail, name: 'Jibran Hussain' }],
-        },
-      ],
-      from: {
-        email: fromEmail,
-        name: fromName,
-      },
-      reply_to: {
-        email: payload.email,
-        name: payload.name,
-      },
+      from: `${fromName} <${fromEmail}>`,
+      to: [toEmail],
+      reply_to: `${payload.name} <${payload.email}>`,
       subject: `Portfolio contact: ${payload.subject}`,
-      content: [
-        {
-          type: 'text/plain',
-          value: [
-            `Name: ${payload.name}`,
-            `Email: ${payload.email}`,
-            `Subject: ${payload.subject}`,
-            '',
-            payload.message,
-          ].join('\n'),
-        },
-        {
-          type: 'text/html',
-          value: `
-            <h2>New portfolio contact message</h2>
-            <p><strong>Name:</strong> ${escapeHtml(payload.name)}</p>
-            <p><strong>Email:</strong> ${escapeHtml(payload.email)}</p>
-            <p><strong>Subject:</strong> ${escapeHtml(payload.subject)}</p>
-            <p><strong>Message:</strong></p>
-            <p>${escapeHtml(payload.message).replace(/\n/g, '<br>')}</p>
-          `,
-        },
-      ],
+      text: [
+        `Name: ${payload.name}`,
+        `Email: ${payload.email}`,
+        `Subject: ${payload.subject}`,
+        '',
+        payload.message,
+      ].join('\n'),
+      html: `
+        <h2>New portfolio contact message</h2>
+        <p><strong>Name:</strong> ${escapeHtml(payload.name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(payload.email)}</p>
+        <p><strong>Subject:</strong> ${escapeHtml(payload.subject)}</p>
+        <p><strong>Message:</strong></p>
+        <p>${escapeHtml(payload.message).replace(/\n/g, '<br>')}</p>
+      `,
     }),
   });
 
   if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Mail delivery failed: ${errorText}`);
+    const errorPayload = await response.json().catch(() => null);
+    const errorMessage =
+      errorPayload?.message ||
+      errorPayload?.name ||
+      `Resend API request failed with status ${response.status}`;
+    throw new Error(`Mail delivery failed: ${errorMessage}`);
   }
 }
 
@@ -318,6 +316,17 @@ export async function onRequestPost(context) {
     );
   }
 
+  if (!runtimeConfig.resendApiKey) {
+    return json(
+      {
+        message:
+          'RESEND_API_KEY is unavailable in this Cloudflare Pages runtime. Confirm it is set for the active environment and redeploy.',
+        diagnostics: getConfigDiagnostics(env, request),
+      },
+      500
+    );
+  }
+
   if (!runtimeConfig.contactToEmail) {
     return json(
       {
@@ -361,7 +370,7 @@ export async function onRequestPost(context) {
       return json({ message: 'Spam protection verification did not match an approved hostname.' }, 400);
     }
 
-    await sendContactEmail(env, payload);
+    await sendContactEmail(runtimeConfig, payload);
 
     return json({ message: 'Message sent successfully. Thank you for reaching out.' });
   } catch (error) {

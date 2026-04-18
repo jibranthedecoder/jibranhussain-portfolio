@@ -50,8 +50,9 @@ wrangler pages dev .
 Set these Cloudflare Pages environment variables for both preview and production:
 
 - `TURNSTILE_SECRET_KEY` - Turnstile secret key used only in the backend function
+- `RESEND_API_KEY` - Resend API key used only in the backend function
 - `CONTACT_TO_EMAIL` - destination inbox, for example `contact@jibranhussain.com`
-- `CONTACT_FROM_EMAIL` - verified sender address for worker mail delivery
+- `CONTACT_FROM_EMAIL` - verified sender address for Resend delivery
 - `CONTACT_FROM_NAME` - optional display name for outgoing mail
 - `CONTACT_ALLOWED_ORIGINS` - optional comma-separated extra origins or hostnames beyond the built-in allowlist
 
@@ -60,14 +61,14 @@ Important: in Cloudflare Pages, environment variables are scoped by environment.
 Recommended flow:
 
 1. Create a Turnstile widget in Cloudflare and allow your production domain.
-2. Use the site key `0x4AAAAAAC_WnzOWpDebVPCC` in the frontend and add only `TURNSTILE_SECRET_KEY` in Cloudflare Pages environment settings.
-3. Set the contact email variables.
+2. Use the site key `0x4AAAAAAC_WnzOWpDebVPCC` in the frontend.
+3. Add `TURNSTILE_SECRET_KEY`, `RESEND_API_KEY`, and the contact email variables in Cloudflare Pages environment settings.
 4. Deploy the site to Cloudflare Pages.
 5. Submit the contact form once from the deployed site and confirm delivery.
 
 ### Runtime health check
 
-Open `/api/contact` on the deployed site to verify runtime configuration safely. The response includes booleans such as `hasTurnstileSecretKey` and `hasContactToEmail`, but never exposes any secret values.
+Open `/api/contact` on the deployed site to verify runtime configuration safely. The response includes booleans such as `hasTurnstileSecretKey`, `hasResendApiKey`, and `hasContactToEmail`, but never exposes any secret values.
 
 ## Deploying
 
@@ -86,6 +87,6 @@ Update the content directly in `index.html` for this portfolio project. The page
 
 - The site keeps user preferences for theme, language, dyslexia mode, and privacy consent in `localStorage`.
 - The read aloud feature uses browser support for `speechSynthesis`; if unsupported, it disables cleanly.
-- The contact form frontend renders Turnstile directly with the public site key, while the backend uses `TURNSTILE_SECRET_KEY` to verify tokens before sending mail.
+- The contact form frontend renders Turnstile directly with the public site key, while the backend uses `TURNSTILE_SECRET_KEY` to verify tokens before sending mail through Resend with `RESEND_API_KEY`.
 - The `/api/contact` `GET` route acts as a safe health check for Pages Functions runtime bindings and hostname allowlist behavior.
 - The design preserves the existing layout and navigation while improving usability and accessibility.
