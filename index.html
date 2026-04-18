@@ -39,17 +39,39 @@
             <button id="langToggle" type="button" class="control-button toggle-button" aria-pressed="false">FI</button>
           </div>
           <button id="pauseToggle" type="button" class="control-button pause-toggle icon-button" hidden aria-label="Pause reading" title="Pause reading">
-            <span class="button-icon" aria-hidden="true">⏸</span>
+            <span class="button-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="ui-icon" focusable="false">
+                <rect x="6" y="5" width="4" height="14" rx="1.5"></rect>
+                <rect x="14" y="5" width="4" height="14" rx="1.5"></rect>
+              </svg>
+            </span>
             <span class="sr-only" data-i18n="pause">Pause</span>
           </button>
           <button id="speakToggle" type="button" class="control-button icon-button" aria-pressed="false" aria-label="Read aloud" title="Read aloud">
             <span class="button-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" class="speaker-icon" aria-hidden="true" focusable="false"><path d="M5 9v6h4l5 5V4L9 9H5z"/><path d="M15.54 8.46a5 5 0 010 7.07"/><path d="M17.66 6.34a9 9 0 010 12.72"/></svg>
+              <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false">
+                <path d="M11 5 6 9H3v6h3l5 4z"></path>
+                <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+                <path d="M18.5 5.5a9 9 0 0 1 0 13"></path>
+              </svg>
             </span>
             <span class="sr-only" data-i18n="readLabel">Read</span>
           </button>
-          <button id="readableToggle" type="button" class="control-button icon-button" aria-pressed="false" aria-label="Toggle dyslexic font mode" title="Toggle dyslexic mode">Aa</button>
-          <button id="themeToggle" class="theme-toggle control-button icon-button" type="button" aria-label="Toggle theme mode" title="Toggle theme mode">☾</button>
+          <button id="readableToggle" type="button" class="control-button icon-button" aria-pressed="false" aria-label="Toggle dyslexic font mode" title="Toggle dyslexic mode">
+            <span class="button-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="ui-icon" focusable="false">
+                <path d="M4 19 9.5 5h1L16 19"></path>
+                <path d="M6.2 14h7.6"></path>
+                <path d="M18.5 8v11"></path>
+                <path d="M18.5 13h2.25a2.25 2.25 0 0 0 0-4.5H18.5"></path>
+              </svg>
+            </span>
+            <span class="sr-only">Toggle dyslexic mode</span>
+          </button>
+          <button id="themeToggle" class="theme-toggle control-button icon-button" type="button" aria-label="Toggle theme mode" title="Toggle theme mode">
+            <span class="button-icon" aria-hidden="true"></span>
+            <span class="sr-only">Toggle theme mode</span>
+          </button>
         </div>
       </div>
     </header>

@@ -199,6 +199,25 @@ html[data-theme="light"] .site-header {
   height: 20px;
 }
 
+.button-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+}
+
+.ui-icon {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -507,7 +526,7 @@ html[data-theme="dark"] .card-soft {
 .header-right {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-end;
   min-width: 0;
@@ -550,6 +569,7 @@ html.dyslexic-mode .list-simple li {
   min-width: 84px;
   padding: 10px 12px;
   font-size: 0.95rem;
+  flex: 0 0 auto;
 }
 
 .theme-toggle.control-button {
@@ -674,9 +694,9 @@ html.dyslexic-mode .list-simple li {
   border-radius: 999px;
   box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
   backdrop-filter: blur(20px);
-  overflow: hidden;
   min-width: 0;
-  max-height: 140px;
+  width: min(560px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
 }
 
 .privacy-banner p {
@@ -699,8 +719,13 @@ html.dyslexic-mode .list-simple li {
 .privacy-actions {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: flex-end;
+}
+
+.privacy-actions .button {
+  flex: 0 1 auto;
+  min-width: 0;
 }
 
 .modal {
@@ -880,7 +905,6 @@ html.readable-mode .hero-copy h1 {
   .privacy-banner {
     padding: 14px 16px;
     gap: 10px;
-    max-height: 120px;
   }
 
   .modal-content {
@@ -935,8 +959,40 @@ html.readable-mode .hero-copy h1 {
   }
 
   .header-right {
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-wrap: nowrap;
+    gap: 6px;
+    justify-content: space-between;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .header-right::-webkit-scrollbar {
+    display: none;
+  }
+
+  .header-right > * {
+    flex: 0 0 auto;
+  }
+
+  .language-switcher {
+    flex: 0 0 auto;
+  }
+
+  .language-switcher .control-button,
+  .control-button.icon-button,
+  .theme-toggle.control-button.icon-button {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    padding: 0;
+  }
+
+  .language-switcher .control-button {
+    width: 48px;
+    min-width: 48px;
+    font-size: 0.8rem;
   }
 
   .primary-nav {
@@ -968,11 +1024,18 @@ html.readable-mode .hero-copy h1 {
     grid-template-columns: 1fr;
     gap: 12px;
     align-items: stretch;
+    border-radius: 24px;
+    padding: 16px;
   }
 
   .privacy-actions {
-    justify-content: flex-end;
-    flex-wrap: wrap;
+    justify-content: stretch;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+
+  .privacy-actions .button {
+    flex: 1 1 0;
   }
 }
 
@@ -991,6 +1054,10 @@ html.readable-mode .hero-copy h1 {
     padding: 14px 14px;
   }
 
+  .privacy-actions {
+    gap: 8px;
+  }
+
   .modal-content {
     width: min(100%, calc(100vw - 32px));
     padding: 20px;
@@ -1002,6 +1069,37 @@ html.readable-mode .hero-copy h1 {
 
   .modal-body p {
     font-size: 0.96rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .site-header {
+    padding: 12px 14px;
+  }
+
+  .header-right {
+    gap: 4px;
+  }
+
+  .language-switcher .control-button {
+    width: 46px;
+    min-width: 46px;
+    font-size: 0.76rem;
+  }
+
+  .privacy-banner {
+    inset: auto 12px 12px;
+    width: calc(100vw - 24px);
+    max-width: calc(100vw - 24px);
+    padding: 14px;
+  }
+
+  .privacy-actions {
+    flex-direction: column;
+  }
+
+  .privacy-actions .button {
+    width: 100%;
   }
 }
 

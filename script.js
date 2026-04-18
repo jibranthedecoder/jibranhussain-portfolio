@@ -176,6 +176,74 @@ let speechUtterance = null;
 let speechState = 'idle'; // 'idle', 'playing', 'paused'
 let voices = [];
 
+const icons = {
+  speaker: `
+    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false">
+      <path d="M11 5 6 9H3v6h3l5 4z"></path>
+      <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+      <path d="M18.5 5.5a9 9 0 0 1 0 13"></path>
+    </svg>
+  `,
+  stop: `
+    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false">
+      <rect x="6" y="6" width="12" height="12" rx="2"></rect>
+    </svg>
+  `,
+  pause: `
+    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false">
+      <rect x="6" y="5" width="4" height="14" rx="1.5"></rect>
+      <rect x="14" y="5" width="4" height="14" rx="1.5"></rect>
+    </svg>
+  `,
+  play: `
+    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false">
+      <path d="m8 5 11 7-11 7z"></path>
+    </svg>
+  `,
+  moon: `
+    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false">
+      <path d="M12 3a7.5 7.5 0 1 0 9 9A9 9 0 1 1 12 3"></path>
+    </svg>
+  `,
+  sun: `
+    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2.5"></path>
+      <path d="M12 19.5V22"></path>
+      <path d="m4.93 4.93 1.77 1.77"></path>
+      <path d="m17.3 17.3 1.77 1.77"></path>
+      <path d="M2 12h2.5"></path>
+      <path d="M19.5 12H22"></path>
+      <path d="m4.93 19.07 1.77-1.77"></path>
+      <path d="m17.3 6.7 1.77-1.77"></path>
+    </svg>
+  `,
+  dyslexicOff: `
+    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false">
+      <path d="M4 19 9.5 5h1L16 19"></path>
+      <path d="M6.2 14h7.6"></path>
+      <path d="M18.5 8v11"></path>
+      <path d="M18.5 13h2.25a2.25 2.25 0 0 0 0-4.5H18.5"></path>
+    </svg>
+  `,
+  dyslexicOn: `
+    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false">
+      <path d="M4 19 9.5 5h1L16 19"></path>
+      <path d="M6.2 14h7.6"></path>
+      <path d="M18.5 8v11"></path>
+      <path d="M18.5 13h2.25a2.25 2.25 0 0 0 0-4.5H18.5"></path>
+      <path d="m5 5 14 14"></path>
+    </svg>
+  `,
+};
+
+function setButtonIcon(button, iconMarkup) {
+  const icon = button?.querySelector('.button-icon');
+  if (icon) {
+    icon.innerHTML = iconMarkup.trim();
+  }
+}
+
 function detectUserLanguage() {
   const browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
   return browserLang.startsWith('fi') ? 'fi' : 'en';
@@ -220,8 +288,9 @@ function setLanguage(language, manual = false) {
 
 function updateThemeToggleLabel() {
   const theme = root.getAttribute('data-theme');
-  themeToggle.textContent = theme === 'dark' ? translations[currentLang].themeLight : translations[currentLang].themeDark;
+  setButtonIcon(themeToggle, theme === 'dark' ? icons.sun : icons.moon);
   themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  themeToggle.setAttribute('title', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
 }
 
 function applyTheme(theme) {
@@ -232,12 +301,14 @@ function applyTheme(theme) {
 
 function updateFontToggleLabel() {
   const isDyslexic = root.classList.contains('dyslexic-mode');
-  readableToggle.textContent = isDyslexic ? translations[currentLang].normal : translations[currentLang].dyslexic;
+  setButtonIcon(readableToggle, isDyslexic ? icons.dyslexicOn : icons.dyslexicOff);
   readableToggle.setAttribute('aria-label', isDyslexic ? 'Switch to normal font' : 'Switch to dyslexic font');
+  readableToggle.setAttribute('title', isDyslexic ? 'Switch to normal font' : 'Switch to dyslexic font');
 }
 
 function setDyslexicMode(enabled) {
   root.classList.toggle('dyslexic-mode', enabled);
+  readableToggle.setAttribute('aria-pressed', String(enabled));
   localStorage.setItem('portfolio-dyslexic', String(enabled));
   updateFontToggleLabel();
 }
@@ -278,25 +349,21 @@ function updateSpeechControlState() {
   pauseToggle.disabled = !visible;
 
   const pauseLabel = pauseToggle.querySelector('.sr-only');
-  const pauseIcon = pauseToggle.querySelector('.button-icon');
-  if (pauseIcon) {
-    pauseIcon.textContent = isPaused ? '▶' : '⏸';
-  }
+  setButtonIcon(pauseToggle, isPaused ? icons.play : icons.pause);
   if (pauseLabel) {
     pauseLabel.textContent = isPaused ? translations[currentLang].play : translations[currentLang].pause;
   }
   pauseToggle.setAttribute('aria-label', isPaused ? translations[currentLang].play : translations[currentLang].pause);
+  pauseToggle.setAttribute('title', isPaused ? translations[currentLang].play : translations[currentLang].pause);
 
   const speakLabel = speakToggle.querySelector('.sr-only');
-  const speakIcon = speakToggle.querySelector('.button-icon');
-  if (speakIcon) {
-    speakIcon.innerHTML = speechState === 'idle' ? '<svg viewBox="0 0 24 24" class="speaker-icon" aria-hidden="true" focusable="false"><path d="M5 9v6h4l5 5V4L9 9H5z"></path><path d="M15.54 8.46a5 5 0 010 7.07"></path><path d="M17.66 6.34a9 9 0 010 12.72"></path></svg>' : '■';
-  }
+  setButtonIcon(speakToggle, speechState === 'idle' ? icons.speaker : icons.stop);
   if (speakLabel) {
     speakLabel.textContent = speechState === 'idle' ? translations[currentLang].readLabel : translations[currentLang].stop;
   }
   speakToggle.setAttribute('aria-pressed', String(isPlaying));
   speakToggle.setAttribute('aria-label', speechState === 'idle' ? translations[currentLang].readLabel : translations[currentLang].stop);
+  speakToggle.setAttribute('title', speechState === 'idle' ? translations[currentLang].readLabel : translations[currentLang].stop);
 }
 
 function startReading() {
@@ -364,8 +431,8 @@ function initializeSpeakControls() {
     pauseToggle.disabled = true;
   }
 
-  speakToggle.textContent = translations[currentLang].readLabel;
-  pauseToggle.textContent = translations[currentLang].pause;
+  setButtonIcon(speakToggle, icons.speaker);
+  setButtonIcon(pauseToggle, icons.pause);
   pauseToggle.hidden = true;
   pauseToggle.style.display = 'none';
   pauseToggle.disabled = true;
