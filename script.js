@@ -12,6 +12,9 @@ const privacyAccept = document.getElementById('privacyAccept');
 const privacyDetails = document.getElementById('privacyDetails');
 const privacyModal = document.getElementById('privacyModal');
 const privacyClose = document.getElementById('privacyClose');
+const contactForm = document.getElementById('contactForm');
+const contactSubmitButton = document.getElementById('contactSubmitButton');
+const contactFormStatus = document.getElementById('contactFormStatus');
 const i18nElements = document.querySelectorAll('[data-i18n]');
 const savedLanguage = localStorage.getItem('portfolio-language');
 const savedReadable = localStorage.getItem('portfolio-readable');
@@ -83,6 +86,9 @@ const translations = {
     contactSubjectLabel: 'Subject',
     contactMessageLabel: 'Message',
     contactSubmit: 'Send message',
+    contactSending: 'Sending your message...',
+    contactSuccess: 'Message sent successfully. Thank you for reaching out.',
+    contactError: 'Message could not be sent right now. Please try again or email contact@jibranhussain.com.',
     contactEmail: 'Email contact@jibranhussain.com',
     contactLinkedin: 'LinkedIn profile',
     footerText: '2026 Jibran Hussain.',
@@ -164,6 +170,9 @@ const translations = {
     contactSubjectLabel: 'Aihe',
     contactMessageLabel: 'Viesti',
     contactSubmit: 'Lähetä viesti',
+    contactSending: 'Lähetetään viestiä...',
+    contactSuccess: 'Viesti lähetettiin onnistuneesti. Kiitos yhteydenotostasi.',
+    contactError: 'Viestin lähetys ei onnistunut juuri nyt. Yritä uudelleen tai lähetä sähköposti osoitteeseen contact@jibranhussain.com.',
     contactEmail: 'Lähetä sähköpostia contact@jibranhussain.com',
     contactLinkedin: 'LinkedIn-profiili',
     footerText: '2026 Jibran Hussain.',
@@ -296,6 +305,7 @@ function setLanguage(language, manual = false) {
   }
   updateFontToggleLabel();
   updateThemeToggleLabel();
+  updateContactFormIdleState();
 }
 
 function updateThemeToggleLabel() {
@@ -555,6 +565,60 @@ function initializeReadableMode() {
   });
 }
 
+function setContactFormStatus(message = '', status = '') {
+  if (!contactFormStatus) return;
+
+  contactFormStatus.textContent = message;
+  contactFormStatus.classList.remove('is-success', 'is-error');
+  if (status === 'success') {
+    contactFormStatus.classList.add('is-success');
+  } else if (status === 'error') {
+    contactFormStatus.classList.add('is-error');
+  }
+}
+
+function updateContactFormIdleState() {
+  if (!contactSubmitButton) return;
+  if (!contactSubmitButton.disabled) {
+    contactSubmitButton.textContent = translations[currentLang].contactSubmit;
+  }
+}
+
+function initializeContactForm() {
+  if (!contactForm || !contactSubmitButton) return;
+
+  contactForm.addEventListener('submit', async event => {
+    event.preventDefault();
+
+    contactSubmitButton.disabled = true;
+    contactSubmitButton.textContent = translations[currentLang].contactSending;
+    setContactFormStatus('', '');
+
+    try {
+      const response = await fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Form submission failed with status ${response.status}`);
+      }
+
+      contactForm.reset();
+      setContactFormStatus(translations[currentLang].contactSuccess, 'success');
+    } catch (error) {
+      console.warn('Contact form submission failed.', error);
+      setContactFormStatus(translations[currentLang].contactError, 'error');
+    } finally {
+      contactSubmitButton.disabled = false;
+      contactSubmitButton.textContent = translations[currentLang].contactSubmit;
+    }
+  });
+}
+
 function initializeNav() {
   navToggle.addEventListener('click', () => {
     const isOpen = navMenu.classList.toggle('open');
@@ -594,6 +658,7 @@ function initialize() {
   initializeReadableMode();
   initializeSpeakControls();
   initializePrivacy();
+  initializeContactForm();
   initializeNav();
   initializeScrollReveal();
 }

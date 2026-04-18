@@ -233,8 +233,9 @@
           <p class="contact-note" data-i18n="contactFormIntro">Send a message directly here and it will be delivered to contact@jibranhussain.com.</p>
         </div>
         <div class="contact-form-card">
-          <form class="contact-form" action="https://formsubmit.co/contact@jibranhussain.com" method="POST">
-            <input type="hidden" name="_subject" value="New portfolio contact form message" />
+          <form id="contactForm" class="contact-form" action="https://formsubmit.co/contact@jibranhussain.com" method="POST">
+            <input type="hidden" name="_subject" value="New Portfolio Message" />
+            <input type="hidden" name="_template" value="table" />
             <input type="hidden" name="_captcha" value="false" />
             <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="contact-honeypot" />
 
@@ -259,8 +260,10 @@
               <textarea name="message" rows="5" required></textarea>
             </label>
 
+            <p id="contactFormStatus" class="contact-form-status" aria-live="polite"></p>
+
             <div class="contact-actions">
-              <button class="button button-primary" type="submit" data-i18n="contactSubmit">Send message</button>
+              <button id="contactSubmitButton" class="button button-primary" type="submit" data-i18n="contactSubmit">Send message</button>
               <a id="contactEmail" class="button button-secondary" href="mailto:contact@jibranhussain.com" data-i18n="contactEmail">Email contact@jibranhussain.com</a>
               <a id="contactLinkedin" class="button button-secondary" href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener" data-i18n="contactLinkedin">LinkedIn profile</a>
             </div>
