@@ -42,6 +42,7 @@ html.readable-mode {
 body {
   margin: 0;
   min-height: 100vh;
+  padding-top: env(safe-area-inset-top, 0);
   background: radial-gradient(circle at top left, rgba(96, 165, 250, 0.12), transparent 22%),
     linear-gradient(180deg, var(--bg) 0%, var(--bg) 100%);
   color: var(--text);
@@ -82,7 +83,7 @@ textarea {
   gap: 10px;
   padding: 14px 18px;
   position: sticky;
-  top: 16px;
+  top: calc(env(safe-area-inset-top, 0px) + 16px);
   z-index: 20;
   background: rgba(15, 23, 42, 0.94);
   border: 1px solid var(--border);
@@ -637,6 +638,7 @@ html.dyslexic-mode .list-simple li {
   place-items: center;
   background: rgba(15, 23, 42, 0.85);
   padding: 18px;
+  overflow-y: auto;
 }
 
 .modal[hidden] {
@@ -646,10 +648,12 @@ html.dyslexic-mode .list-simple li {
 .modal-content {
   width: min(620px, 100%);
   background: var(--surface);
+  color: var(--text);
   border: 1px solid var(--border);
   border-radius: 28px;
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.22);
   padding: 28px;
+  z-index: 91;
 }
 
 .modal-header {
@@ -674,7 +678,7 @@ html.dyslexic-mode .list-simple li {
 
 .modal-body p {
   margin: 0 0 14px;
-  color: var(--muted);
+  color: var(--text);
   line-height: 1.85;
 }
 
@@ -707,15 +711,19 @@ html.readable-mode .hero-copy h1 {
     grid-template-columns: 1fr;
   }
 
+  .page-shell {
+    padding-top: env(safe-area-inset-top, 0);
+  }
+
   .site-header {
     position: sticky;
-    top: 0;
+    top: env(safe-area-inset-top, 0);
   }
 }
 
 @media (max-width: 820px) {
   .page-shell {
-    padding: 20px 18px 48px;
+    padding: env(safe-area-inset-top, 0) 18px 48px;
   }
 
   .site-header {
@@ -874,6 +882,19 @@ html.readable-mode .hero-copy h1 {
 
   .privacy-banner {
     padding: 14px 14px;
+  }
+
+  .modal-content {
+    width: min(100%, calc(100vw - 32px));
+    padding: 20px;
+  }
+
+  .modal-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .modal-body p {
+    font-size: 0.96rem;
   }
 }
 
