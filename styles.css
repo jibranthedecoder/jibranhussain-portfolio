@@ -83,7 +83,7 @@ textarea {
   gap: 10px;
   padding: 14px 18px;
   position: sticky;
-  top: calc(env(safe-area-inset-top, 0px) + 16px);
+  top: env(safe-area-inset-top, 0);
   z-index: 20;
   background: rgba(15, 23, 42, 0.94);
   border: 1px solid var(--border);
@@ -610,7 +610,8 @@ html.dyslexic-mode .list-simple li {
   gap: 14px;
   align-items: center;
   padding: 16px 18px;
-  background: rgba(17, 24, 39, 0.96);
+  background: rgba(17, 24, 39, 0.98);
+  color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 999px;
   box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
@@ -620,7 +621,15 @@ html.dyslexic-mode .list-simple li {
 .privacy-banner p {
   margin: 0;
   font-size: 0.95rem;
+  color: #fff;
+}
+
+.privacy-banner .button-secondary {
   color: var(--text);
+}
+
+.privacy-banner .button-primary {
+  color: #fff;
 }
 
 .privacy-actions {
@@ -647,6 +656,8 @@ html.dyslexic-mode .list-simple li {
 
 .modal-content {
   width: min(620px, 100%);
+  max-height: calc(100vh - 36px);
+  overflow-y: auto;
   background: var(--surface);
   color: var(--text);
   border: 1px solid var(--border);
@@ -712,7 +723,7 @@ html.readable-mode .hero-copy h1 {
   }
 
   .page-shell {
-    padding-top: env(safe-area-inset-top, 0);
+    padding-top: 0;
   }
 
   .site-header {
@@ -723,7 +734,7 @@ html.readable-mode .hero-copy h1 {
 
 @media (max-width: 820px) {
   .page-shell {
-    padding: env(safe-area-inset-top, 0) 18px 48px;
+    padding: 0 18px 48px;
   }
 
   .site-header {
@@ -813,7 +824,7 @@ html.readable-mode .hero-copy h1 {
 @media (max-width: 820px) {
   .site-header {
     padding: 14px 16px;
-    top: 0;
+    top: env(safe-area-inset-top, 0);
   }
 
   .header-row {
