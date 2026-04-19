@@ -20,10 +20,28 @@ const turnstileScript = document.getElementById('turnstileScript');
 const pageIntro = document.getElementById('pageIntro');
 const pageIntroText = document.getElementById('pageIntroText');
 const i18nElements = document.querySelectorAll('[data-i18n]');
-const savedLanguage = localStorage.getItem('portfolio-language');
-const savedReadable = localStorage.getItem('portfolio-readable');
-const savedDyslexic = localStorage.getItem('portfolio-dyslexic');
-const savedTheme = localStorage.getItem('portfolio-theme');
+
+function safeGetStorageItem(key) {
+  try {
+    return window.localStorage.getItem(key);
+  } catch (error) {
+    return null;
+  }
+}
+
+function safeSetStorageItem(key, value) {
+  try {
+    window.localStorage.setItem(key, value);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+const savedLanguage = safeGetStorageItem('portfolio-language');
+const savedReadable = safeGetStorageItem('portfolio-readable');
+const savedDyslexic = safeGetStorageItem('portfolio-dyslexic');
+const savedTheme = safeGetStorageItem('portfolio-theme');
 
 const translations = {
   en: {
@@ -43,7 +61,8 @@ const translations = {
     heroEyebrow: 'Portfolio',
     introMeta: 'Portfolio - Jibran Hussain',
     introWord: 'Welcome.',
-    introSkip: 'Click or press any key to skip this',
+    introSkipDesktop: 'Click anywhere to skip this',
+    introSkipTouch: 'Touch anywhere to skip this',
     heroTitle: 'Jibran Hussain',
     heroText: 'I am an Electrical & Automation Engineering student building hands-on experience in maintenance, troubleshooting, electrical systems, and reliable automation solutions. I bring a calm, analytical approach to engineering problems and a strong commitment to safe, practical outcomes.',
     heroPrimaryAction: 'Start a conversation',
@@ -138,7 +157,8 @@ const translations = {
     heroEyebrow: 'Portfolion',
     introMeta: 'Portfolio',
     introWord: 'Tervetuloa.',
-    introSkip: 'Klikkaa tai paina mitä tahansa näppäintä ohittaaksesi tämän',
+    introSkipDesktop: 'Klikkaa mitä tahansa kohtaa ohittaaksesi tämän',
+    introSkipTouch: 'Kosketa mitä tahansa kohtaa ohittaaksesi tämän',
     heroTitle: 'Jibran Hussain',
     heroText: 'Olen sähkö- ja automaatiotekniikan opiskelija, jolla on käytännön kokemusta kunnossapidosta, vianetsinnästä, sähköjärjestelmistä ja luotettavista automaatioratkaisuista. Lähestyn teknisiä haasteita rauhallisesti ja analyyttisesti ja arvostan turvallisia, käytännöllisiä tuloksia.',
     heroPrimaryAction: 'Aloita yhteydenotto',
@@ -313,13 +333,32 @@ function clearPageIntroTimers() {
   }
 }
 
+function shouldUseCompactIntro() {
+  return window.matchMedia('(max-width: 640px), (pointer: coarse)').matches;
+}
+
+function shouldUseTouchIntroCopy() {
+  return window.matchMedia('(max-width: 1024px), (pointer: coarse)').matches;
+}
+
+function getIntroSkipText(language) {
+  const locale = translations[language] ? language : 'en';
+  return shouldUseTouchIntroCopy()
+    ? translations[locale].introSkipTouch
+    : translations[locale].introSkipDesktop;
+}
+
 function getIntroMode() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     return 'skip';
   }
 
+  if (shouldUseCompactIntro()) {
+    return 'compact';
+  }
+
   try {
-    const introSeen = localStorage.getItem(introSeenStorageKey) === 'true';
+    const introSeen = safeGetStorageItem(introSeenStorageKey) === 'true';
 
     if (!introSeen) {
       return 'full';
@@ -332,10 +371,8 @@ function getIntroMode() {
 }
 
 function persistIntroSeenState() {
-  try {
-    localStorage.setItem(introSeenStorageKey, 'true');
-  } catch (error) {
-    console.warn('Could not persist intro state.', error);
+  if (!safeSetStorageItem(introSeenStorageKey, 'true')) {
+    console.warn('Could not persist intro state.');
   }
 }
 
@@ -357,6 +394,7 @@ function finishPageIntro(immediate = false) {
 
   if (immediate) {
     root.classList.remove('intro-pending', 'intro-active');
+    root.classList.remove('intro-compact');
     pageIntroText.textContent = introWord;
     root.style.removeProperty('--intro-shell-delay');
     root.style.removeProperty('--intro-atmosphere-delay');
@@ -369,6 +407,7 @@ function finishPageIntro(immediate = false) {
   root.classList.add('intro-active');
   pageIntroCleanupTimer = window.setTimeout(() => {
     root.classList.remove('intro-pending', 'intro-active');
+    root.classList.remove('intro-compact');
     pageIntroCleanupTimer = null;
     root.style.removeProperty('--intro-shell-delay');
     root.style.removeProperty('--intro-atmosphere-delay');
@@ -394,14 +433,33 @@ function initializePageIntro() {
 
   const introLanguage = translations[getSavedOrDetectedLanguage()] ? getSavedOrDetectedLanguage() : 'en';
   const introText = translations[introLanguage].introWord;
-  const typeIntervals = introMode === 'short'
-    ? [150, 138, 132, 126, 122, 128, 148, 170, 192, 214, 236, 258]
-    : [290, 252, 232, 214, 206, 216, 238, 266, 294, 322, 350, 378];
-  const startDelay = introMode === 'short' ? 420 : 860;
-  const holdDelay = introMode === 'short' ? 1320 : 2280;
-  const shellDelay = introMode === 'short' ? '1480ms' : '3620ms';
-  const atmosphereDelay = introMode === 'short' ? '1400ms' : '3500ms';
-  const exitDelay = introMode === 'short' ? '1960ms' : '4540ms';
+  const introTiming = introMode === 'compact'
+    ? {
+        typeIntervals: [112, 104, 98, 94, 92, 96, 104, 112, 124, 136, 148, 160],
+        startDelay: 180,
+        holdDelay: 420,
+        shellDelay: '520ms',
+        atmosphereDelay: '460ms',
+        exitDelay: '860ms',
+      }
+    : introMode === 'short'
+      ? {
+          typeIntervals: [150, 138, 132, 126, 122, 128, 148, 170, 192, 214, 236, 258],
+          startDelay: 420,
+          holdDelay: 1320,
+          shellDelay: '1480ms',
+          atmosphereDelay: '1400ms',
+          exitDelay: '1960ms',
+        }
+      : {
+          typeIntervals: [290, 252, 232, 214, 206, 216, 238, 266, 294, 322, 350, 378],
+          startDelay: 860,
+          holdDelay: 2280,
+          shellDelay: '3620ms',
+          atmosphereDelay: '3500ms',
+          exitDelay: '4540ms',
+        };
+  const { typeIntervals, startDelay, holdDelay, shellDelay, atmosphereDelay, exitDelay } = introTiming;
   let index = 0;
 
   pageIntroText.textContent = '';
@@ -409,6 +467,7 @@ function initializePageIntro() {
   root.style.setProperty('--intro-atmosphere-delay', atmosphereDelay);
   root.style.setProperty('--intro-exit-delay', exitDelay);
   root.classList.add('intro-active');
+  root.classList.toggle('intro-compact', introMode === 'compact');
 
   pageIntroSkipHandler = event => {
     if (event.type === 'keydown') {
@@ -471,13 +530,18 @@ function getSavedOrDetectedLanguage() {
   }
 
   const detected = detectUserLanguage();
-  localStorage.setItem('portfolio-language', detected);
+  safeSetStorageItem('portfolio-language', detected);
   return detected;
 }
 
 function updateTextContent(language) {
   i18nElements.forEach(element => {
     const translationKey = element.dataset.i18n;
+    if (translationKey === 'introSkip') {
+      element.textContent = getIntroSkipText(language);
+      return;
+    }
+
     if (translations[language] && translations[language][translationKey]) {
       element.textContent = translations[language][translationKey];
     }
@@ -496,7 +560,7 @@ function setLanguage(language, manual = false) {
   updateTextContent(currentLang);
   updateLanguageToggle(currentLang);
   if (manual || !savedLanguage) {
-    localStorage.setItem('portfolio-language', currentLang);
+    safeSetStorageItem('portfolio-language', currentLang);
   }
   updateFontToggleLabel();
   updateThemeToggleLabel();
@@ -512,7 +576,7 @@ function updateThemeToggleLabel() {
 
 function applyTheme(theme) {
   root.setAttribute('data-theme', theme);
-  localStorage.setItem('portfolio-theme', theme);
+  safeSetStorageItem('portfolio-theme', theme);
   updateThemeToggleLabel();
 }
 
@@ -526,7 +590,7 @@ function updateFontToggleLabel() {
 function setDyslexicMode(enabled) {
   root.classList.toggle('dyslexic-mode', enabled);
   readableToggle.setAttribute('aria-pressed', String(enabled));
-  localStorage.setItem('portfolio-dyslexic', String(enabled));
+  safeSetStorageItem('portfolio-dyslexic', String(enabled));
   updateFontToggleLabel();
 }
 
@@ -534,7 +598,7 @@ function setReadableMode(enabled) {
   // Legacy support: no longer used for the new dyslexic font toggle.
   body.classList.toggle('readable-mode', enabled);
   readableToggle.setAttribute('aria-pressed', String(enabled));
-  localStorage.setItem('portfolio-readable', String(enabled));
+  safeSetStorageItem('portfolio-readable', String(enabled));
 }
 
 function updateVoices() {
@@ -693,7 +757,7 @@ function closePrivacyModal() {
 }
 
 function initializePrivacy() {
-  const consentGiven = localStorage.getItem('portfolio-privacy-accepted') === 'true';
+  const consentGiven = safeGetStorageItem('portfolio-privacy-accepted') === 'true';
   if (!consentGiven) {
     showPrivacyBanner();
   }
@@ -701,10 +765,8 @@ function initializePrivacy() {
   if (privacyAccept) {
     privacyAccept.addEventListener('click', event => {
       event.preventDefault();
-      try {
-        localStorage.setItem('portfolio-privacy-accepted', 'true');
-      } catch (error) {
-        console.warn('Could not save privacy acceptance to localStorage.', error);
+      if (!safeSetStorageItem('portfolio-privacy-accepted', 'true')) {
+        console.warn('Could not save privacy acceptance to localStorage.');
       }
       hidePrivacyBanner();
       closePrivacyModal();
@@ -747,6 +809,10 @@ function initializeLanguage() {
 
   langToggle.addEventListener('click', () => {
     setLanguage(currentLang === 'en' ? 'fi' : 'en', true);
+  });
+
+  window.addEventListener('resize', () => {
+    updateTextContent(currentLang);
   });
 }
 

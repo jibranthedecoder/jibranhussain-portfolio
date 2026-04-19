@@ -264,6 +264,40 @@ html.intro-active .page-atmosphere {
   animation-delay: var(--intro-atmosphere-delay, 1160ms);
 }
 
+html.intro-compact .page-intro {
+  backdrop-filter: blur(10px) saturate(1.05);
+}
+
+html.intro-compact .page-intro::before {
+  opacity: 0.1;
+  background-size: 56px 56px;
+}
+
+html.intro-compact .page-intro::after {
+  inset: 18%;
+  filter: blur(32px);
+  opacity: 0.56;
+  animation-duration: 4.2s;
+}
+
+html.intro-compact .page-shell {
+  animation-duration: 820ms;
+}
+
+html.intro-compact .page-atmosphere {
+  animation-duration: 900ms;
+}
+
+html.intro-compact .page-intro-panel {
+  animation-duration: 940ms;
+}
+
+html.intro-compact .page-intro-line {
+  text-shadow:
+    0 0 16px rgba(96, 165, 250, 0.1),
+    0 0 28px rgba(96, 165, 250, 0.06);
+}
+
 .page-atmosphere {
   position: fixed;
   inset: 0;
@@ -1609,13 +1643,26 @@ html.readable-mode .hero-copy h1 {
     grid-template-columns: 1fr;
   }
 
+  .contact-panel {
+    gap: 2rem;
+  }
+
   .contact-copy {
+    position: relative;
+    z-index: 2;
     padding-right: 0;
+    padding-bottom: 0.25rem;
   }
 
   .contact-copy h2,
   .contact-copy p {
     max-width: none;
+  }
+
+  .contact-form-card {
+    position: relative;
+    z-index: 1;
+    margin-top: 0.25rem;
   }
 
   .page-shell {
@@ -1649,6 +1696,8 @@ html.readable-mode .hero-copy h1 {
     transition: transform 240ms ease;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     display: grid;
+    z-index: 40;
+    box-shadow: 0 18px 34px rgba(2, 6, 23, 0.26);
   }
 
   .primary-nav.open {
@@ -1709,6 +1758,20 @@ html.readable-mode .hero-copy h1 {
     width: 100%;
   }
 
+  .contact-panel {
+    gap: 1.5rem;
+    align-content: start;
+  }
+
+  .contact-copy {
+    gap: 14px;
+  }
+
+  .contact-form-card {
+    margin-top: 0.5rem;
+    padding: 20px;
+  }
+
   .form-grid {
     grid-template-columns: 1fr;
   }
@@ -1733,6 +1796,25 @@ html.readable-mode .hero-copy h1 {
 
   .page-intro-line {
     font-size: clamp(1.9rem, 10vw, 3.4rem);
+  }
+
+  html.intro-compact .page-shell {
+    transform: translate3d(0, 10px, 0) scale(0.992);
+    filter: blur(10px);
+  }
+
+  html.intro-compact .page-intro-panel {
+    gap: 0.8rem;
+    padding: 20px;
+  }
+
+  html.intro-compact .page-intro-meta {
+    letter-spacing: 0.28em;
+  }
+
+  html.intro-compact .page-intro-skip {
+    font-size: 0.74rem;
+    letter-spacing: 0.05em;
   }
 }
 
@@ -1819,6 +1901,8 @@ html.readable-mode .hero-copy h1 {
     transform: translateY(-120%);
     transition: transform 240ms ease;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 40;
+    box-shadow: 0 18px 34px rgba(2, 6, 23, 0.26);
   }
 
   .primary-nav.open {
