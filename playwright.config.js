@@ -1,4 +1,5 @@
 // @ts-check
+/// <reference types="node" />
 const { defineConfig, devices } = require('@playwright/test');
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:8080';
@@ -30,12 +31,14 @@ module.exports = defineConfig({
       name: 'mobile-iphone',
       use: {
         ...devices['iPhone 12'],
+        defaultBrowserType: 'chromium',   // only chromium installed; WebKit emulation via UA+viewport
       },
     },
     {
       name: 'mobile-android',
       use: {
         ...devices['Pixel 5'],
+        defaultBrowserType: 'chromium',
       },
     },
   ],

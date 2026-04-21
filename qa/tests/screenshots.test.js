@@ -33,7 +33,9 @@ for (const { path: pagePath, slug } of PAGES) {
     const filename = `${slug}-${viewport}.png`;
     const outPath  = path.join(SCREENSHOT_DIR, filename);
 
-    await page.goto(pagePath, { waitUntil: 'networkidle' });
+    // 'domcontentloaded' avoids hanging on pages that load external scripts
+    // (e.g. Cloudflare Turnstile on /contact/) which never reach networkidle locally.
+    await page.goto(pagePath, { waitUntil: 'domcontentloaded' });
 
     // Wait for any reveal animations to settle
     await page.waitForTimeout(400);

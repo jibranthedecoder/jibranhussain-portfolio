@@ -11,9 +11,9 @@ const { test, expect } = require('@playwright/test');
 /** Pages to smoke-test. Paths relative to baseURL. */
 const PAGES = [
   { path: '/',          title: /Jibran Hussain/i,   h1: /Jibran/i },
-  { path: '/about/',    title: /About/i,             h1: /About/i  },
+  { path: '/about/',    title: /About/i,             h1: /./       },   // h1 is a personal tagline, not "About"
   { path: '/projects/', title: /Projects/i,          h1: /Projects/i },
-  { path: '/contact/',  title: /Contact/i,            h1: /Contact/i  },
+  { path: '/contact/',  title: /Contact/i,            h1: /./         },   // h1 is a custom CTA, not "Contact"
   { path: '/cv/',       title: /CV/i,                h1: /Jibran/i   },
 ];
 
@@ -25,7 +25,7 @@ for (const { path, title, h1 } of PAGES) {
 
     /** Collect console errors during page load. */
     test('loads without JS console errors', async ({ page }) => {
-      const consoleErrors = [];
+      const consoleErrors = /** @type {string[]} */ ([]);
       page.on('console', msg => {
         if (ERROR_TYPES.has(msg.type())) {
           consoleErrors.push(`[${msg.type()}] ${msg.text()}`);
@@ -88,10 +88,10 @@ for (const { path, title, h1 } of PAGES) {
 
 test.describe('Mobile layout', () => {
   // Only run these in mobile projects
-  test.skip(({ browserName, isMobile }) => !isMobile, 'mobile only');
+  test.skip(({ isMobile }) => !isMobile, 'mobile only');
 
   for (const { path } of PAGES) {
-    test(`${path} — no horizontal scroll on mobile`, async ({ page }) => {
+    test(`${path} — no horizontal scroll on mobile`, async ({ page, isMobile: _im }) => {
       await page.goto(path);
       const bodyScrollWidth   = await page.evaluate(() => document.body.scrollWidth);
       const viewportWidth     = page.viewportSize()?.width ?? 375;
@@ -102,10 +102,11 @@ test.describe('Mobile layout', () => {
     });
 
     test(`${path} — nav or menu is accessible on mobile`, async ({ page }) => {
+      // CV is a standalone print page — it uses action buttons, not a <nav>.
+      // All other pages must have a <nav> element.
+      if (path === '/cv/') return;
       await page.goto(path);
-      // Either a nav element or a hamburger button must exist
-      const nav     = page.locator('nav');
-      const navCount = await nav.count();
+      const navCount = await page.locator('nav').count();
       expect(navCount, `No <nav> on mobile ${path}`).toBeGreaterThanOrEqual(1);
     });
   }
@@ -124,7 +125,7 @@ test.describe('CV page', () => {
     expect(href).toContain('/assets/Jibran-Hussain-CV-EN.pdf');
   });
 
-  test('CV PDF asset is reachable', async ({ page, request }) => {
+  test('CV PDF asset is reachable', async ({ request }) => {
     const response = await request.head('/assets/Jibran-Hussain-CV-EN.pdf');
     expect(response.status(), 'PDF returned 404 — regenerate and commit it').toBeLessThan(400);
   });

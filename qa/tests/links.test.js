@@ -15,10 +15,13 @@ const SKIP_SCHEMES = /^(mailto:|tel:|javascript:|#)/i;
 
 /**
  * Return all unique href values from a page, normalised to absolute URLs.
+ * @param {import('@playwright/test').Page} page
+ * @param {string} baseURL
  */
 async function collectLinks(page, baseURL) {
-  const hrefs = await page.$$eval('a[href]', els =>
-    els.map(el => el.getAttribute('href') ?? '').filter(Boolean)
+  const hrefs = await page.$$eval('a[href]',
+    /** @param {HTMLAnchorElement[]} els */
+    els => els.map(el => el.getAttribute('href') ?? '').filter(Boolean)
   );
 
   const links = new Set();
@@ -70,11 +73,14 @@ for (const pagePath of PAGES) {
 }
 
 // ---------------------------------------------------------------------------
-// CV PDF specifically — explicit HEAD check
+// CV PDF specifically — explicit HEAD check (desktop only)
 // ---------------------------------------------------------------------------
 
-test('CV PDF asset exists (HEAD /assets/Jibran-Hussain-CV-EN.pdf)', async ({ request }) => {
+test.describe('CV PDF asset', () => {
   test.skip(({ isMobile }) => isMobile, 'asset check: desktop only');
-  const res = await request.head('/assets/Jibran-Hussain-CV-EN.pdf');
-  expect(res.status(), 'CV PDF is 404 — commit assets/Jibran-Hussain-CV-EN.pdf').toBeLessThan(400);
+
+  test('HEAD /assets/Jibran-Hussain-CV-EN.pdf returns < 400', async ({ request }) => {
+    const res = await request.head('/assets/Jibran-Hussain-CV-EN.pdf');
+    expect(res.status(), 'CV PDF is 404 — commit assets/Jibran-Hussain-CV-EN.pdf').toBeLessThan(400);
+  });
 });
