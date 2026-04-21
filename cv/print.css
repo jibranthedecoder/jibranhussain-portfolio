@@ -1,0 +1,168 @@
+.cv-page {
+  padding: 2rem 1rem 4rem;
+}
+
+.cv-sheet {
+  width: min(920px, 100%);
+  margin: 0 auto;
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.cv-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.25rem;
+  align-items: start;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.cv-header h1 {
+  margin: 0.2rem 0 0;
+}
+
+.cv-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  justify-content: flex-end;
+}
+
+.cv-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 1.5rem;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.cv-meta p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.cv-meta span {
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cv-meta strong {
+  display: block;
+  margin-top: 0.12rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.cv-content {
+  padding-top: 1.2rem;
+}
+
+.cv-content h2 {
+  margin: 1.45rem 0 0.55rem;
+  font-size: 1.12rem;
+}
+
+.cv-content p,
+.cv-content li {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.cv-content ul {
+  margin: 0.4rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.cv-content li + li {
+  margin-top: 0.35rem;
+}
+
+@media (max-width: 720px) {
+  .cv-header,
+  .cv-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .cv-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  :root,
+  html[data-theme="dark"] {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --text: #111111;
+    --muted: #222222;
+    --line: #cccccc;
+  }
+
+  body {
+    background: #ffffff;
+    color: #111111;
+  }
+
+  .cv-page {
+    padding: 0;
+  }
+
+  .cv-sheet {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: #ffffff;
+  }
+
+  .cv-actions,
+  .skip-link {
+    display: none !important;
+  }
+
+  .cv-header {
+    display: block;
+    padding-bottom: 8mm;
+  }
+
+  .cv-header h1 {
+    font-size: 24pt;
+  }
+
+  .cv-header .hero-lead {
+    font-size: 11pt;
+  }
+
+  .cv-meta {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3mm 8mm;
+    padding: 6mm 0;
+  }
+
+  .cv-meta p,
+  .cv-content p,
+  .cv-content li {
+    font-size: 10pt;
+    line-height: 1.45;
+    color: #222222;
+  }
+
+  .cv-content h2 {
+    margin: 6mm 0 2mm;
+    font-size: 13pt;
+    page-break-after: avoid;
+  }
+
+  .cv-content ul {
+    margin-top: 1mm;
+  }
+}
