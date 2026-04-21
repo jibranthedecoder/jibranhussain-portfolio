@@ -66,7 +66,7 @@
       homeEyebrow: "Portfolio",
       homeTitle: "Jibran Hussain",
       homeTagline: "Learning, building, and growing in engineering.",
-      homeLead: "I started from practical work and moved toward engineering studies because I wanted to understand systems more deeply. Today I study Electrical & Automation Engineering in Finland and keep building skills for the future.",
+      homeLead: "I started from practical work and moved toward engineering studies because I wanted to understand systems more deeply. Today I study Electrical & Automation Engineering and keep building skills for the future.",
       homeAboutCta: "About Me",
       homeProjectsCta: "Projects",
       homeContactCta: "Contact",
@@ -162,7 +162,7 @@
       homeEyebrow: "Portfolio",
       homeTitle: "Jibran Hussain",
       homeTagline: "Opin, rakennan ja kehityn insinöörityössä.",
-      homeLead: "Lähtökohtani oli käytännön työ, josta siirryin insinööriopintoihin, koska halusin ymmärtää järjestelmiä syvemmin. Nyt opiskelen sähkö- ja automaatiotekniikkaa Suomessa ja rakennan taitoja tulevaisuutta varten.",
+      homeLead: "Lähtökohtani oli käytännön työ, josta siirryin insinööriopintoihin, koska halusin ymmärtää järjestelmiä syvemmin. Nyt opiskelen sähkö- ja automaatiotekniikkaa ja rakennan taitoja tulevaisuutta varten.",
       homeAboutCta: "Tietoa minusta",
       homeProjectsCta: "Projektit",
       homeContactCta: "Yhteys",
@@ -278,6 +278,7 @@
   function iconSvg(name) {
     const icons = {
       speaker: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>',
+      stop: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6.5" y="6.5" width="11" height="11" rx="1.8"></rect></svg>',
       pause: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="4" height="14" rx="1.5"></rect><rect x="14" y="5" width="4" height="14" rx="1.5"></rect></svg>',
       play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.53.848l10-6.5a1 1 0 0 0 0-1.696l-10-6.5A1 1 0 0 0 8 5.5Z"></path></svg>',
       dyslexic: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19V7.5A2.5 2.5 0 0 1 7.5 5H12"></path><path d="M5 14h7"></path><path d="M15 19V5"></path><path d="M15 12h4a2 2 0 0 0 0-4h-4"></path></svg>',
@@ -347,11 +348,14 @@
     if (readableToggle) setButtonText(readableToggle, t("dyslexic"));
     if (speakToggle) {
       setButtonText(speakToggle, speechState === "idle" ? t("read") : t("stop"));
-      setButtonIcon(speakToggle, "speaker");
+      setButtonIcon(speakToggle, speechState === "idle" ? "speaker" : "stop");
+      speakToggle.setAttribute("aria-label", speechState === "idle" ? "Read aloud" : t("stop"));
     }
     if (pauseToggle) {
+      pauseToggle.hidden = speechState === "idle";
       setButtonText(pauseToggle, speechState === "paused" ? t("play") : t("pause"));
       setButtonIcon(pauseToggle, speechState === "paused" ? "play" : "pause");
+      pauseToggle.setAttribute("aria-label", speechState === "paused" ? t("play") : t("pause"));
     }
 
     const bannerText = privacyBanner?.querySelector("p");
@@ -496,9 +500,11 @@
     }
     speechState = "idle";
     if (pauseToggle) pauseToggle.hidden = true;
+    if (pauseToggle) pauseToggle.setAttribute("aria-label", t("pause"));
     if (speakToggle) {
       setButtonText(speakToggle, t("read"));
       setButtonIcon(speakToggle, "speaker");
+      speakToggle.setAttribute("aria-label", "Read aloud");
     }
   }
 
@@ -519,10 +525,12 @@
       pauseToggle.hidden = false;
       setButtonText(pauseToggle, t("pause"));
       setButtonIcon(pauseToggle, "pause");
+      pauseToggle.setAttribute("aria-label", t("pause"));
     }
     if (speakToggle) {
       setButtonText(speakToggle, t("stop"));
-      setButtonIcon(speakToggle, "speaker");
+      setButtonIcon(speakToggle, "stop");
+      speakToggle.setAttribute("aria-label", t("stop"));
     }
     window.speechSynthesis.speak(utterance);
   }
@@ -539,6 +547,8 @@
       return;
     }
 
+    pauseToggle.hidden = true;
+
     speakToggle.addEventListener("click", () => {
       if (speechState === "idle") startReading();
       else stopReading();
@@ -550,11 +560,13 @@
         speechState = "paused";
         setButtonText(pauseToggle, t("play"));
         setButtonIcon(pauseToggle, "play");
+        pauseToggle.setAttribute("aria-label", t("play"));
       } else if (speechState === "paused") {
         window.speechSynthesis.resume();
         speechState = "playing";
         setButtonText(pauseToggle, t("pause"));
         setButtonIcon(pauseToggle, "pause");
+        pauseToggle.setAttribute("aria-label", t("pause"));
       }
     });
   }
