@@ -22,6 +22,7 @@
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
   <link rel="stylesheet" href="/styles.css" />
   <script src="/script.js" defer></script>
+  <script src="/assets/lottie-loader.js" defer></script>
   <link rel="preload" href="/assets/lottie-light.min.js" as="script">
 </head>
 <body data-page="about">
@@ -99,6 +100,7 @@
       </div>
       <div class="page-lottie-wrap reveal"
            id="aboutLottie"
+           data-lottie-path="/assets/brain-bulb-gears.json"
            aria-hidden="true"
            role="presentation"></div>
     </section>
@@ -255,55 +257,5 @@
       </div>
     </div>
   </footer>
-
-  <script>
-  (function () {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    var el = document.getElementById('aboutLottie');
-    if (!el) return;
-
-    function initLottie() {
-      if (el.dataset.lottieLoaded === 'true') return;
-      el.dataset.lottieLoaded = 'true';
-      try {
-        window.lottie.loadAnimation({
-          container: el,
-          renderer: 'svg',
-          loop: true,
-          autoplay: true,
-          path: '/assets/brain-bulb-gears.json'
-        });
-      } catch (e) {
-        el.dataset.lottieLoaded = 'false';
-      }
-    }
-
-    function loadPlayer() {
-      if (window.lottie) {
-        initLottie();
-        return;
-      }
-
-      var existing = document.querySelector('script[data-lottie-player="true"]');
-      if (existing) {
-        existing.addEventListener('load', initLottie, { once: true });
-        return;
-      }
-
-      var s = document.createElement('script');
-      s.src = '/assets/lottie-light.min.js';
-      s.dataset.lottiePlayer = 'true';
-      s.onload = initLottie;
-      document.head.appendChild(s);
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', loadPlayer, { once: true });
-    } else {
-      loadPlayer();
-    }
-  }());
-  </script>
 </body>
 </html>
