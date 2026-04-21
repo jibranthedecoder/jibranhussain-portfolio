@@ -1,7 +1,42 @@
 (function () {
-  const sourcePath = "/cv/public.en.md";
+  const languageStorageKey = "jh-language";
   const content = document.getElementById("cvContent");
-  const printButton = document.getElementById("printCv");
+  const langToggle = document.getElementById("cvLangToggle");
+  const labels = {
+    en: {
+      toggle: "FI",
+      back: "Back to Site",
+      download: "Download English CV (PDF)",
+      contact: "Contact",
+      actions: "CV actions",
+      details: "Contact details",
+      location: "Location",
+      email: "Email",
+      website: "Website",
+      updated: "Updated",
+      loading: "Loading CV...",
+      error: "CV could not be loaded. Please use the contact page instead.",
+    },
+    fi: {
+      toggle: "EN",
+      back: "Takaisin sivustolle",
+      download: "Lataa englanninkielinen CV (PDF)",
+      contact: "Yhteys",
+      actions: "CV-toiminnot",
+      details: "Yhteystiedot",
+      location: "Sijainti",
+      email: "Sähköposti",
+      website: "Verkkosivu",
+      updated: "Päivitetty",
+      loading: "Ladataan CV:tä...",
+      error: "CV:tä ei voitu ladata. Käytä yhteyssivua.",
+    },
+  };
+  let currentLang = localStorage.getItem(languageStorageKey) === "fi" ? "fi" : "en";
+
+  function t(key) {
+    return labels[currentLang][key] || labels.en[key] || "";
+  }
 
   function escapeHtml(value) {
     return String(value)
@@ -115,8 +150,30 @@
     if (emailMatch) setLink("cvEmail", emailMatch[2], emailMatch[1]);
   }
 
+  function applyChrome() {
+    document.documentElement.lang = currentLang;
+    const actions = document.querySelector(".cv-actions");
+    const meta = document.querySelector(".cv-meta");
+    if (actions) actions.setAttribute("aria-label", t("actions"));
+    if (meta) meta.setAttribute("aria-label", t("details"));
+    if (langToggle) {
+      langToggle.textContent = t("toggle");
+      langToggle.setAttribute("aria-pressed", String(currentLang === "fi"));
+    }
+    setText("cvBackLink", t("back"));
+    setText("cvDownloadLink", t("download"));
+    setText("cvContactLink", t("contact"));
+    setText("cvLocationLabel", t("location"));
+    setText("cvEmailLabel", t("email"));
+    setText("cvWebsiteLabel", t("website"));
+    setText("cvUpdatedLabel", t("updated"));
+  }
+
   async function loadCv() {
+    applyChrome();
+    content.innerHTML = `<p class="panel-copy">${escapeHtml(t("loading"))}</p>`;
     try {
+      const sourcePath = currentLang === "fi" ? "/cv/public.fi.md" : "/cv/public.en.md";
       const response = await fetch(sourcePath, { cache: "no-store" });
       if (!response.ok) throw new Error("CV source could not be loaded.");
 
@@ -125,12 +182,14 @@
       applyFrontmatter(parsed.frontmatter);
       content.innerHTML = renderBody(parsed.body);
     } catch (error) {
-      content.innerHTML = '<p class="panel-copy">CV could not be loaded. Please use the contact page instead.</p>';
+      content.innerHTML = `<p class="panel-copy">${escapeHtml(t("error"))}</p>`;
     }
   }
 
-  printButton?.addEventListener("click", function () {
-    window.print();
+  langToggle?.addEventListener("click", function () {
+    currentLang = currentLang === "fi" ? "en" : "fi";
+    localStorage.setItem(languageStorageKey, currentLang);
+    loadCv();
   });
 
   loadCv();

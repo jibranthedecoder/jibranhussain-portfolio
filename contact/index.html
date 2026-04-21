@@ -21,6 +21,7 @@
   <link rel="canonical" href="https://www.jibranhussain.com/contact/" />
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
   <link rel="stylesheet" href="/styles.css" />
+  <link rel="preload" href="/assets/lottie-light.min.js" as="script">
   <script
     id="turnstileScript"
     src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
@@ -30,11 +31,11 @@
   <script src="/script.js" defer></script>
 </head>
 <body data-page="contact">
-  <a class="skip-link" href="#main">Skip to main content</a>
+  <a class="skip-link" href="#main" data-i18n="skipToMain">Skip to main content</a>
 
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand-mark" href="/" aria-label="Go to home">
+      <a class="brand-mark" href="/" aria-label="Go to home" data-i18n-aria-label="goHome">
         <span class="brand-monogram">JH</span>
         <span class="brand-copy">
           <span class="brand-name">Jibran Hussain</span>
@@ -42,12 +43,12 @@
         </span>
       </a>
 
-      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation">
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation" data-i18n-aria-label="toggleNavigation">
         <span></span>
         <span></span>
       </button>
 
-      <nav class="primary-nav" id="primaryNav" aria-label="Primary navigation">
+      <nav class="primary-nav" id="primaryNav" aria-label="Primary navigation" data-i18n-aria-label="primaryNavigation">
         <a href="/" data-i18n="navHome">Home</a>
         <a href="/about/" data-i18n="navAbout">About</a>
         <a href="/projects/" data-i18n="navProjects">Projects</a>
@@ -56,19 +57,19 @@
 
       <div class="header-controls">
         <button id="langToggle" class="control-button" type="button" aria-pressed="false">FI</button>
-        <button id="speakToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Read aloud">
+        <button id="speakToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Read aloud" data-i18n-aria-label="readAloud">
           <span class="control-icon" aria-hidden="true"></span>
           <span class="sr-only control-button-text">Read</span>
         </button>
-        <button id="pauseToggle" class="control-button control-button-icon" type="button" hidden aria-label="Pause reading">
+        <button id="pauseToggle" class="control-button control-button-icon" type="button" hidden aria-label="Pause reading" data-i18n-aria-label="pauseReading">
           <span class="control-icon" aria-hidden="true"></span>
           <span class="sr-only control-button-text">Pause</span>
         </button>
-        <button id="readableToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Toggle dyslexic mode">
+        <button id="readableToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Toggle dyslexic mode" data-i18n-aria-label="dyslexic">
           <span class="control-icon" aria-hidden="true"></span>
           <span class="sr-only control-button-text">Dyslexic</span>
         </button>
-        <button id="themeToggle" class="control-button control-button-icon" type="button" aria-label="Toggle theme mode">
+        <button id="themeToggle" class="control-button control-button-icon" type="button" aria-label="Toggle theme mode" data-i18n-aria-label="theme">
           <span class="control-icon" aria-hidden="true"></span>
           <span class="sr-only control-button-text">Theme</span>
         </button>
@@ -88,7 +89,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h2 id="privacyModalTitle">Privacy policy</h2>
-        <button id="privacyClose" class="modal-close" type="button" aria-label="Close privacy details">&times;</button>
+        <button id="privacyClose" class="modal-close" type="button" aria-label="Close privacy details" data-i18n-aria-label="privacyClose">&times;</button>
       </div>
       <div class="modal-body">
         <p>This site stores only essential local preferences, such as language and readable mode. No tracking cookies are used without permission.</p>
@@ -98,15 +99,19 @@
   </div>
 
   <main id="main">
-    <section class="page-shell page-intro">
+    <section class="page-shell page-intro has-lottie">
       <div class="page-intro-copy reveal">
         <p class="eyebrow" data-i18n="contactEyebrow">Contact</p>
-        <h1>Available for Roles &amp; Engineering Opportunities</h1>
+        <h1 data-i18n="contactHeroTitle">Available for Roles &amp; Engineering Opportunities</h1>
         <p class="hero-lead" data-i18n="contactLead">
           If you have a role, internship, project, or a good technical opportunity, feel free to contact me. I’m always open to meaningful conversations and new directions.
         </p>
-        <p class="micro-label">Open to internships, junior engineering roles, and automation opportunities in Finland / EU.</p>
+        <p class="micro-label" data-i18n="contactAvailability">Open to internships, junior engineering roles, and automation opportunities in Finland / EU.</p>
       </div>
+      <div class="page-lottie-wrap reveal"
+           id="contactLottie"
+           aria-hidden="true"
+           role="presentation"></div>
     </section>
 
     <section class="section-shell contact-grid">
@@ -170,9 +175,9 @@
       <div>
         <p class="footer-title">Jibran Hussain</p>
         <p class="footer-copy" data-i18n="footerCopy">Thanks for visiting my portfolio.</p>
-        <p class="footer-copy">Open to internships, junior engineering roles, and technical opportunities. <a href="/contact/">Contact me</a></p>
+        <p class="footer-copy"><span data-i18n="footerOpportunity">Open to internships, junior engineering roles, and technical opportunities.</span> <a href="/contact/" data-i18n="footerContactMe">Contact me</a></p>
       </div>
-      <nav class="footer-nav" aria-label="Footer navigation">
+      <nav class="footer-nav" aria-label="Footer navigation" data-i18n-aria-label="footerNavigation">
         <a href="/" data-i18n="navHome">Home</a>
         <a href="/about/" data-i18n="navAbout">About</a>
         <a href="/projects/" data-i18n="navProjects">Projects</a>
@@ -185,5 +190,49 @@
       </div>
     </div>
   </footer>
+  <script>
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var el = document.getElementById('contactLottie');
+    if (!el) return;
+
+    function initLottie() {
+      try {
+        lottie.loadAnimation({
+          container: el,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          path: '/assets/contact-wave-hand.json'
+        });
+      } catch (e) {}
+    }
+
+    function loadPlayer() {
+      if (window.lottie) {
+        initLottie();
+        return;
+      }
+
+      var s = document.createElement('script');
+      s.src = '/assets/lottie-light.min.js';
+      s.onload = initLottie;
+      document.head.appendChild(s);
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      loadPlayer();
+      return;
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      io.disconnect();
+      loadPlayer();
+    }, { threshold: 0.1 });
+
+    io.observe(el);
+  }());
+  </script>
 </body>
 </html>

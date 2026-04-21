@@ -1011,6 +1011,67 @@ html[data-theme="dark"] .hero-portrait-frame {
   max-width: 54rem;
 }
 
+.page-intro.has-lottie {
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 420px);
+  align-items: center;
+  gap: clamp(1.2rem, 3vw, 2.4rem);
+  max-width: 76rem;
+}
+
+.page-intro.has-lottie .page-intro-copy {
+  max-width: none;
+}
+
+.page-lottie-wrap {
+  width: 100%;
+  align-self: center;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+}
+
+.page-lottie-wrap svg {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* Projects hero — Machine Book (1250×600, 25:12) */
+#projectsLottie {
+  aspect-ratio: 25 / 12;
+  filter: saturate(0.65);
+}
+
+html[data-theme="dark"] #projectsLottie {
+  filter: saturate(0.5) brightness(0.75);
+}
+
+/* About hero — Brain Bulb with Gears (1920×1080, 16:9) */
+#aboutLottie {
+  aspect-ratio: 16 / 9;
+  filter: saturate(0.8);
+}
+
+html[data-theme="dark"] #aboutLottie {
+  filter: invert(1) hue-rotate(178deg) saturate(0.6);
+}
+
+/* Contact hero — Waving human hand (1150×802) */
+#contactLottie {
+  aspect-ratio: 1150 / 802;
+  max-width: 420px;
+  justify-self: center;
+  filter: saturate(0.58) contrast(0.96) brightness(0.98);
+}
+
+#contactLottie svg {
+  transform: scale(1.55) !important;
+  transform-origin: center;
+}
+
+html[data-theme="dark"] #contactLottie {
+  filter: saturate(0.48) contrast(1.04) brightness(0.78);
+}
+
 .contact-grid {
   grid-template-columns: minmax(280px, 0.84fr) minmax(0, 1.16fr);
 }
@@ -1254,6 +1315,23 @@ html[data-theme="dark"] .hero-portrait-frame {
 
   .hero-panel {
     max-width: 22rem;
+  }
+
+  .page-intro.has-lottie {
+    grid-template-columns: 1fr;
+  }
+
+  .page-lottie-wrap {
+    max-width: 480px;
+    margin-inline: auto;
+  }
+
+  #contactLottie {
+    max-width: 360px;
+  }
+
+  #contactLottie svg {
+    transform: scale(1.24) !important;
   }
 
   .section-header-row,
@@ -1507,5 +1585,9 @@ html[data-theme="dark"] .hero-portrait-frame {
   .reveal {
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .page-lottie-wrap {
+    display: none;
   }
 }

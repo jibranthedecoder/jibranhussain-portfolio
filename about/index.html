@@ -22,13 +22,14 @@
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
   <link rel="stylesheet" href="/styles.css" />
   <script src="/script.js" defer></script>
+  <link rel="preload" href="/assets/lottie-light.min.js" as="script">
 </head>
 <body data-page="about">
-  <a class="skip-link" href="#main">Skip to main content</a>
+  <a class="skip-link" href="#main" data-i18n="skipToMain">Skip to main content</a>
 
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand-mark" href="/" aria-label="Go to home">
+      <a class="brand-mark" href="/" aria-label="Go to home" data-i18n-aria-label="goHome">
         <span class="brand-monogram">JH</span>
         <span class="brand-copy">
           <span class="brand-name">Jibran Hussain</span>
@@ -36,12 +37,12 @@
         </span>
       </a>
 
-      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation">
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation" data-i18n-aria-label="toggleNavigation">
         <span></span>
         <span></span>
       </button>
 
-      <nav class="primary-nav" id="primaryNav" aria-label="Primary navigation">
+      <nav class="primary-nav" id="primaryNav" aria-label="Primary navigation" data-i18n-aria-label="primaryNavigation">
         <a href="/" data-i18n="navHome">Home</a>
         <a href="/about/" aria-current="page" data-i18n="navAbout">About</a>
         <a href="/projects/" data-i18n="navProjects">Projects</a>
@@ -50,19 +51,19 @@
 
       <div class="header-controls">
         <button id="langToggle" class="control-button" type="button" aria-pressed="false">FI</button>
-        <button id="speakToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Read aloud">
+        <button id="speakToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Read aloud" data-i18n-aria-label="readAloud">
           <span class="control-icon" aria-hidden="true"></span>
           <span class="sr-only control-button-text">Read</span>
         </button>
-        <button id="pauseToggle" class="control-button control-button-icon" type="button" hidden aria-label="Pause reading">
+        <button id="pauseToggle" class="control-button control-button-icon" type="button" hidden aria-label="Pause reading" data-i18n-aria-label="pauseReading">
           <span class="control-icon" aria-hidden="true"></span>
           <span class="sr-only control-button-text">Pause</span>
         </button>
-        <button id="readableToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Toggle dyslexic mode">
+        <button id="readableToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Toggle dyslexic mode" data-i18n-aria-label="dyslexic">
           <span class="control-icon" aria-hidden="true"></span>
           <span class="sr-only control-button-text">Dyslexic</span>
         </button>
-        <button id="themeToggle" class="control-button control-button-icon" type="button" aria-label="Toggle theme mode">
+        <button id="themeToggle" class="control-button control-button-icon" type="button" aria-label="Toggle theme mode" data-i18n-aria-label="theme">
           <span class="control-icon" aria-hidden="true"></span>
           <span class="sr-only control-button-text">Theme</span>
         </button>
@@ -82,7 +83,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h2 id="privacyModalTitle">Privacy policy</h2>
-        <button id="privacyClose" class="modal-close" type="button" aria-label="Close privacy details">&times;</button>
+        <button id="privacyClose" class="modal-close" type="button" aria-label="Close privacy details" data-i18n-aria-label="privacyClose">&times;</button>
       </div>
       <div class="modal-body">
         <p>This site stores only essential local preferences, such as language and readable mode. No tracking cookies are used without permission.</p>
@@ -92,7 +93,7 @@
   </div>
 
   <main id="main">
-    <section class="page-shell page-intro">
+    <section class="page-shell page-intro has-lottie">
       <div class="page-intro-copy reveal">
         <p class="eyebrow" data-i18n="aboutEyebrow">About</p>
         <h1 data-i18n="aboutTitle">I like understanding how things work.</h1>
@@ -100,10 +101,14 @@
           My background is in maintenance, where I learned that small details matter and problems rarely fix themselves. Now I study Electrical &amp; Automation Engineering in Finland and want to build a stronger future in technical work.
         </p>
         <div class="hero-actions">
-          <a class="button button-primary" href="/cv/">View CV</a>
-          <span class="micro-label">Updated April 2026</span>
+          <a class="button button-primary" href="/cv/" data-i18n="viewCv">View CV</a>
+          <span class="micro-label" data-i18n="updatedApril2026">Updated April 2026</span>
         </div>
       </div>
+      <div class="page-lottie-wrap reveal"
+           id="aboutLottie"
+           aria-hidden="true"
+           role="presentation"></div>
     </section>
 
     <section class="section-shell split-layout">
@@ -140,19 +145,19 @@
         <article class="project-card">
           <h3 data-i18n="coreStrengthsTitle">Core strengths</h3>
           <ul class="pill-list">
-            <li>Finding faults</li>
-            <li>Maintenance tasks</li>
-            <li>PLC basics</li>
-            <li>Electrical work</li>
+            <li data-i18n="skillFindingFaults">Finding faults</li>
+            <li data-i18n="skillMaintenanceTasks">Maintenance tasks</li>
+            <li data-i18n="skillPlcBasics">PLC basics</li>
+            <li data-i18n="skillElectricalWork">Electrical work</li>
           </ul>
         </article>
         <article class="project-card">
           <h3 data-i18n="workApproachTitle">Work approach</h3>
           <ul class="pill-list">
-            <li>Reliable attitude</li>
-            <li>Clear communication</li>
-            <li>Safety first</li>
-            <li>Willing to learn</li>
+            <li data-i18n="approachReliable">Reliable attitude</li>
+            <li data-i18n="approachCommunication">Clear communication</li>
+            <li data-i18n="approachSafety">Safety first</li>
+            <li data-i18n="approachLearning">Willing to learn</li>
           </ul>
         </article>
       </div>
@@ -170,7 +175,7 @@
           <li>Structured Text</li>
           <li>FBD</li>
           <li>Python</li>
-          <li>C++ basics</li>
+          <li data-i18n="cppBasics">C++ basics</li>
           <li>MATLAB</li>
           <li>Excel</li>
         </ul>
@@ -186,19 +191,19 @@
       </div>
       <div class="timeline">
         <article class="timeline-item">
-          <p><strong>Maintenance Technician, ARE Oy</strong></p>
+          <p><strong data-i18n="experienceMaintenanceRole">Maintenance Technician, ARE Oy</strong></p>
           <p>2023-2025</p>
-          <p>Supported preventive maintenance, troubleshooting, and inspections on electrical and automation equipment.</p>
+          <p data-i18n="experienceMaintenanceCopy">Supported preventive maintenance, troubleshooting, and inspections on electrical and automation equipment.</p>
         </article>
         <article class="timeline-item">
-          <p><strong>Intern, ARE Oy</strong></p>
+          <p><strong data-i18n="experienceInternRole">Intern, ARE Oy</strong></p>
           <p>2023</p>
-          <p>Assisted maintenance operations and gained exposure to industrial electrical systems, control panels, and automation diagnostics.</p>
+          <p data-i18n="experienceInternCopy">Assisted maintenance operations and gained exposure to industrial electrical systems, control panels, and automation diagnostics.</p>
         </article>
         <article class="timeline-item">
-          <p><strong>Student roles</strong></p>
+          <p><strong data-i18n="experienceStudentRole">Student roles</strong></p>
           <p>2020-2023</p>
-          <p>Worked in construction and maintenance teams while learning disciplined routines, teamwork, and technical responsibility.</p>
+          <p data-i18n="experienceStudentCopy">Worked in construction and maintenance teams while learning disciplined routines, teamwork, and technical responsibility.</p>
         </article>
       </div>
     </section>
@@ -211,10 +216,10 @@
         </div>
       </div>
       <article class="project-card">
-        <h3>Bachelor's Degree Programme in Electrical and Automation Engineering</h3>
-        <p class="project-summary">HAMK University of Applied Sciences, 2025-2027 expected.</p>
+        <h3 data-i18n="educationDegree">Bachelor's Degree Programme in Electrical and Automation Engineering</h3>
+        <p class="project-summary" data-i18n="educationSchool">HAMK University of Applied Sciences, 2025-2027 expected.</p>
         <div class="project-problem">
-          <p class="panel-copy">Focused on electrical systems, automation, PLC programming, measurements, and technical development for practical engineering workflows.</p>
+          <p class="panel-copy" data-i18n="educationCopy">Focused on electrical systems, automation, PLC programming, measurements, and technical development for practical engineering workflows.</p>
         </div>
       </article>
     </section>
@@ -233,7 +238,7 @@
         <li>AutoCAD</li>
         <li>GitHub</li>
         <li>VS Code</li>
-        <li>HVAC systems</li>
+        <li data-i18n="hvacSystems">HVAC systems</li>
       </ul>
     </section>
   </main>
@@ -243,9 +248,9 @@
       <div>
         <p class="footer-title">Jibran Hussain</p>
         <p class="footer-copy" data-i18n="footerCopy">Thanks for visiting my portfolio.</p>
-        <p class="footer-copy">Open to internships, junior engineering roles, and technical opportunities. <a href="/contact/">Contact me</a></p>
+        <p class="footer-copy"><span data-i18n="footerOpportunity">Open to internships, junior engineering roles, and technical opportunities.</span> <a href="/contact/" data-i18n="footerContactMe">Contact me</a></p>
       </div>
-      <nav class="footer-nav" aria-label="Footer navigation">
+      <nav class="footer-nav" aria-label="Footer navigation" data-i18n-aria-label="footerNavigation">
         <a href="/" data-i18n="navHome">Home</a>
         <a href="/about/" aria-current="page" data-i18n="navAbout">About</a>
         <a href="/projects/" data-i18n="navProjects">Projects</a>
@@ -258,5 +263,36 @@
       </div>
     </div>
   </footer>
+
+  <script>
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var el = document.getElementById('aboutLottie');
+    if (!el) return;
+
+    function initLottie() {
+      try {
+        lottie.loadAnimation({
+          container: el,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          path: '/assets/brain-bulb-gears.json'
+        });
+      } catch (e) {}
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      io.disconnect();
+      var s = document.createElement('script');
+      s.src = '/assets/lottie-light.min.js';
+      s.onload = initLottie;
+      document.head.appendChild(s);
+    }, { threshold: 0.1 });
+
+    io.observe(el);
+  }());
+  </script>
 </body>
 </html>
