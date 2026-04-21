@@ -1,0 +1,16 @@
+{
+  "name": "jibranhussain-portfolio-qa",
+  "private": true,
+  "description": "QA tooling for jibranhussain.com — Playwright smoke tests, link checks, screenshots",
+  "scripts": {
+    "qa":            "playwright test",
+    "qa:smoke":      "playwright test qa/tests/smoke.test.js",
+    "qa:links":      "playwright test qa/tests/links.test.js",
+    "qa:screenshots":"playwright test qa/tests/screenshots.test.js",
+    "qa:report":     "playwright show-report qa/playwright-report",
+    "serve":         "npx --yes serve . --listen 8080 --no-clipboard"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.44.0"
+  }
+}
