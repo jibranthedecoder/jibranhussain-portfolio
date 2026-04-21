@@ -1,1090 +1,910 @@
-﻿const root = document.documentElement;
-const body = document.body;
-const themeToggle = document.getElementById('themeToggle');
-const navToggle = document.getElementById('navToggle');
-const navMenu = document.getElementById('primary-navigation');
-const langToggle = document.getElementById('langToggle');
-const pauseToggle = document.getElementById('pauseToggle');
-const speakToggle = document.getElementById('speakToggle');
-const readableToggle = document.getElementById('readableToggle');
-const privacyBanner = document.getElementById('privacyBanner');
-const privacyAccept = document.getElementById('privacyAccept');
-const privacyDetails = document.getElementById('privacyDetails');
-const privacyModal = document.getElementById('privacyModal');
-const privacyClose = document.getElementById('privacyClose');
-const contactForm = document.getElementById('contactForm');
-const contactSubmitButton = document.getElementById('contactSubmitButton');
-const contactFormStatus = document.getElementById('contactFormStatus');
-const contactTurnstile = document.getElementById('contactTurnstile');
-const turnstileScript = document.getElementById('turnstileScript');
-const pageIntro = document.getElementById('pageIntro');
-const pageIntroText = document.getElementById('pageIntroText');
-const i18nElements = document.querySelectorAll('[data-i18n]');
+(function () {
+  const projects = window.PORTFOLIO_PROJECTS || [];
 
-function safeGetStorageItem(key) {
-  try {
-    return window.localStorage.getItem(key);
-  } catch (error) {
-    return null;
+  const root = document.documentElement;
+  const currentYear = document.getElementById("currentYear");
+  const navToggle = document.getElementById("navToggle");
+  const primaryNav = document.getElementById("primaryNav");
+  const navLinks = Array.from(document.querySelectorAll(".primary-nav a"));
+
+  const themeToggle = document.getElementById("themeToggle");
+  const langToggle = document.getElementById("langToggle");
+  const speakToggle = document.getElementById("speakToggle");
+  const pauseToggle = document.getElementById("pauseToggle");
+  const readableToggle = document.getElementById("readableToggle");
+
+  const privacyBanner = document.getElementById("privacyBanner");
+  const privacyDetails = document.getElementById("privacyDetails");
+  const privacyAccept = document.getElementById("privacyAccept");
+  const privacyModal = document.getElementById("privacyModal");
+  const privacyModalTitle = document.getElementById("privacyModalTitle");
+  const privacyClose = document.getElementById("privacyClose");
+  const privacyModalBody = Array.from(document.querySelectorAll(".modal-body p"));
+  const i18nNodes = Array.from(document.querySelectorAll("[data-i18n]"));
+  const i18nPlaceholderNodes = Array.from(document.querySelectorAll("[data-i18n-placeholder]"));
+  const i18nAriaNodes = Array.from(document.querySelectorAll("[data-i18n-aria-label]"));
+
+  const projectsGrid = document.getElementById("projectsGrid");
+  const projectSearch = document.getElementById("projectSearch");
+  const filterChips = Array.from(document.querySelectorAll(".filter-chip"));
+  const projectsEmpty = document.getElementById("projectsEmpty");
+  const detailRoot = document.querySelector("[data-project-slug]");
+
+  const contactForm = document.getElementById("contactForm");
+  const contactSubmitButton = document.getElementById("contactSubmitButton");
+  const contactFormStatus = document.getElementById("contactFormStatus");
+  const contactTurnstile = document.getElementById("contactTurnstile");
+  const turnstileScript = document.getElementById("turnstileScript");
+
+  const themeStorageKey = "jh-theme";
+  const readableStorageKey = "jh-readable";
+  const languageStorageKey = "jh-language";
+  const privacyStorageKey = "jh-privacy";
+
+  let activeFilter = "all";
+  let turnstileWidgetId = null;
+  let turnstileToken = "";
+  let projectSearchTimer = null;
+  let currentLang = "en";
+  let speechState = "idle";
+  let voices = [];
+
+  const copy = {
+    en: {
+      brandRole: "Electrical & Automation Engineering",
+      navHome: "Home",
+      navAbout: "About",
+      navProjects: "Projects",
+      navContact: "Contact",
+      theme: "Theme",
+      lang: "FI",
+      read: "Read",
+      stop: "Stop",
+      pause: "Pause",
+      play: "Resume",
+      dyslexic: "Dyslexic",
+      homeEyebrow: "Portfolio",
+      homeTitle: "Jibran Hussain",
+      homeTagline: "Learning, building, and growing in engineering.",
+      homeLead: "I started from practical work and moved toward engineering studies because I wanted to understand systems more deeply. Today I study Electrical & Automation Engineering in Finland and keep building skills for the future.",
+      homeAboutCta: "About Me",
+      homeProjectsCta: "Projects",
+      homeContactCta: "Contact",
+      overviewEyebrow: "Overview",
+      overviewTitle: "A simple look at what I’m doing.",
+      overviewAboutTitle: "About",
+      overviewAboutSummary: "A short background about where I started, how I think, and what direction I’m moving toward.",
+      overviewAboutCta: "Open About",
+      overviewProjectsTitle: "Projects",
+      overviewProjectsSummary: "Examples of work and ideas related to automation, control systems, and technical problem-solving.",
+      overviewProjectsCta: "Open Projects",
+      overviewContactTitle: "Contact",
+      overviewContactSummary: "If you want to connect about work, opportunities, or projects, feel free to reach out.",
+      overviewContactCta: "Open Contact",
+      selectedWorkEyebrow: "Selected work",
+      selectedWorkTitle: "Projects I’m building.",
+      selectedWorkCta: "All Projects",
+      aboutEyebrow: "About",
+      aboutTitle: "I like understanding how things work.",
+      aboutLead: "My background is in maintenance, where I learned that small details matter and problems rarely fix themselves. Now I study Electrical & Automation Engineering in Finland and want to build a stronger future in technical work.",
+      backgroundEyebrow: "Background",
+      backgroundTitle: "Who I am.",
+      backgroundLead: "I’m calm by nature and I like useful work. I prefer learning real skills, solving actual problems, and getting better step by step instead of talking big.",
+      backgroundCardLabel: "Background",
+      backgroundCardCopy: "Started from hands-on work, tools, faults, repairs, and everyday responsibility.",
+      focusCardLabel: "Focus",
+      focusCardCopy: "Automation, electrical systems, control logic, and becoming better every year.",
+      workStyleCardLabel: "Work style",
+      workStyleCardCopy: "Show up, think clearly, do the job properly, keep learning.",
+      skillsEyebrow: "Skills",
+      skillsTitle: "Things I’m good at.",
+      coreStrengthsTitle: "Core strengths",
+      workApproachTitle: "Work approach",
+      programmingEyebrow: "Programming",
+      programmingTitle: "Tools I use and study.",
+      experienceEyebrow: "Experience",
+      experienceTitle: "Hands-on roles and practical training.",
+      educationEyebrow: "Education",
+      educationTitle: "Formal training in automation and electrical systems.",
+      toolsEyebrow: "Tools & Tech",
+      toolsTitle: "Software and systems I use.",
+      projectsEyebrow: "Projects",
+      projectsTitle: "Projects where I test and learn.",
+      projectsLead: "This is where I document what I build and study. Each project is a step toward understanding systems better, not just completing tasks.",
+      projectsSearchLabel: "Search projects",
+      projectsSearchPlaceholder: "Search by system, skill, or project name",
+      projectsFilterAria: "Project filters",
+      projectsFilterAll: "All",
+      projectsFilterBuild: "Active Builds",
+      projectsFilterRoadmap: "Roadmap",
+      projectsEmpty: "No projects match the current search or filter.",
+      contactEyebrow: "Contact",
+      contactTitle: "Let’s talk.",
+      contactLead: "If you have a role, internship, project, or a good technical opportunity, feel free to contact me. I’m always open to meaningful conversations and new directions.",
+      directContactEyebrow: "Direct contact",
+      directContactTitle: "Contact",
+      contactEmailLabel: "Email",
+      contactLocationLabel: "Location",
+      contactLocationValue: "Finland",
+      contactProfilesLabel: "Profiles",
+      contactFormName: "Name",
+      contactFormEmail: "Email",
+      contactFormSubject: "Subject",
+      contactFormMessage: "Message",
+      contactFormNamePlaceholder: "Your name",
+      contactFormEmailPlaceholder: "Your email",
+      contactFormSubjectPlaceholder: "Reason for contact",
+      contactFormPlaceholder: "Tell me about the role, project, or opportunity.",
+      contactFormNote: "The form is simple on purpose. Clear communication matters more than long introductions.",
+      contactSubmit: "Send message",
+      contactEmailInstead: "Email instead",
+      footerCopy: "Thanks for visiting my portfolio.",
+      privacyBanner: "We store only minimal local preferences and may use privacy-friendly analytics to improve the experience.",
+      privacyDetails: "Details",
+      privacyAccept: "Accept",
+      privacyTitle: "Privacy policy",
+      privacyBodyOne: "This site stores only essential local preferences, such as language and readable mode. No tracking cookies are used without permission.",
+      privacyBodyTwo: "You can change preferences anytime from your browser. This experience is built to be privacy-friendly and non-intrusive.",
+    },
+    fi: {
+      brandRole: "Sähkö- ja automaatiotekniikka",
+      navHome: "Etusivu",
+      navAbout: "Tietoa",
+      navProjects: "Projektit",
+      navContact: "Yhteys",
+      theme: "Teema",
+      lang: "EN",
+      read: "Lue",
+      stop: "Lopeta",
+      pause: "Tauko",
+      play: "Jatka",
+      dyslexic: "Lukutila",
+      homeEyebrow: "Portfolio",
+      homeTitle: "Jibran Hussain",
+      homeTagline: "Opin, rakennan ja kehityn insinöörityössä.",
+      homeLead: "Lähtökohtani oli käytännön työ, josta siirryin insinööriopintoihin, koska halusin ymmärtää järjestelmiä syvemmin. Nyt opiskelen sähkö- ja automaatiotekniikkaa Suomessa ja rakennan taitoja tulevaisuutta varten.",
+      homeAboutCta: "Tietoa minusta",
+      homeProjectsCta: "Projektit",
+      homeContactCta: "Yhteys",
+      overviewEyebrow: "Yleiskuva",
+      overviewTitle: "Yksinkertainen katsaus siihen, mitä teen.",
+      overviewAboutTitle: "Tietoa",
+      overviewAboutSummary: "Lyhyt tausta siitä, mistä aloitin, miten ajattelen ja mihin suuntaan olen menossa.",
+      overviewAboutCta: "Avaa Tietoa",
+      overviewProjectsTitle: "Projektit",
+      overviewProjectsSummary: "Esimerkkejä töistä ja ideoista, jotka liittyvät automaatioon, ohjausjärjestelmiin ja tekniseen ongelmanratkaisuun.",
+      overviewProjectsCta: "Avaa Projektit",
+      overviewContactTitle: "Yhteys",
+      overviewContactSummary: "Jos haluat ottaa yhteyttä työn, mahdollisuuksien tai projektien vuoksi, lähetä viesti rohkeasti.",
+      overviewContactCta: "Avaa Yhteys",
+      selectedWorkEyebrow: "Valitut työt",
+      selectedWorkTitle: "Projektit joita rakennan.",
+      selectedWorkCta: "Kaikki projektit",
+      aboutEyebrow: "Tietoa",
+      aboutTitle: "Pidän siitä, että ymmärrän miten asiat toimivat.",
+      aboutLead: "Taustani on kunnossapidossa, jossa opin, että pienillä yksityiskohdilla on väliä ja ongelmat eivät yleensä korjaannu itsestään. Nyt opiskelen sähkö- ja automaatiotekniikkaa Suomessa ja haluan rakentaa vahvemman tulevaisuuden teknisessä työssä.",
+      backgroundEyebrow: "Tausta",
+      backgroundTitle: "Kuka olen.",
+      backgroundLead: "Olen luonteeltani rauhallinen ja pidän hyödyllisestä työstä. Mieluummin opin oikeita taitoja, ratkaisen todellisia ongelmia ja kehityn askel kerrallaan kuin puhun suuria.",
+      backgroundCardLabel: "Tausta",
+      backgroundCardCopy: "Lähdin liikkeelle käytännön työstä, työkaluista, vioista, korjauksista ja päivittäisestä vastuusta.",
+      focusCardLabel: "Fokus",
+      focusCardCopy: "Automaatio, sähköjärjestelmät, ohjauslogiikka ja jatkuva kehittyminen vuosi vuodelta.",
+      workStyleCardLabel: "Työtapa",
+      workStyleCardCopy: "Tule paikalle, ajattele selkeästi, tee työt kunnolla, jatka oppimista.",
+      skillsEyebrow: "Taidot",
+      skillsTitle: "Asiat joissa olen hyvä.",
+      coreStrengthsTitle: "Ydinvahvuudet",
+      workApproachTitle: "Työtapa",
+      programmingEyebrow: "Ohjelmointi",
+      programmingTitle: "Työkalut joita käytän ja opiskelen.",
+      experienceEyebrow: "Kokemus",
+      experienceTitle: "Käytännön roolit ja harjoittelu.",
+      educationEyebrow: "Koulutus",
+      educationTitle: "Muodollinen koulutus automaatiosta ja sähköjärjestelmistä.",
+      toolsEyebrow: "Työkalut ja teknologia",
+      toolsTitle: "Ohjelmistot ja järjestelmät, joita käytän.",
+      projectsEyebrow: "Projektit",
+      projectsTitle: "Projektit joissa testaan ja opin.",
+      projectsLead: "Tänne dokumentoin mitä rakennan ja opiskelen. Jokainen projekti on askel kohti parempaa järjestelmien ymmärtämistä, ei vain tehtävien suorittamista.",
+      projectsSearchLabel: "Hae projekteja",
+      projectsSearchPlaceholder: "Hae järjestelmän, taidon tai projektin nimellä",
+      projectsFilterAria: "Projektisuodattimet",
+      projectsFilterAll: "Kaikki",
+      projectsFilterBuild: "Aktiiviset",
+      projectsFilterRoadmap: "Suunnitteilla",
+      projectsEmpty: "Mikään projekti ei vastaa hakua tai suodatinta.",
+      contactEyebrow: "Yhteys",
+      contactTitle: "Puhutaan.",
+      contactLead: "Jos sinulla on rooli, harjoittelu, projekti tai hyvä tekninen mahdollisuus, ota rohkeasti yhteyttä. Olen aina avoin merkityksellisille keskusteluille ja uusille suunnille.",
+      directContactEyebrow: "Suora yhteys",
+      directContactTitle: "Yhteys",
+      contactEmailLabel: "Sähköposti",
+      contactLocationLabel: "Sijainti",
+      contactLocationValue: "Suomi",
+      contactProfilesLabel: "Profiilit",
+      contactFormName: "Nimi",
+      contactFormEmail: "Sähköposti",
+      contactFormSubject: "Aihe",
+      contactFormMessage: "Viesti",
+      contactFormNamePlaceholder: "Nimesi",
+      contactFormEmailPlaceholder: "Sähköpostisi",
+      contactFormSubjectPlaceholder: "Yhteydenoton syy",
+      contactFormPlaceholder: "Kerro roolista, projektista tai mahdollisuudesta.",
+      contactFormNote: "Lomake on yksinkertainen tarkoituksella. Selkeä viestintä on tärkeämpää kuin pitkät esittelyt.",
+      contactSubmit: "Lähetä viesti",
+      contactEmailInstead: "Lähetä sähköpostia",
+      footerCopy: "Kiitos kun vierailit portfoliossani.",
+      privacyBanner: "Tallennamme vain minimaaliset paikalliset asetukset ja voimme käyttää tietosuojaystävällistä analytiikkaa kokemuksen parantamiseen.",
+      privacyDetails: "Lisätiedot",
+      privacyAccept: "Hyväksy",
+      privacyTitle: "Tietosuojakäytäntö",
+      privacyBodyOne: "Tämä sivusto tallentaa vain välttämättömät paikalliset asetukset, kuten kielen ja lukutilan. Seurantaevästeitä ei käytetä ilman lupaa.",
+      privacyBodyTwo: "Voit muuttaa asetuksia milloin tahansa selaimessa. Kokemus on suunniteltu tietosuojaystävälliseksi ja huomaamattomaksi.",
+    },
+  };
+
+  function t(key) {
+    return copy[currentLang]?.[key] || copy.en[key] || "";
   }
-}
 
-function safeSetStorageItem(key, value) {
-  try {
-    window.localStorage.setItem(key, value);
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
-
-const savedLanguage = safeGetStorageItem('portfolio-language');
-const savedReadable = safeGetStorageItem('portfolio-readable');
-const savedDyslexic = safeGetStorageItem('portfolio-dyslexic');
-const savedTheme = safeGetStorageItem('portfolio-theme');
-
-const translations = {
-  en: {
-    lang: 'en',
-    eyebrowBrand: 'Electrical & Automation Engineering Student',
-    logoName: 'Jibran Hussain',
-    navAbout: 'About',
-    navSkills: 'Skills',
-    navExperience: 'Experience',
-    navEducation: 'Education',
-    navTools: 'Tools',
-    navContact: 'Contact',
-    themeDark: '☾',
-    themeLight: '☀',
-    dyslexic: 'Aa',
-    normal: 'A',
-    heroEyebrow: 'Portfolio',
-    introMeta: 'Portfolio - Jibran Hussain',
-    introWord: 'Welcome.',
-    introSkipDesktop: 'Click anywhere to skip this',
-    introSkipTouch: 'Touch anywhere to skip this',
-    heroTitle: 'Jibran Hussain',
-    heroText: 'I am an Electrical & Automation Engineering student building hands-on experience in maintenance, troubleshooting, electrical systems, and reliable automation solutions. I bring a calm, analytical approach to engineering problems and a strong commitment to safe, practical outcomes.',
-    heroPrimaryAction: 'Start a conversation',
-    heroSecondaryAction: 'View LinkedIn',
-    profileSubtitle: 'Electrical & Automation Engineering Student',
-    profileMeta: 'Finland • contact@jibranhussain.com',
-    aboutLabel: 'About',
-    aboutHeading: 'Focused on practical engineering and dependable systems.',
-    aboutParagraph1: 'Practical and reliable professional with hands-on experience in maintenance and technical environments. Known for a calm, solution-oriented approach, strong work ethic, and willingness to learn new systems and methods. Works carefully, takes responsibility, and values doing tasks properly from the first time.',
-    aboutParagraph2: 'Brings a combination of technical understanding and real workplace experience, with interest in automation, electrical systems, troubleshooting, and continuous improvement. Appreciates clear communication, cooperation, and steady progress. Aims to contribute to dependable, efficient, and future-focused engineering work.',
-    skillsLabel: 'Skills',
-    skillsHeading: 'What I do well.',
-    coreStrengthsTitle: 'Core strengths',
-    workApproachTitle: 'Work approach',
-    skill1: 'Preventive maintenance',
-    skill2: 'Troubleshooting',
-    skill3: 'PLC programming',
-    skill4: 'Electrical systems',
-    skill5: 'Technical documentation',
-    skill6: 'Safety awareness',
-    skill7: 'Teamwork',
-    skill8: 'Continuous learning',
-    experienceLabel: 'Experience',
-    experienceHeading: 'Hands-on roles and practical training.',
-    experienceItem1Title: 'Maintenance Technician ARE Oy',
-    experienceItem1Date: '2023-2025',
-    experienceItem1Text: 'Supported preventive maintenance, troubleshooting, and inspections on electrical and automation equipment. I focused on reliability, safe workflows, and practical system improvements.',
-    experienceItem2Title: 'Intern ARE Oy',
-    experienceItem2Date: '2023',
-    experienceItem2Text: 'Assisted maintenance operations with practical site tasks and gained exposure to industrial electrical systems, control panels, and automation diagnostics.',
-    experienceItem3Title: 'Student roles',
-    experienceItem3Date: '2020-2023',
-    experienceItem3Text: 'Delivered support work on construction and maintenance teams while learning how disciplined project routines and teamwork improve technical results.',
-    educationLabel: 'Education',
-    educationHeading: 'Formal training in automation and electrical systems.',
-    educationDegree: 'Bachelors Degree Programme in Electrical and Automation Engineering',
-    educationDate: 'HAMK University of Applied Sciences 2025-2027 (Expected)',
-    educationText: 'Focused on electrical systems, automation, PLC programming, measurements, and technical development for practical engineering workflows.',
-    toolsLabel: 'Tools & Tech',
-    toolsHeading: 'Software and systems I use.',
-    programmingLabel: 'Programming',
-    programmingHeading: 'Programming languages and analytics tools.',
-    contactLabel: 'Contact',
-    contactHeading: 'Ready for internship and engineering opportunities.',
-    contactText: 'If you are looking for a student who values practical engineering, safe systems, and steady progress, please get in touch. I am available for internship roles, maintenance support, and automation projects.',
-    contactFormIntro: 'Send a message directly here and it will be delivered to contact@jibranhussain.com.',
-    contactNameLabel: 'Name',
-    contactEmailLabel: 'Email',
-    contactSubjectLabel: 'Subject',
-    contactMessageLabel: 'Message',
-    contactSubmit: 'Send message',
-    contactChallengeLoading: 'Loading spam protection...',
-    contactChallengeRequired: 'Please complete the spam protection check before sending.',
-    contactChallengeError: 'Spam protection could not be loaded. Please refresh and try again.',
-    contactChallengeExpired: 'Spam protection expired. Please try again.',
-    contactSending: 'Sending your message...',
-    contactSuccess: 'Message sent successfully. Thank you for reaching out.',
-    contactError: 'Message could not be sent right now. Please try again or email contact@jibranhussain.com.',
-    contactNetworkError: 'Connection failed while sending your message. Please try again or email contact@jibranhussain.com.',
-    contactEndpointError: 'The contact form backend is not active on this deployment. If you are testing locally, run the site with Cloudflare Pages dev instead of a static server.',
-    contactEmail: 'Email contact@jibranhussain.com',
-    contactLinkedin: 'LinkedIn profile',
-    footerText: '2026 Jibran Hussain.',
-    privacyBannerText: 'We store only minimal local preferences and may use privacy-friendly analytics to improve the experience.',
-    privacyDetails: 'Details',
-    privacyAccept: 'Accept',
-    privacyModalTitle: 'Privacy policy',
-    privacyModalText1: 'This site stores only essential local preferences, such as language and readable mode. No tracking cookies are used without permission.',
-    privacyModalText2: 'You can change preferences anytime from your browser. This experience is built to be privacy-friendly and non-intrusive.',
-    readLabel: 'Read',
-    reading: 'Stop',
-    pause: 'Pause',
-    play: 'Play',
-    stop: 'Stop',
-    readable: 'Readable',
-    themeLabel: 'Theme',
-  },
-  fi: {
-    lang: 'fi',
-    eyebrowBrand: 'Sähkö- ja automaatiotekniikan opiskelija',
-    logoName: 'Jibran Hussain',
-    navAbout: 'Tietoa',
-    navSkills: 'Taidot',
-    navExperience: 'Kokemus',
-    navEducation: 'Koulutus',
-    navTools: 'Työkalut',
-    navContact: 'Yhteystiedot',
-    themeDark: '☾',
-    themeLight: '☀',
-    dyslexic: 'Aa',
-    normal: 'A',
-    heroEyebrow: 'Portfolion',
-    introMeta: 'Portfolio',
-    introWord: 'Tervetuloa.',
-    introSkipDesktop: 'Klikkaa mitä tahansa kohtaa ohittaaksesi tämän',
-    introSkipTouch: 'Kosketa mitä tahansa kohtaa ohittaaksesi tämän',
-    heroTitle: 'Jibran Hussain',
-    heroText: 'Olen sähkö- ja automaatiotekniikan opiskelija, jolla on käytännön kokemusta kunnossapidosta, vianetsinnästä, sähköjärjestelmistä ja luotettavista automaatioratkaisuista. Lähestyn teknisiä haasteita rauhallisesti ja analyyttisesti ja arvostan turvallisia, käytännöllisiä tuloksia.',
-    heroPrimaryAction: 'Aloita yhteydenotto',
-    heroSecondaryAction: 'Avaa LinkedIn',
-    profileSubtitle: 'Sähkö- ja automaatiotekniikan opiskelija',
-    profileMeta: 'Suomi • contact@jibranhussain.com',
-    aboutLabel: 'Tietoa',
-    aboutHeading: 'Käytännönläheinen ja luotettava tekijä.',
-    aboutParagraph1: 'Käytännönläheinen ja luotettava ammattilainen, jolla on kokemusta kunnossapidosta ja teknisistä työympäristöistä. Tunnetaan rauhallisesta, ratkaisukeskeisestä otteesta, vahvasta työmoraalista ja halusta oppia uusia järjestelmiä ja toimintatapoja. Tekee työt huolellisesti, ottaa vastuuta ja arvostaa tehtävien oikeaa suorittamista alusta alkaen.',
-    aboutParagraph2: 'Tuon yhteen teknisen ymmärryksen ja työpaikkakokemuksen, jossa kiinnostuksen kohteina ovat automaatio, sähköjärjestelmät, vianetsintä ja jatkuva parantaminen. Arvostan selkeää viestintää, yhteistyötä ja tasaista edistymistä. Tavoitteena on tukea luotettavaa, tehokasta ja tulevaisuuteen suuntautuvaa teknistä työtä.',
-    skillsLabel: 'Taidot',
-    skillsHeading: 'Mitä teen hyvin.',
-    coreStrengthsTitle: 'Keskeiset vahvuudet',
-    workApproachTitle: 'Työskentelytapa',
-    skill1: 'Ennaltaehkäisevä kunnossapito',
-    skill2: 'Vianetsintä',
-    skill3: 'PLC-ohjelmointi',
-    skill4: 'Sähköjärjestelmät',
-    skill5: 'Tekninen dokumentointi',
-    skill6: 'Turvallisuustietoisuus',
-    skill7: 'Tiimityö',
-    skill8: 'Jatkuva oppiminen',
-    experienceLabel: 'Kokemus',
-    experienceHeading: 'Käytännön tehtäviä ja koulutusta.',
-    experienceItem1Title: 'Kunnossapitoteknikko ARE Oy',
-    experienceItem1Date: '2023-2025',
-    experienceItem1Text: 'Tukivat ennaltaehkäisevää kunnossapitoa, vianetsintää ja tarkastuksia sähkö- ja automaatio­laitteissa. Keskityin luotettavuuteen, turvallisiin työtapoihin ja käytännöllisiin parannuksiin.',
-    experienceItem2Title: 'Harjoittelija ARE Oy',
-    experienceItem2Date: '2023',
-    experienceItem2Text: 'Avustin kunnossapitotoimia käytännön työtehtävissä ja sain kokemusta teollisista sähköjärjestelmistä, ohjauskeskuksista ja automaatio­diagnostiikasta.',
-    experienceItem3Title: 'Opiskelijatehtävät',
-    experienceItem3Date: '2020-2023',
-    experienceItem3Text: 'Toteutin tukitöitä rakennus- ja kunnossapitotiimeissä samalla kun opin, miten kurinalaiset projektirutiinit ja yhteistyö parantavat teknisiä tuloksia.',
-    educationLabel: 'Koulutus',
-    educationHeading: 'Koulutusta automaatio- ja sähköjärjestelmissä.',
-    educationDegree: 'Sähkö- ja automaatiotekniikan kandidaattiohjelma',
-    educationDate: 'HAMK Ammattikorkeakoulu 2025-2027 (odotettu)',
-    educationText: 'Painotus sähköjärjestelmissä, automaatiossa, PLC-ohjelmoinnissa, mittauksissa ja teknisessä kehityksessä käytännön insinöörityöhön.',
-    toolsLabel: 'Työkalut & teknologia',
-    toolsHeading: 'Ohjelmistot ja järjestelmät, joita käytän.',
-    programmingLabel: 'Ohjelmointikielet',
-    programmingHeading: 'Ohjelmointikielet ja analytiikkatyökalut.',
-    contactLabel: 'Yhteystiedot',
-    contactHeading: 'Valmis harjoitteluun ja tekniikkamahdollisuuksiin.',
-    contactText: 'Jos etsit opiskelijaa, joka arvostaa käytännönläheistä tekniikkaa, turvallisia järjestelmiä ja vakaata edistystä, ota yhteyttä. Olen saatavilla harjoittelutehtäviin, kunnossapito­tukeen ja automaatio­projekteihin.',
-    contactFormIntro: 'Lähetä viesti suoraan tästä, niin se toimitetaan osoitteeseen contact@jibranhussain.com.',
-    contactNameLabel: 'Nimi',
-    contactEmailLabel: 'Sähköposti',
-    contactSubjectLabel: 'Aihe',
-    contactMessageLabel: 'Viesti',
-    contactSubmit: 'Lähetä viesti',
-    contactChallengeLoading: 'Roskapostisuojausta ladataan...',
-    contactChallengeRequired: 'Täytä roskapostisuojaus ennen lähettämistä.',
-    contactChallengeError: 'Roskapostisuojausta ei voitu ladata. Päivitä sivu ja yritä uudelleen.',
-    contactChallengeExpired: 'Roskapostisuojaus vanheni. Yritä uudelleen.',
-    contactSending: 'Lähetetään viestiä...',
-    contactSuccess: 'Viesti lähetettiin onnistuneesti. Kiitos yhteydenotostasi.',
-    contactError: 'Viestin lähetys ei onnistunut juuri nyt. Yritä uudelleen tai lähetä sähköposti osoitteeseen contact@jibranhussain.com.',
-    contactNetworkError: 'Yhteys katkesi viestiä lähetettäessä. Yritä uudelleen tai lähetä sähköposti osoitteeseen contact@jibranhussain.com.',
-    contactEndpointError: 'Yhteyslomakkeen taustapalvelu ei ole aktiivinen tässä julkaisussa. Jos testaat paikallisesti, käytä Cloudflare Pages dev -ympäristöä tavallisen staattisen palvelimen sijaan.',
-    contactEmail: 'Lähetä sähköpostia contact@jibranhussain.com',
-    contactLinkedin: 'LinkedIn-profiili',
-    footerText: '2026 Jibran Hussain.',
-    privacyBannerText: 'Tallennamme vain vähäiset paikalliset asetukset ja käytämme yksityisyyttä kunnioittavaa analytiikkaa kokemuksen parantamiseen.',
-    privacyDetails: 'Lisätiedot',
-    privacyAccept: 'Hyväksy',
-    privacyModalTitle: 'Tietosuojakäytäntö',
-    privacyModalText1: 'Tämä sivusto säilyttää vain olennaiset paikalliset valinnat, kuten kielen ja luettavuustilan. Seurantaevästeitä ei käytetä ilman lupaa.',
-    privacyModalText2: 'Voit muuttaa asetuksia milloin tahansa selaimen asetuksista. Tämä kokemus on suunniteltu yksityisyyttä kunnioittavaksi ja häiritsemättömäksi.',
-    readLabel: 'Lue',
-    reading: 'Pysäytä',
-    pause: 'Keskeytä',
-    play: 'Toista',
-    stop: 'Pysäytä',
-    readable: 'Luettava',
-    themeLabel: 'Teema',
-  },
-};
-
-let currentLang = 'en';
-let speechUtterance = null;
-let speechState = 'idle'; // 'idle', 'playing', 'paused'
-let voices = [];
-let turnstileWidgetId = null;
-let turnstileToken = '';
-let contactSuccessAnimationTimer = null;
-let pageIntroCleanupTimer = null;
-let pageIntroTypeTimer = null;
-let pageIntroSkipHandler = null;
-const introSeenStorageKey = 'portfolio-intro-visited';
-const turnstileSiteKey = contactTurnstile?.dataset.sitekey || '';
-
-const icons = {
-  speaker: `
-    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M11 5 6 9H3v6h3l5 4z"></path>
-      <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
-      <path d="M18.5 5.5a9 9 0 0 1 0 13"></path>
-    </svg>
-  `,
-  stop: `
-    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false" fill="currentColor" stroke="none">
-      <rect x="6" y="6" width="12" height="12" rx="2"></rect>
-    </svg>
-  `,
-  pause: `
-    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false" fill="currentColor" stroke="none">
-      <rect x="6" y="5" width="4" height="14" rx="1.5"></rect>
-      <rect x="14" y="5" width="4" height="14" rx="1.5"></rect>
-    </svg>
-  `,
-  play: `
-    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false" fill="currentColor" stroke="none">
-      <path d="m8 5 11 7-11 7z"></path>
-    </svg>
-  `,
-  moon: `
-    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 3a7.5 7.5 0 1 0 9 9A9 9 0 1 1 12 3"></path>
-    </svg>
-  `,
-  sun: `
-    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="4"></circle>
-      <path d="M12 2v2.5"></path>
-      <path d="M12 19.5V22"></path>
-      <path d="m4.93 4.93 1.77 1.77"></path>
-      <path d="m17.3 17.3 1.77 1.77"></path>
-      <path d="M2 12h2.5"></path>
-      <path d="M19.5 12H22"></path>
-      <path d="m4.93 19.07 1.77-1.77"></path>
-      <path d="m17.3 6.7 1.77-1.77"></path>
-    </svg>
-  `,
-  dyslexicOff: `
-    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M4 19 9.5 5h1L16 19"></path>
-      <path d="M6.2 14h7.6"></path>
-      <path d="M18.5 8v11"></path>
-      <path d="M18.5 13h2.25a2.25 2.25 0 0 0 0-4.5H18.5"></path>
-    </svg>
-  `,
-  dyslexicOn: `
-    <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M4 19 9.5 5h1L16 19"></path>
-      <path d="M6.2 14h7.6"></path>
-      <path d="M18.5 8v11"></path>
-      <path d="M18.5 13h2.25a2.25 2.25 0 0 0 0-4.5H18.5"></path>
-      <path d="m5 5 14 14"></path>
-    </svg>
-  `,
-};
-
-function applyStaggerIndexes() {
-  document.querySelectorAll('.stagger-group').forEach(group => {
-    Array.from(group.children).forEach((child, index) => {
-      child.classList.add('reveal');
-      child.style.setProperty('--stagger-index', String(index));
+  function applyStaticTranslations() {
+    i18nNodes.forEach((node) => {
+      const key = node.getAttribute("data-i18n");
+      if (!key) return;
+      const value = t(key);
+      if (value) node.textContent = value;
     });
-  });
-}
 
-function clearPageIntroTimers() {
-  if (pageIntroTypeTimer) {
-    window.clearTimeout(pageIntroTypeTimer);
-    pageIntroTypeTimer = null;
+    i18nPlaceholderNodes.forEach((node) => {
+      const key = node.getAttribute("data-i18n-placeholder");
+      if (!key) return;
+      const value = t(key);
+      if (value) node.setAttribute("placeholder", value);
+    });
+
+    i18nAriaNodes.forEach((node) => {
+      const key = node.getAttribute("data-i18n-aria-label");
+      if (!key) return;
+      const value = t(key);
+      if (value) node.setAttribute("aria-label", value);
+    });
   }
 
-  if (pageIntroCleanupTimer) {
-    window.clearTimeout(pageIntroCleanupTimer);
-    pageIntroCleanupTimer = null;
-  }
-}
-
-function shouldUseCompactIntro() {
-  return window.matchMedia('(max-width: 640px), (pointer: coarse)').matches;
-}
-
-function shouldUseTouchIntroCopy() {
-  return window.matchMedia('(max-width: 1024px), (pointer: coarse)').matches;
-}
-
-function getIntroSkipText(language) {
-  const locale = translations[language] ? language : 'en';
-  return shouldUseTouchIntroCopy()
-    ? translations[locale].introSkipTouch
-    : translations[locale].introSkipDesktop;
-}
-
-function getIntroMode() {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    return 'skip';
+  function setYear() {
+    if (currentYear) currentYear.textContent = String(new Date().getFullYear());
   }
 
-  if (shouldUseCompactIntro()) {
-    return 'compact';
+  function iconSvg(name) {
+    const icons = {
+      speaker: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>',
+      pause: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="4" height="14" rx="1.5"></rect><rect x="14" y="5" width="4" height="14" rx="1.5"></rect></svg>',
+      play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.53.848l10-6.5a1 1 0 0 0 0-1.696l-10-6.5A1 1 0 0 0 8 5.5Z"></path></svg>',
+      dyslexic: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19V7.5A2.5 2.5 0 0 1 7.5 5H12"></path><path d="M5 14h7"></path><path d="M15 19V5"></path><path d="M15 12h4a2 2 0 0 0 0-4h-4"></path></svg>',
+      sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2.2"></path><path d="M12 19.3v2.2"></path><path d="m4.93 4.93 1.56 1.56"></path><path d="m17.51 17.51 1.56 1.56"></path><path d="M2.5 12h2.2"></path><path d="M19.3 12h2.2"></path><path d="m4.93 19.07 1.56-1.56"></path><path d="m17.51 6.49 1.56-1.56"></path></svg>',
+      moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A7.5 7.5 0 1 1 9.5 4a6 6 0 1 0 10.5 10.5Z"></path></svg>',
+    };
+    return icons[name] || "";
   }
 
-  try {
-    const introSeen = safeGetStorageItem(introSeenStorageKey) === 'true';
+  function setButtonIcon(button, iconName) {
+    const iconNode = button?.querySelector(".control-icon");
+    if (iconNode) iconNode.innerHTML = iconSvg(iconName);
+  }
 
-    if (!introSeen) {
-      return 'full';
+  function setButtonText(button, text) {
+    const labelNode = button?.querySelector(".control-button-text");
+    if (labelNode) labelNode.textContent = text;
+  }
+
+  function applyTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    localStorage.setItem(themeStorageKey, theme);
+    if (themeToggle) {
+      setButtonText(themeToggle, t("theme"));
+      setButtonIcon(themeToggle, theme === "dark" ? "sun" : "moon");
+      themeToggle.setAttribute("aria-label", `Switch to ${theme === "dark" ? "light" : "dark"} mode`);
+    }
+  }
+
+  function initTheme() {
+    if (!themeToggle) return;
+    const storedTheme = localStorage.getItem(themeStorageKey);
+    applyTheme(storedTheme || "light");
+    themeToggle.addEventListener("click", () => {
+      applyTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+    });
+  }
+
+  function applyReadableMode(enabled) {
+    root.classList.toggle("readable-mode", enabled);
+    readableToggle?.setAttribute("aria-pressed", String(enabled));
+    if (readableToggle) {
+      setButtonText(readableToggle, t("dyslexic"));
+      setButtonIcon(readableToggle, "dyslexic");
+    }
+    localStorage.setItem(readableStorageKey, String(enabled));
+  }
+
+  function initReadableMode() {
+    if (!readableToggle) return;
+    applyReadableMode(localStorage.getItem(readableStorageKey) === "true");
+    readableToggle.addEventListener("click", () => {
+      applyReadableMode(!root.classList.contains("readable-mode"));
+    });
+  }
+
+  function applyLanguage(language) {
+    currentLang = language === "fi" ? "fi" : "en";
+    localStorage.setItem(languageStorageKey, currentLang);
+    document.documentElement.lang = currentLang;
+
+    if (langToggle) {
+      langToggle.textContent = t("lang");
+      langToggle.setAttribute("aria-pressed", String(currentLang === "fi"));
+    }
+    if (themeToggle) setButtonText(themeToggle, t("theme"));
+    if (readableToggle) setButtonText(readableToggle, t("dyslexic"));
+    if (speakToggle) {
+      setButtonText(speakToggle, speechState === "idle" ? t("read") : t("stop"));
+      setButtonIcon(speakToggle, "speaker");
+    }
+    if (pauseToggle) {
+      setButtonText(pauseToggle, speechState === "paused" ? t("play") : t("pause"));
+      setButtonIcon(pauseToggle, speechState === "paused" ? "play" : "pause");
     }
 
-    return 'short';
-  } catch (error) {
-    return 'full';
-  }
-}
-
-function persistIntroSeenState() {
-  if (!safeSetStorageItem(introSeenStorageKey, 'true')) {
-    console.warn('Could not persist intro state.');
-  }
-}
-
-function cleanupPageIntroListeners() {
-  if (!pageIntroSkipHandler) return;
-
-  pageIntro?.removeEventListener('pointerdown', pageIntroSkipHandler);
-  pageIntro?.removeEventListener('click', pageIntroSkipHandler);
-  window.removeEventListener('keydown', pageIntroSkipHandler);
-  pageIntroSkipHandler = null;
-}
-
-function finishPageIntro(immediate = false) {
-  clearPageIntroTimers();
-  cleanupPageIntroListeners();
-  persistIntroSeenState();
-  const introLanguage = translations[getSavedOrDetectedLanguage()] ? getSavedOrDetectedLanguage() : 'en';
-  const introWord = translations[introLanguage].introWord;
-
-  if (immediate) {
-    root.classList.remove('intro-pending', 'intro-active');
-    root.classList.remove('intro-compact');
-    pageIntroText.textContent = introWord;
-    root.style.removeProperty('--intro-shell-delay');
-    root.style.removeProperty('--intro-atmosphere-delay');
-    root.style.removeProperty('--intro-exit-delay');
-    return;
+    const bannerText = privacyBanner?.querySelector("p");
+    if (bannerText) bannerText.textContent = t("privacyBanner");
+    if (privacyDetails) privacyDetails.textContent = t("privacyDetails");
+    if (privacyAccept) privacyAccept.textContent = t("privacyAccept");
+    if (privacyModalTitle) privacyModalTitle.textContent = t("privacyTitle");
+    if (privacyModalBody[0]) privacyModalBody[0].textContent = t("privacyBodyOne");
+    if (privacyModalBody[1]) privacyModalBody[1].textContent = t("privacyBodyTwo");
+    applyStaticTranslations();
   }
 
-  const minimumTypedText = pageIntroText.textContent || introWord;
-  pageIntroText.textContent = minimumTypedText;
-  root.classList.add('intro-active');
-  pageIntroCleanupTimer = window.setTimeout(() => {
-    root.classList.remove('intro-pending', 'intro-active');
-    root.classList.remove('intro-compact');
-    pageIntroCleanupTimer = null;
-    root.style.removeProperty('--intro-shell-delay');
-    root.style.removeProperty('--intro-atmosphere-delay');
-    root.style.removeProperty('--intro-exit-delay');
-  }, 2050);
-}
-
-function initializePageIntro() {
-  if (!pageIntro || !pageIntroText) {
-    return;
+  function initLanguage() {
+    currentLang = localStorage.getItem(languageStorageKey) === "fi" ? "fi" : "en";
+    applyLanguage(currentLang);
+    langToggle?.addEventListener("click", () => {
+      applyLanguage(currentLang === "en" ? "fi" : "en");
+    });
   }
 
-  const introMode = getIntroMode();
+  function initNav() {
+    if (!navToggle || !primaryNav) return;
 
-  if (introMode === 'skip') {
-    finishPageIntro(true);
-    return;
-  }
+    function closeMenu({ restoreFocus = false } = {}) {
+      primaryNav.classList.remove("is-open");
+      navToggle.setAttribute("aria-expanded", "false");
+      if (restoreFocus) navToggle.focus();
+    }
 
-  if (!root.classList.contains('intro-pending')) {
-    root.classList.add('intro-pending');
-  }
+    function openMenu() {
+      primaryNav.classList.add("is-open");
+      navToggle.setAttribute("aria-expanded", "true");
+    }
 
-  const introLanguage = translations[getSavedOrDetectedLanguage()] ? getSavedOrDetectedLanguage() : 'en';
-  const introText = translations[introLanguage].introWord;
-  const introTiming = introMode === 'compact'
-    ? {
-        typeIntervals: [112, 104, 98, 94, 92, 96, 104, 112, 124, 136, 148, 160],
-        startDelay: 180,
-        holdDelay: 420,
-        shellDelay: '520ms',
-        atmosphereDelay: '460ms',
-        exitDelay: '860ms',
+    function getMenuFocusableElements() {
+      return [navToggle, ...Array.from(primaryNav.querySelectorAll("a, button, input, select, textarea, [tabindex]:not([tabindex='-1'])"))]
+        .filter((element) => !element.disabled && element.offsetParent !== null);
+    }
+
+    navToggle.addEventListener("click", () => {
+      if (primaryNav.classList.contains("is-open")) {
+        closeMenu();
+      } else {
+        openMenu();
       }
-    : introMode === 'short'
-      ? {
-          typeIntervals: [150, 138, 132, 126, 122, 128, 148, 170, 192, 214, 236, 258],
-          startDelay: 420,
-          holdDelay: 1320,
-          shellDelay: '1480ms',
-          atmosphereDelay: '1400ms',
-          exitDelay: '1960ms',
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!primaryNav.classList.contains("is-open")) return;
+      if (primaryNav.contains(event.target) || navToggle.contains(event.target)) return;
+      closeMenu();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (!primaryNav.classList.contains("is-open")) return;
+
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeMenu({ restoreFocus: true });
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusableElements = getMenuFocusableElements();
+      if (!focusableElements.length) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    });
+
+    navLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        closeMenu();
+      });
+    });
+
+    navLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        const href = link.getAttribute("href");
+        if (!href || !href.startsWith("#")) return;
+
+        const target = document.querySelector(href);
+        if (!target) return;
+
+        event.preventDefault();
+        const headerOffset = (document.querySelector(".site-header")?.offsetHeight || 0) + 16;
+        const targetTop = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+
+        window.scrollTo({
+          top: Math.max(0, targetTop),
+          behavior: "smooth",
+        });
+      });
+    });
+  }
+
+  function initReveal() {
+    const nodes = Array.from(document.querySelectorAll(".reveal"));
+    if (!nodes.length) return;
+
+    if (!("IntersectionObserver" in window)) {
+      nodes.forEach((node) => node.classList.add("is-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+    );
+
+    nodes.forEach((node) => observer.observe(node));
+  }
+
+  function updateVoices() {
+    voices = window.speechSynthesis?.getVoices?.() || [];
+  }
+
+  function getVoice() {
+    const prefix = currentLang === "fi" ? "fi" : "en";
+    return voices.find((voice) => voice.lang.toLowerCase().startsWith(prefix)) || voices[0] || null;
+  }
+
+  function stopReading() {
+    if (window.speechSynthesis?.speaking || window.speechSynthesis?.paused || window.speechSynthesis?.pending) {
+      window.speechSynthesis.cancel();
+    }
+    speechState = "idle";
+    if (pauseToggle) pauseToggle.hidden = true;
+    if (speakToggle) {
+      setButtonText(speakToggle, t("read"));
+      setButtonIcon(speakToggle, "speaker");
+    }
+  }
+
+  function startReading() {
+    if (!("speechSynthesis" in window)) return;
+    const text = document.getElementById("main")?.innerText?.replace(/\s+/g, " ").trim();
+    if (!text) return;
+
+    stopReading();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = currentLang === "fi" ? "fi-FI" : "en-US";
+    const voice = getVoice();
+    if (voice) utterance.voice = voice;
+    utterance.onend = stopReading;
+    utterance.onerror = stopReading;
+    speechState = "playing";
+    if (pauseToggle) {
+      pauseToggle.hidden = false;
+      setButtonText(pauseToggle, t("pause"));
+      setButtonIcon(pauseToggle, "pause");
+    }
+    if (speakToggle) {
+      setButtonText(speakToggle, t("stop"));
+      setButtonIcon(speakToggle, "speaker");
+    }
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function initSpeech() {
+    if (!speakToggle || !pauseToggle) return;
+    updateVoices();
+
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.onvoiceschanged = updateVoices;
+    } else {
+      speakToggle.hidden = true;
+      pauseToggle.hidden = true;
+      return;
+    }
+
+    speakToggle.addEventListener("click", () => {
+      if (speechState === "idle") startReading();
+      else stopReading();
+    });
+
+    pauseToggle.addEventListener("click", () => {
+      if (speechState === "playing") {
+        window.speechSynthesis.pause();
+        speechState = "paused";
+        setButtonText(pauseToggle, t("play"));
+        setButtonIcon(pauseToggle, "play");
+      } else if (speechState === "paused") {
+        window.speechSynthesis.resume();
+        speechState = "playing";
+        setButtonText(pauseToggle, t("pause"));
+        setButtonIcon(pauseToggle, "pause");
+      }
+    });
+  }
+
+  function openPrivacyModal() {
+    if (!privacyModal) return;
+    privacyModal.hidden = false;
+    privacyModal.setAttribute("aria-hidden", "false");
+  }
+
+  function closePrivacyModal() {
+    if (!privacyModal) return;
+    privacyModal.hidden = true;
+    privacyModal.setAttribute("aria-hidden", "true");
+  }
+
+  function initPrivacy() {
+    if (!privacyBanner || !privacyModal) return;
+    const accepted = localStorage.getItem(privacyStorageKey) === "true";
+    privacyBanner.hidden = accepted;
+
+    privacyDetails?.addEventListener("click", openPrivacyModal);
+    privacyClose?.addEventListener("click", closePrivacyModal);
+    privacyAccept?.addEventListener("click", () => {
+      localStorage.setItem(privacyStorageKey, "true");
+      privacyBanner.hidden = true;
+      closePrivacyModal();
+    });
+
+    privacyModal.addEventListener("click", (event) => {
+      if (event.target === privacyModal) closePrivacyModal();
+    });
+  }
+
+  function getStatusMeta(status) {
+    if (status === "live") return { label: "Live", className: "status-live" };
+    if (status === "build") return { label: "Active build", className: "status-build" };
+    return { label: "Roadmap", className: "status-roadmap" };
+  }
+
+  function createProjectCard(project) {
+    const status = getStatusMeta(project.status);
+    const card = document.createElement("article");
+    card.className = "project-card reveal";
+    card.dataset.status = project.status;
+    card.dataset.search = [
+      project.title,
+      project.category,
+      project.summary,
+      project.problem,
+      project.technologies.join(" "),
+      project.skills.join(" "),
+    ].join(" ").toLowerCase();
+
+    card.innerHTML = `
+      <div class="project-card-top">
+        <span class="status-badge ${status.className}">${project.statusLabel || status.label}</span>
+        <span class="project-category">${project.category}</span>
+      </div>
+      <h3>${project.title}</h3>
+      <p class="project-summary">${project.summary}</p>
+      <div class="project-problem">
+        <p class="micro-label">Engineering problem</p>
+        <p class="panel-copy">${project.problem}</p>
+      </div>
+      <button class="project-toggle" type="button" aria-expanded="false">See case-study view</button>
+      <div class="project-details" hidden>
+        <ul class="pill-list">${project.technologies.map((item) => `<li>${item}</li>`).join("")}</ul>
+        <p class="project-why">${project.why}</p>
+        <div class="project-links">
+          <a class="button button-primary" href="/projects/${project.slug}/">Open Case Study</a>
+          ${project.github ? `<a class="button button-secondary" href="${project.github}" target="_blank" rel="noopener">GitHub</a>` : `<span class="button button-tertiary">GitHub publishing next</span>`}
+        </div>
+      </div>
+    `;
+
+    return card;
+  }
+
+  function applyProjectFilters() {
+    if (!projectsGrid) return;
+    const query = String(projectSearch?.value || "").trim().toLowerCase();
+    const cards = Array.from(projectsGrid.querySelectorAll(".project-card"));
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const matchesFilter = activeFilter === "all" || card.dataset.status === activeFilter;
+      const matchesQuery = !query || card.dataset.search.includes(query);
+      const isVisible = matchesFilter && matchesQuery;
+      card.hidden = !isVisible;
+      if (isVisible) visibleCount += 1;
+    });
+
+    if (projectsEmpty) projectsEmpty.hidden = visibleCount !== 0;
+  }
+
+  function renderProjects() {
+    if (!projectsGrid) return;
+    projectsGrid.innerHTML = "";
+    projects.forEach((project) => {
+      projectsGrid.appendChild(createProjectCard(project));
+    });
+    initReveal();
+    applyProjectFilters();
+  }
+
+  function initProjectsPage() {
+    if (!projectsGrid) return;
+
+    renderProjects();
+
+    filterChips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        activeFilter = chip.dataset.filter || "all";
+        filterChips.forEach((button) => button.classList.toggle("is-active", button === chip));
+        applyProjectFilters();
+      });
+    });
+
+    projectSearch?.addEventListener("input", () => {
+      if (projectSearchTimer !== null) window.clearTimeout(projectSearchTimer);
+      projectSearchTimer = window.setTimeout(() => {
+        applyProjectFilters();
+        projectSearchTimer = null;
+      }, 200);
+    });
+
+    projectsGrid.addEventListener("click", (event) => {
+      const toggle = event.target.closest(".project-toggle");
+      if (!toggle) return;
+
+      const card = toggle.closest(".project-card");
+      const details = card?.querySelector(".project-details");
+      if (!card || !details) return;
+
+      const isExpanded = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!isExpanded));
+      toggle.textContent = isExpanded ? "See case-study view" : "Hide details";
+      details.hidden = isExpanded;
+    });
+  }
+
+  function populateProjectDetail() {
+    if (!detailRoot) return;
+
+    const slug = detailRoot.getAttribute("data-project-slug");
+    const project = projects.find((item) => item.slug === slug);
+    if (!project) return;
+
+    const status = getStatusMeta(project.status);
+    const title = detailRoot.querySelector("[data-project-title]");
+    const intro = detailRoot.querySelector("[data-project-intro]");
+    const summary = detailRoot.querySelector("[data-project-summary]");
+    const problem = detailRoot.querySelector("[data-project-problem]");
+    const why = detailRoot.querySelector("[data-project-why]");
+    const visual = detailRoot.querySelector("[data-project-visual]");
+    const category = detailRoot.querySelector("[data-project-category]");
+    const statusNode = detailRoot.querySelector("[data-project-status]");
+    const technologies = detailRoot.querySelector("[data-project-technologies]");
+    const skills = detailRoot.querySelector("[data-project-skills]");
+    const outcomes = detailRoot.querySelector("[data-project-outcomes]");
+    const nextSteps = detailRoot.querySelector("[data-project-next-steps]");
+    const githubButton = detailRoot.querySelector("[data-project-github]");
+
+    document.title = `${project.title} | Projects | Jibran Hussain`;
+
+    if (title) title.textContent = project.title;
+    if (intro) intro.textContent = project.intro;
+    if (summary) summary.textContent = project.overview;
+    if (problem) problem.textContent = project.problem;
+    if (why) why.textContent = project.why;
+    if (visual) visual.textContent = project.visual;
+    if (category) category.textContent = project.category;
+    if (statusNode) {
+      statusNode.textContent = project.statusLabel || status.label;
+      statusNode.classList.add(status.className);
+    }
+    if (technologies) technologies.innerHTML = project.technologies.map((item) => `<li>${item}</li>`).join("");
+    if (skills) skills.innerHTML = project.skills.map((item) => `<li>${item}</li>`).join("");
+    if (outcomes) outcomes.innerHTML = project.outcomes.map((item) => `<li>${item}</li>`).join("");
+    if (nextSteps) nextSteps.innerHTML = project.nextSteps.map((item) => `<li>${item}</li>`).join("");
+
+    if (githubButton && !project.github) {
+      githubButton.replaceWith(Object.assign(document.createElement("span"), {
+        className: "button button-tertiary",
+        textContent: "GitHub publishing next",
+      }));
+    } else if (githubButton && project.github) {
+      githubButton.href = project.github;
+    }
+  }
+
+  function setFormStatus(message = "", type = "") {
+    if (!contactFormStatus) return;
+    contactFormStatus.textContent = message;
+    contactFormStatus.classList.remove("is-success", "is-error");
+    if (type === "success") contactFormStatus.classList.add("is-success");
+    if (type === "error") contactFormStatus.classList.add("is-error");
+  }
+
+  function setFormSubmitting(isSubmitting) {
+    if (!contactSubmitButton) return;
+    contactSubmitButton.disabled = isSubmitting;
+    contactSubmitButton.textContent = isSubmitting ? (currentLang === "fi" ? "Lahetetaan..." : "Sending...") : t("contactSubmit");
+  }
+
+  function waitForTurnstileApi(timeoutMs = 12000) {
+    return new Promise((resolve, reject) => {
+      const startedAt = Date.now();
+      let pollTimer = null;
+
+      function cleanup() {
+        if (pollTimer !== null) window.clearTimeout(pollTimer);
+        turnstileScript?.removeEventListener("error", onScriptError);
+      }
+
+      function onScriptError() {
+        cleanup();
+        reject(new Error("Spam protection could not be loaded. Please refresh and try again."));
+      }
+
+      function check() {
+        if (window.turnstile && typeof window.turnstile.render === "function") {
+          cleanup();
+          resolve(window.turnstile);
+          return;
         }
-      : {
-          typeIntervals: [290, 252, 232, 214, 206, 216, 238, 266, 294, 322, 350, 378],
-          startDelay: 860,
-          holdDelay: 2280,
-          shellDelay: '3620ms',
-          atmosphereDelay: '3500ms',
-          exitDelay: '4540ms',
-        };
-  const { typeIntervals, startDelay, holdDelay, shellDelay, atmosphereDelay, exitDelay } = introTiming;
-  let index = 0;
 
-  pageIntroText.textContent = '';
-  root.style.setProperty('--intro-shell-delay', shellDelay);
-  root.style.setProperty('--intro-atmosphere-delay', atmosphereDelay);
-  root.style.setProperty('--intro-exit-delay', exitDelay);
-  root.classList.add('intro-active');
-  root.classList.toggle('intro-compact', introMode === 'compact');
+        if (Date.now() - startedAt >= timeoutMs) {
+          cleanup();
+          reject(new Error("Spam protection could not be loaded. Please refresh and try again."));
+          return;
+        }
 
-  pageIntroSkipHandler = event => {
-    if (event.type === 'keydown') {
-      if (event.key === 'Tab') {
-        return;
+        pollTimer = window.setTimeout(check, 150);
       }
 
-      if (event.metaKey || event.ctrlKey || event.altKey) {
-        return;
-      }
-    }
-
-    if (event.type === 'pointerdown' || event.type === 'click') {
-      event.preventDefault();
-    }
-
-    if (!root.classList.contains('intro-pending')) {
-      return;
-    }
-
-    finishPageIntro(true);
-  };
-
-  pageIntro?.addEventListener('pointerdown', pageIntroSkipHandler);
-  pageIntro?.addEventListener('click', pageIntroSkipHandler);
-  window.addEventListener('keydown', pageIntroSkipHandler);
-
-  function typeNextCharacter() {
-    pageIntroText.textContent = introText.slice(0, index + 1);
-    index += 1;
-
-    if (index >= introText.length) {
-      pageIntroTypeTimer = window.setTimeout(() => {
-        finishPageIntro(false);
-      }, holdDelay);
-      return;
-    }
-
-    pageIntroTypeTimer = window.setTimeout(typeNextCharacter, typeIntervals[index - 1] || 82);
-  }
-
-  pageIntroTypeTimer = window.setTimeout(typeNextCharacter, startDelay);
-}
-
-function setButtonIcon(button, iconMarkup) {
-  const icon = button?.querySelector('.button-icon');
-  if (icon) {
-    icon.innerHTML = iconMarkup.trim();
-  }
-}
-
-function detectUserLanguage() {
-  const browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
-  return browserLang.startsWith('fi') ? 'fi' : 'en';
-}
-
-function getSavedOrDetectedLanguage() {
-  if (savedLanguage) {
-    return savedLanguage;
-  }
-
-  const detected = detectUserLanguage();
-  safeSetStorageItem('portfolio-language', detected);
-  return detected;
-}
-
-function updateTextContent(language) {
-  i18nElements.forEach(element => {
-    const translationKey = element.dataset.i18n;
-    if (translationKey === 'introSkip') {
-      element.textContent = getIntroSkipText(language);
-      return;
-    }
-
-    if (translations[language] && translations[language][translationKey]) {
-      element.textContent = translations[language][translationKey];
-    }
-  });
-}
-
-function updateLanguageToggle(language) {
-  langToggle.setAttribute('aria-pressed', String(language === 'fi'));
-  langToggle.textContent = language === 'en' ? 'FI' : 'EN';
-  langToggle.setAttribute('aria-label', language === 'en' ? 'Switch to Finnish' : 'Switch to English');
-}
-
-function setLanguage(language, manual = false) {
-  currentLang = translations[language] ? language : 'en';
-  root.setAttribute('lang', currentLang);
-  updateTextContent(currentLang);
-  updateLanguageToggle(currentLang);
-  if (manual || !savedLanguage) {
-    safeSetStorageItem('portfolio-language', currentLang);
-  }
-  updateFontToggleLabel();
-  updateThemeToggleLabel();
-  updateContactFormIdleState();
-}
-
-function updateThemeToggleLabel() {
-  const theme = root.getAttribute('data-theme');
-  setButtonIcon(themeToggle, theme === 'dark' ? icons.sun : icons.moon);
-  themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
-  themeToggle.setAttribute('title', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
-}
-
-function applyTheme(theme) {
-  root.setAttribute('data-theme', theme);
-  safeSetStorageItem('portfolio-theme', theme);
-  updateThemeToggleLabel();
-}
-
-function updateFontToggleLabel() {
-  const isDyslexic = root.classList.contains('dyslexic-mode');
-  setButtonIcon(readableToggle, isDyslexic ? icons.dyslexicOn : icons.dyslexicOff);
-  readableToggle.setAttribute('aria-label', isDyslexic ? 'Switch to normal font' : 'Switch to dyslexic font');
-  readableToggle.setAttribute('title', isDyslexic ? 'Switch to normal font' : 'Switch to dyslexic font');
-}
-
-function setDyslexicMode(enabled) {
-  root.classList.toggle('dyslexic-mode', enabled);
-  readableToggle.setAttribute('aria-pressed', String(enabled));
-  safeSetStorageItem('portfolio-dyslexic', String(enabled));
-  updateFontToggleLabel();
-}
-
-function setReadableMode(enabled) {
-  // Legacy support: no longer used for the new dyslexic font toggle.
-  body.classList.toggle('readable-mode', enabled);
-  readableToggle.setAttribute('aria-pressed', String(enabled));
-  safeSetStorageItem('portfolio-readable', String(enabled));
-}
-
-function updateVoices() {
-  voices = window.speechSynthesis.getVoices() || [];
-}
-
-function getVoice(language) {
-  const languagePrefix = language === 'fi' ? 'fi' : 'en';
-  return (
-    voices.find(voice => voice.lang.toLowerCase().startsWith(languagePrefix)) ||
-    voices.find(voice => voice.lang.toLowerCase().includes(languagePrefix)) ||
-    voices[0] ||
-    null
-  );
-}
-
-function createReadText() {
-  const main = document.getElementById('main');
-  return main ? main.innerText.replace(/\s+/g, ' ').trim() : '';
-}
-
-function updateSpeechControlState() {
-  const isPlaying = speechState === 'playing';
-  const isPaused = speechState === 'paused';
-
-  const visible = speechState !== 'idle';
-  pauseToggle.hidden = !visible;
-  pauseToggle.style.display = visible ? '' : 'none';
-  pauseToggle.disabled = !visible;
-
-  const pauseLabel = pauseToggle.querySelector('.sr-only');
-  setButtonIcon(pauseToggle, isPaused ? icons.play : icons.pause);
-  if (pauseLabel) {
-    pauseLabel.textContent = isPaused ? translations[currentLang].play : translations[currentLang].pause;
-  }
-  pauseToggle.setAttribute('aria-label', isPaused ? translations[currentLang].play : translations[currentLang].pause);
-  pauseToggle.setAttribute('title', isPaused ? translations[currentLang].play : translations[currentLang].pause);
-
-  const speakLabel = speakToggle.querySelector('.sr-only');
-  setButtonIcon(speakToggle, speechState === 'idle' ? icons.speaker : icons.stop);
-  if (speakLabel) {
-    speakLabel.textContent = speechState === 'idle' ? translations[currentLang].readLabel : translations[currentLang].stop;
-  }
-  speakToggle.setAttribute('aria-pressed', String(isPlaying));
-  speakToggle.setAttribute('aria-label', speechState === 'idle' ? translations[currentLang].readLabel : translations[currentLang].stop);
-  speakToggle.setAttribute('title', speechState === 'idle' ? translations[currentLang].readLabel : translations[currentLang].stop);
-}
-
-function startReading() {
-  if (!('speechSynthesis' in window)) {
-    alert('Speech synthesis is not supported in this browser.');
-    return;
-  }
-
-  const text = createReadText();
-  if (!text) return;
-
-  if (window.speechSynthesis.speaking || window.speechSynthesis.paused || window.speechSynthesis.pending) {
-    window.speechSynthesis.cancel();
-  }
-
-  speechUtterance = new SpeechSynthesisUtterance(text);
-  const voice = getVoice(currentLang);
-  if (voice) {
-    speechUtterance.voice = voice;
-  }
-  speechUtterance.lang = currentLang === 'fi' ? 'fi-FI' : 'en-US';
-
-  speechUtterance.onend = () => {
-    speechState = 'idle';
-    updateSpeechControlState();
-  };
-  speechUtterance.onerror = () => {
-    speechState = 'idle';
-    updateSpeechControlState();
-  };
-
-  speechState = 'playing';
-  window.speechSynthesis.speak(speechUtterance);
-  updateSpeechControlState();
-}
-
-function stopReading() {
-  if (window.speechSynthesis.speaking || window.speechSynthesis.pending || window.speechSynthesis.paused) {
-    window.speechSynthesis.cancel();
-  }
-  speechState = 'idle';
-  pauseToggle.hidden = true;
-  pauseToggle.style.display = 'none';
-  pauseToggle.disabled = true;
-  updateSpeechControlState();
-}
-
-function toggleSpeechPause() {
-  if (speechState === 'playing') {
-    window.speechSynthesis.pause();
-    speechState = 'paused';
-  } else if (speechState === 'paused') {
-    window.speechSynthesis.resume();
-    speechState = 'playing';
-  }
-  updateSpeechControlState();
-}
-
-function initializeSpeakControls() {
-  updateVoices();
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.onvoiceschanged = updateVoices;
-  } else {
-    speakToggle.disabled = true;
-    pauseToggle.disabled = true;
-  }
-
-  setButtonIcon(speakToggle, icons.speaker);
-  setButtonIcon(pauseToggle, icons.pause);
-  pauseToggle.hidden = true;
-  pauseToggle.style.display = 'none';
-  pauseToggle.disabled = true;
-
-  speakToggle.addEventListener('click', () => {
-    if (speechState !== 'idle') {
-      stopReading();
-      return;
-    }
-    startReading();
-  });
-
-  pauseToggle.addEventListener('click', () => {
-    toggleSpeechPause();
-  });
-}
-
-function showPrivacyBanner() {
-  privacyBanner.hidden = false;
-  privacyBanner.style.display = '';
-  privacyBanner.setAttribute('aria-hidden', 'false');
-}
-
-function hidePrivacyBanner() {
-  privacyBanner.hidden = true;
-  privacyBanner.style.display = 'none';
-  privacyBanner.setAttribute('aria-hidden', 'true');
-}
-
-function openPrivacyModal() {
-  privacyModal.hidden = false;
-  privacyModal.style.display = '';
-  privacyModal.setAttribute('aria-hidden', 'false');
-  privacyClose.focus();
-}
-
-function closePrivacyModal() {
-  privacyModal.hidden = true;
-  privacyModal.style.display = 'none';
-  privacyModal.setAttribute('aria-hidden', 'true');
-}
-
-function initializePrivacy() {
-  const consentGiven = safeGetStorageItem('portfolio-privacy-accepted') === 'true';
-  if (!consentGiven) {
-    showPrivacyBanner();
-  }
-
-  if (privacyAccept) {
-    privacyAccept.addEventListener('click', event => {
-      event.preventDefault();
-      if (!safeSetStorageItem('portfolio-privacy-accepted', 'true')) {
-        console.warn('Could not save privacy acceptance to localStorage.');
-      }
-      hidePrivacyBanner();
-      closePrivacyModal();
+      turnstileScript?.addEventListener("error", onScriptError, { once: true });
+      check();
     });
   }
 
-  if (privacyDetails) {
-    privacyDetails.addEventListener('click', openPrivacyModal);
-  }
-  if (privacyClose) {
-    privacyClose.addEventListener('click', closePrivacyModal);
-  }
+  async function renderTurnstile() {
+    if (!contactTurnstile) return;
+    const siteKey = contactTurnstile.dataset.sitekey;
+    if (!siteKey) return;
 
-  privacyModal.addEventListener('click', event => {
-    if (event.target === privacyModal) {
-      closePrivacyModal();
-    }
-  });
+    contactTurnstile.textContent = "";
+    const turnstile = await waitForTurnstileApi();
+    contactTurnstile.textContent = "";
 
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && !privacyModal.hidden) {
-      closePrivacyModal();
-    }
-  });
-}
-
-function initializeTheme() {
-  const theme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  applyTheme(theme);
-
-  themeToggle.addEventListener('click', () => {
-    const nextTheme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    applyTheme(nextTheme);
-  });
-}
-
-function initializeLanguage() {
-  const language = getSavedOrDetectedLanguage();
-  setLanguage(language);
-
-  langToggle.addEventListener('click', () => {
-    setLanguage(currentLang === 'en' ? 'fi' : 'en', true);
-  });
-
-  window.addEventListener('resize', () => {
-    updateTextContent(currentLang);
-  });
-}
-
-function initializeReadableMode() {
-  const enabled = savedDyslexic === 'true';
-  setDyslexicMode(enabled);
-
-  readableToggle.addEventListener('click', () => {
-    const wasEnabled = root.classList.contains('dyslexic-mode');
-    setDyslexicMode(!wasEnabled);
-  });
-}
-
-function setContactFormStatus(message = '', status = '') {
-  if (!contactFormStatus) return;
-
-  contactFormStatus.textContent = message;
-  contactFormStatus.classList.remove('is-success', 'is-error', 'is-pop');
-  if (status === 'success') {
-    contactFormStatus.classList.add('is-success');
-  } else if (status === 'error') {
-    contactFormStatus.classList.add('is-error');
-  }
-}
-
-function playContactSuccessAnimation() {
-  const contactFormCard = document.querySelector('.contact-form-card');
-  if (!contactFormCard || !contactFormStatus) return;
-
-  if (contactSuccessAnimationTimer) {
-    window.clearTimeout(contactSuccessAnimationTimer);
-  }
-
-  contactFormCard.classList.remove('is-success-pop');
-  contactFormStatus.classList.remove('is-pop');
-
-  void contactFormCard.offsetWidth;
-
-  contactFormCard.classList.add('is-success-pop');
-  contactFormStatus.classList.add('is-pop');
-
-  contactSuccessAnimationTimer = window.setTimeout(() => {
-    contactFormCard.classList.remove('is-success-pop');
-    contactFormStatus.classList.remove('is-pop');
-    contactSuccessAnimationTimer = null;
-  }, 1500);
-}
-
-function updateContactFormIdleState() {
-  if (!contactSubmitButton) return;
-  if (!contactSubmitButton.disabled) {
-    contactSubmitButton.textContent = translations[currentLang].contactSubmit;
-  }
-}
-
-function setContactSubmittingState(isSubmitting) {
-  if (!contactSubmitButton) return;
-  contactSubmitButton.disabled = isSubmitting;
-  contactSubmitButton.textContent = isSubmitting ? translations[currentLang].contactSending : translations[currentLang].contactSubmit;
-}
-
-function waitForTurnstileApi(timeoutMs = 12000) {
-  return new Promise((resolve, reject) => {
-    const startedAt = Date.now();
-    let pollTimer = null;
-
-    function cleanup() {
-      if (pollTimer !== null) {
-        window.clearTimeout(pollTimer);
-      }
-      turnstileScript?.removeEventListener('error', handleScriptError);
+    if (turnstileWidgetId !== null) {
+      turnstile.remove(turnstileWidgetId);
+      turnstileWidgetId = null;
     }
 
-    function handleScriptError() {
-      cleanup();
-      reject(new Error('Turnstile script failed to load.'));
-    }
-
-    function check() {
-      if (window.turnstile && typeof window.turnstile.render === 'function') {
-        cleanup();
-        resolve(window.turnstile);
-        return;
-      }
-
-      if (turnstileScript?.dataset.loadError === 'true') {
-        cleanup();
-        reject(new Error('Turnstile script failed to load.'));
-        return;
-      }
-
-      if (Date.now() - startedAt >= timeoutMs) {
-        cleanup();
-        reject(new Error('Turnstile API timed out.'));
-        return;
-      }
-
-      pollTimer = window.setTimeout(check, 150);
-    }
-
-    if (!turnstileScript) {
-      reject(new Error('Turnstile script element is missing.'));
-      return;
-    }
-
-    turnstileScript.addEventListener('error', handleScriptError, { once: true });
-    check();
-  });
-}
-
-function resetTurnstileWidget() {
-  turnstileToken = '';
-  if (window.turnstile && turnstileWidgetId !== null) {
-    window.turnstile.reset(turnstileWidgetId);
-  }
-}
-
-async function renderContactTurnstile() {
-  if (!contactTurnstile) return;
-
-  contactTurnstile.textContent = translations[currentLang].contactChallengeLoading;
-
-  if (!turnstileSiteKey) {
-    throw new Error('Missing Turnstile site key.');
-  }
-
-  const turnstile = await waitForTurnstileApi();
-  contactTurnstile.textContent = '';
-
-  if (turnstileWidgetId !== null) {
-    turnstile.remove(turnstileWidgetId);
-    turnstileWidgetId = null;
-  }
-
-  turnstileWidgetId = turnstile.render(contactTurnstile, {
-    sitekey: turnstileSiteKey,
-    theme: 'auto',
-    size: 'flexible',
-    appearance: 'interaction-only',
-    callback(token) {
-      turnstileToken = token;
-      if (contactFormStatus?.classList.contains('is-error')) {
-        setContactFormStatus('', '');
-      }
-    },
-    'expired-callback'() {
-      turnstileToken = '';
-      setContactFormStatus(translations[currentLang].contactChallengeExpired, 'error');
-    },
-    'error-callback'() {
-      turnstileToken = '';
-      setContactFormStatus(translations[currentLang].contactChallengeError, 'error');
-    },
-  });
-}
-
-function initializeContactForm() {
-  if (!contactForm || !contactSubmitButton) return;
-
-  updateContactFormIdleState();
-  setContactFormStatus(translations[currentLang].contactChallengeLoading, '');
-
-  renderContactTurnstile()
-    .catch(error => {
-      console.warn('Contact form setup failed.', error);
-      setContactFormStatus(translations[currentLang].contactChallengeError, 'error');
-      contactSubmitButton.disabled = true;
+    turnstileWidgetId = turnstile.render(contactTurnstile, {
+      sitekey: siteKey,
+      theme: "auto",
+      size: "flexible",
+      appearance: "interaction-only",
+      callback(token) {
+        turnstileToken = token;
+        if (contactFormStatus?.classList.contains("is-error")) setFormStatus("");
+      },
+      "expired-callback"() {
+        turnstileToken = "";
+        setFormStatus("Spam protection expired. Please complete the check again.", "error");
+      },
+      "error-callback"() {
+        turnstileToken = "";
+        setFormStatus("Spam protection could not be loaded. Please refresh and try again.", "error");
+      },
     });
+  }
 
-  contactForm.addEventListener('submit', async event => {
+  function resetTurnstileWidget() {
+    turnstileToken = "";
+    if (window.turnstile && turnstileWidgetId !== null) {
+      window.turnstile.reset(turnstileWidgetId);
+    }
+  }
+
+  async function submitContactForm(event) {
     event.preventDefault();
-
-    if (!contactForm.reportValidity()) {
-      return;
-    }
-
+    if (!contactForm || !contactForm.reportValidity()) return;
     if (!turnstileToken) {
-      setContactFormStatus(translations[currentLang].contactChallengeRequired, 'error');
+      setFormStatus("Please complete the spam protection check before sending.", "error");
       return;
     }
 
-    setContactSubmittingState(true);
-    setContactFormStatus('', '');
+    setFormSubmitting(true);
+    setFormStatus("");
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
+      const formData = new FormData(contactForm);
+      const payload = {
+        name: String(formData.get("name") || "").trim(),
+        email: String(formData.get("email") || "").trim().toLowerCase(),
+        subject: String(formData.get("subject") || "").trim(),
+        message: String(formData.get("message") || "").trim(),
+        turnstileToken,
+      };
+
+      const response = await fetch("/api/contact", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        body: JSON.stringify({
-          name: contactForm.elements.name.value.trim(),
-          email: contactForm.elements.email.value.trim(),
-          subject: contactForm.elements.subject.value.trim(),
-          message: contactForm.elements.message.value.trim(),
-          turnstileToken,
-        }),
+        body: JSON.stringify(payload),
       });
 
-      const payload = await response.json().catch(() => ({}));
-
+      const data = await response.json().catch(() => ({}));
       if (!response.ok) {
-        if (response.status === 404 || response.status === 405 || response.status === 501) {
-          throw new Error(translations[currentLang].contactEndpointError);
-        }
-        throw new Error(payload?.message || `Form submission failed with status ${response.status}`);
+        throw new Error(data?.message || "Message could not be sent right now.");
       }
 
       contactForm.reset();
       resetTurnstileWidget();
-      setContactFormStatus(payload?.message || translations[currentLang].contactSuccess, 'success');
-      playContactSuccessAnimation();
+      setFormStatus(data?.message || "Message sent successfully. Thank you for reaching out.", "success");
     } catch (error) {
-      console.warn('Contact form submission failed.', error);
       resetTurnstileWidget();
-      const message =
-        error instanceof TypeError
-          ? translations[currentLang].contactNetworkError
-          : error.message || translations[currentLang].contactError;
-      setContactFormStatus(message, 'error');
+      setFormStatus(error instanceof Error ? error.message : "Message could not be sent right now.", "error");
     } finally {
-      setContactSubmittingState(false);
+      setFormSubmitting(false);
     }
-  });
-}
+  }
 
-function initializeNav() {
-  navToggle.addEventListener('click', () => {
-    const isOpen = navMenu.classList.toggle('open');
-    navToggle.setAttribute('aria-expanded', String(isOpen));
-  });
-
-  navMenu.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', () => {
-      navMenu.classList.remove('open');
-      navToggle.setAttribute('aria-expanded', 'false');
+  function initContactForm() {
+    if (!contactForm) return;
+    renderTurnstile().catch((error) => {
+      setFormStatus(error.message || "Spam protection could not be loaded. Please refresh and try again.", "error");
     });
-  });
-}
+    contactForm.addEventListener("submit", submitContactForm);
+  }
 
-function initializeScrollReveal() {
-  const revealElements = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    {
-      threshold: 0.16,
-      rootMargin: '0px 0px -8% 0px',
-    }
-  );
+  function init() {
+    setYear();
+    initLanguage();
+    initTheme();
+    initReadableMode();
+    initSpeech();
+    initPrivacy();
+    initNav();
+    initReveal();
+    initProjectsPage();
+    populateProjectDetail();
+    initContactForm();
+  }
 
-  revealElements.forEach(element => observer.observe(element));
-}
-
-function initialize() {
-  applyStaggerIndexes();
-  initializePageIntro();
-  initializeTheme();
-  initializeLanguage();
-  initializeReadableMode();
-  initializeSpeakControls();
-  initializePrivacy();
-  initializeContactForm();
-  initializeNav();
-  initializeScrollReveal();
-}
-
-document.addEventListener('DOMContentLoaded', initialize);
+  document.addEventListener("DOMContentLoaded", init);
+})();

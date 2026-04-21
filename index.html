@@ -1,322 +1,233 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Jibran Hussain | Electrical & Automation Engineering Student</title>
-  <meta name="description" content="Portfolio of Jibran Hussain, Electrical & Automation Engineering student in Finland. Practical maintenance experience, automation interests, and technical development." />
-  <meta name="theme-color" content="#0f172a" />
-  <meta name="color-scheme" content="dark light" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23384d77'/%3E%3Ctext x='50' y='55' font-size='50' text-anchor='middle' fill='white' font-family='system-ui, sans-serif'%3EJ%3C/text%3E%3C/svg%3E" />
-  <link rel="stylesheet" href="styles.css" />
-  <script>
-    try {
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!reduceMotion) {
-        document.documentElement.classList.add('intro-pending');
-      }
-    } catch (error) {
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.documentElement.classList.add('intro-pending');
-      }
+  <title>Jibran Hussain | Electrical &amp; Automation Engineering</title>
+  <meta
+    name="description"
+    content="Portfolio of Jibran Hussain, an Electrical and Automation Engineering student in Finland with practical maintenance experience and a growing focus on automation, electrical systems, and troubleshooting."
+  />
+  <meta property="og:title" content="Jibran Hussain | Electrical &amp; Automation Engineering" />
+  <meta property="og:description" content="Portfolio of Jibran Hussain, an Electrical and Automation Engineering student in Finland with practical maintenance experience and a growing focus on automation, electrical systems, and troubleshooting." />
+  <meta property="og:image" content="https://www.jibranhussain.com/assets/profile.png" />
+  <meta property="og:url" content="https://www.jibranhussain.com/" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Jibran Hussain | Electrical &amp; Automation Engineering" />
+  <meta name="twitter:description" content="Portfolio of Jibran Hussain, an Electrical and Automation Engineering student in Finland with practical maintenance experience and a growing focus on automation, electrical systems, and troubleshooting." />
+  <meta name="twitter:image" content="https://www.jibranhussain.com/assets/profile.png" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Jibran Hussain",
+      "url": "https://www.jibranhussain.com/",
+      "image": "https://www.jibranhussain.com/assets/profile.png",
+      "jobTitle": "Electrical & Automation Engineering Student",
+      "affiliation": {
+        "@type": "CollegeOrUniversity",
+        "name": "HAMK University of Applied Sciences"
+      },
+      "sameAs": [
+        "https://github.com/jibranthedecoder",
+        "https://www.linkedin.com/in/jibranhussainatwork"
+      ]
     }
   </script>
-  <script
-    id="turnstileScript"
-    src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
-    defer
-    onerror="this.dataset.loadError='true';"
-  ></script>
+  <meta name="theme-color" content="#0b1016" />
+  <link rel="canonical" href="https://www.jibranhussain.com/" />
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="/script.js" defer></script>
 </head>
-
-<body>
+<body data-page="home">
   <a class="skip-link" href="#main">Skip to main content</a>
-  <button class="page-intro" id="pageIntro" type="button" aria-label="Skip intro">
-    <span class="page-intro-panel">
-      <span class="page-intro-meta" data-i18n="introMeta">Portfolio</span>
-      <span class="page-intro-line">
-        <span class="page-intro-text" id="pageIntroText"></span>
-        <span class="page-intro-cursor" aria-hidden="true"></span>
-      </span>
-      <span class="page-intro-skip" data-i18n="introSkip">Click or press any key to continue</span>
-    </span>
-  </button>
-  <div class="page-atmosphere" aria-hidden="true">
-    <span class="atmosphere-glow glow-orbit glow-orbit-one"></span>
-    <span class="atmosphere-glow glow-orbit glow-orbit-two"></span>
-    <span class="atmosphere-grid"></span>
-  </div>
-  <div class="page-shell">
-    <header class="site-header">
-      <div class="header-row">
-        <div class="header-left">
-          <a class="logo" href="#home" data-i18n="logoName">Jibran Hussain</a>
-          <nav id="primary-navigation" class="primary-nav" aria-label="Primary navigation">
-            <a href="#about" data-i18n="navAbout">About</a>
-            <a href="#skills" data-i18n="navSkills">Skills</a>
-            <a href="#experience" data-i18n="navExperience">Experience</a>
-            <a href="#education" data-i18n="navEducation">Education</a>
-            <a href="#tools" data-i18n="navTools">Tools</a>
-            <a href="#contact" data-i18n="navContact">Contact</a>
-          </nav>
-          <button class="nav-toggle icon-button" id="navToggle" aria-controls="primary-navigation" aria-expanded="false" aria-label="Toggle menu" title="Toggle menu">
-            <span class="nav-toggle-icon" aria-hidden="true"></span>
-          </button>
-        </div>
 
-        <div class="header-right" aria-label="Utility controls">
-          <div class="language-switcher" role="group" aria-label="Language selection">
-            <button id="langToggle" type="button" class="control-button toggle-button" aria-pressed="false">FI</button>
-          </div>
-          <button id="pauseToggle" type="button" class="control-button pause-toggle icon-button" hidden aria-label="Pause reading" title="Pause reading">
-            <span class="button-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" class="ui-icon" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="6" y="5" width="4" height="14" rx="1.5"></rect>
-                <rect x="14" y="5" width="4" height="14" rx="1.5"></rect>
-              </svg>
-            </span>
-            <span class="sr-only" data-i18n="pause">Pause</span>
-          </button>
-          <button id="speakToggle" type="button" class="control-button icon-button" aria-pressed="false" aria-label="Read aloud" title="Read aloud">
-            <span class="button-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" class="ui-icon" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M11 5 6 9H3v6h3l5 4z"></path>
-                <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
-                <path d="M18.5 5.5a9 9 0 0 1 0 13"></path>
-              </svg>
-            </span>
-            <span class="sr-only" data-i18n="readLabel">Read</span>
-          </button>
-          <button id="readableToggle" type="button" class="control-button icon-button" aria-pressed="false" aria-label="Toggle dyslexic font mode" title="Toggle dyslexic mode">
-            <span class="button-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" class="ui-icon" focusable="false" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 19 9.5 5h1L16 19"></path>
-                <path d="M6.2 14h7.6"></path>
-                <path d="M18.5 8v11"></path>
-                <path d="M18.5 13h2.25a2.25 2.25 0 0 0 0-4.5H18.5"></path>
-              </svg>
-            </span>
-            <span class="sr-only">Toggle dyslexic mode</span>
-          </button>
-          <button id="themeToggle" class="theme-toggle control-button icon-button" type="button" aria-label="Toggle theme mode" title="Toggle theme mode">
-            <span class="button-icon" aria-hidden="true"></span>
-            <span class="sr-only">Toggle theme mode</span>
-          </button>
-        </div>
-      </div>
-    </header>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand-mark" href="/" aria-label="Go to home">
+        <span class="brand-monogram">JH</span>
+        <span class="brand-copy">
+          <span class="brand-name">Jibran Hussain</span>
+          <span class="brand-role" data-i18n="brandRole">Electrical &amp; Automation Engineering</span>
+        </span>
+      </a>
 
-    <div id="privacyBanner" class="privacy-banner" aria-live="polite" hidden>
-      <p data-i18n="privacyBannerText">We store only minimal local preferences and may use privacy-friendly analytics to improve the experience.</p>
-      <div class="privacy-actions">
-        <button id="privacyDetails" class="button button-secondary" type="button" data-i18n="privacyDetails">Details</button>
-        <button id="privacyAccept" class="button button-primary" type="button" data-i18n="privacyAccept">Accept</button>
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="primary-nav" id="primaryNav" aria-label="Primary navigation">
+        <a href="/" aria-current="page" data-i18n="navHome">Home</a>
+        <a href="/about/" data-i18n="navAbout">About</a>
+        <a href="/projects/" data-i18n="navProjects">Projects</a>
+        <a href="/contact/" data-i18n="navContact">Contact</a>
+      </nav>
+
+      <div class="header-controls">
+        <button id="langToggle" class="control-button" type="button" aria-pressed="false">FI</button>
+        <button id="speakToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Read aloud">
+          <span class="control-icon" aria-hidden="true"></span>
+          <span class="sr-only control-button-text">Read</span>
+        </button>
+        <button id="pauseToggle" class="control-button control-button-icon" type="button" hidden aria-label="Pause reading">
+          <span class="control-icon" aria-hidden="true"></span>
+          <span class="sr-only control-button-text">Pause</span>
+        </button>
+        <button id="readableToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Toggle dyslexic mode">
+          <span class="control-icon" aria-hidden="true"></span>
+          <span class="sr-only control-button-text">Dyslexic</span>
+        </button>
+        <button id="themeToggle" class="control-button control-button-icon" type="button" aria-label="Toggle theme mode">
+          <span class="control-icon" aria-hidden="true"></span>
+          <span class="sr-only control-button-text">Theme</span>
+        </button>
       </div>
     </div>
+  </header>
 
-    <div id="privacyModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="privacyModalTitle" hidden>
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 id="privacyModalTitle" data-i18n="privacyModalTitle">Privacy policy</h2>
-          <button id="privacyClose" class="modal-close" type="button" aria-label="Close privacy details">×</button>
-        </div>
-        <div class="modal-body">
-          <p data-i18n="privacyModalText1">This site stores only essential local preferences, such as language and readable mode. No tracking cookies are used without permission.</p>
-          <p data-i18n="privacyModalText2">You can change preferences anytime from your browser. This experience is built to be privacy-friendly and non-intrusive.</p>
-        </div>
-      </div>
+  <div id="privacyBanner" class="privacy-banner" aria-live="polite" hidden>
+    <p>We store only minimal local preferences and may use privacy-friendly analytics to improve the experience.</p>
+    <div class="privacy-actions">
+      <button id="privacyDetails" class="button button-secondary" type="button">Details</button>
+      <button id="privacyAccept" class="button button-primary" type="button">Accept</button>
     </div>
-
-    <main id="main">
-      <section id="home" class="hero section reveal">
-        <div class="hero-copy hero-stagger">
-          <p class="eyebrow hero-line" data-i18n="heroEyebrow">Portfolio</p>
-          <h1 class="hero-line" data-i18n="heroTitle">Jibran Hussain</h1>
-          <p class="hero-text hero-line" data-i18n="heroText">I am an Electrical & Automation Engineering student building hands-on experience in maintenance, troubleshooting, electrical systems, and reliable automation solutions. I bring a calm, analytical approach to engineering problems and a strong commitment to safe, practical outcomes.</p>
-          <div class="hero-actions hero-line">
-            <a class="button button-primary hero-cta" href="#contact" data-i18n="heroPrimaryAction">Start a conversation</a>
-            <a class="button button-secondary" href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener" data-i18n="heroSecondaryAction">View LinkedIn</a>
-          </div>
-        </div>
-
-        <div class="hero-panel">
-          <div class="hero-accent" aria-hidden="true"></div>
-          <div class="profile-card">
-            <div class="profile-image-frame">
-              <img src="assets/profile.png" alt="Portrait of Jibran Hussain" loading="lazy" />
-            </div>
-            <div class="profile-details">
-              <p class="profile-title" data-i18n="heroTitle">Jibran Hussain</p>
-              <p class="profile-subtitle" data-i18n="profileSubtitle">Electrical & Automation Engineering Student</p>
-              <p class="profile-meta" data-i18n="profileMeta">Finland • contact@jibranhussain.com</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="about" class="section reveal">
-        <div class="section-header">
-          <p class="section-label" data-i18n="aboutLabel">About</p>
-          <h2 data-i18n="aboutHeading">Focused on practical engineering and dependable systems.</h2>
-        </div>
-        <p class="reveal reveal-soft" data-i18n="aboutParagraph1">Practical and reliable professional with hands-on experience in maintenance and technical environments. Known for a calm, solution-oriented approach, strong work ethic, and willingness to learn new systems and methods. Works carefully, takes responsibility, and values doing tasks properly from the first time.</p>
-        <p class="reveal reveal-soft" data-i18n="aboutParagraph2">Brings a combination of technical understanding and real workplace experience, with interest in automation, electrical systems, troubleshooting, and continuous improvement. Appreciates clear communication, cooperation, and steady progress. Aims to contribute to dependable, efficient, and future-focused engineering work.</p>
-      </section>
-
-      <section id="skills" class="section reveal">
-        <div class="section-header">
-          <p class="section-label" data-i18n="skillsLabel">Skills</p>
-          <h2 data-i18n="skillsHeading">What I do well.</h2>
-        </div>
-        <div class="grid-2 stagger-group">
-          <div class="card-soft">
-            <h3 data-i18n="coreStrengthsTitle">Core strengths</h3>
-            <ul class="list-simple">
-              <li data-i18n="skill1">Preventive maintenance</li>
-              <li data-i18n="skill2">Troubleshooting</li>
-              <li data-i18n="skill3">PLC programming</li>
-              <li data-i18n="skill4">Electrical systems</li>
-            </ul>
-          </div>
-          <div class="card-soft">
-            <h3 data-i18n="workApproachTitle">Work approach</h3>
-            <ul class="list-simple">
-              <li data-i18n="skill5">Technical documentation</li>
-              <li data-i18n="skill6">Safety awareness</li>
-              <li data-i18n="skill7">Teamwork</li>
-              <li data-i18n="skill8">Continuous learning</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section id="programming" class="section reveal">
-        <div class="section-header">
-          <p class="section-label" data-i18n="programmingLabel">Programming</p>
-          <h2 data-i18n="programmingHeading">Programming languages and analytics tools.</h2>
-        </div>
-        <div class="card-soft reveal">
-          <h3>Languages & tools</h3>
-          <ul class="list-simple">
-            <li>IEC languages: FBD & ST</li>
-            <li>Python for analytics</li>
-            <li>C++ basic</li>
-            <li>MATLAB script language</li>
-            <li>Altair Activate logic</li>
-            <li>Advanced Excel</li>
-          </ul>
-        </div>
-      </section>
-
-      <section id="experience" class="section reveal">
-        <div class="section-header">
-          <p class="section-label" data-i18n="experienceLabel">Experience</p>
-          <h2 data-i18n="experienceHeading">Hands-on roles and practical training.</h2>
-        </div>
-        <div class="timeline stagger-group">
-          <article class="timeline-item">
-            <p class="timeline-meta" data-i18n="experienceItem1Title">Maintenance Technician ARE Oy</p>
-            <p class="timeline-date" data-i18n="experienceItem1Date">2023-2025</p>
-            <p data-i18n="experienceItem1Text">Supported preventive maintenance, troubleshooting, and inspections on electrical and automation equipment. I focused on reliability, safe workflows, and practical system improvements.</p>
-          </article>
-          <article class="timeline-item">
-            <p class="timeline-meta" data-i18n="experienceItem2Title">Intern ARE Oy</p>
-            <p class="timeline-date" data-i18n="experienceItem2Date">2023</p>
-            <p data-i18n="experienceItem2Text">Assisted maintenance operations with practical site tasks and gained exposure to industrial electrical systems, control panels, and automation diagnostics.</p>
-          </article>
-          <article class="timeline-item">
-            <p class="timeline-meta" data-i18n="experienceItem3Title">Student roles</p>
-            <p class="timeline-date" data-i18n="experienceItem3Date">2020-2023</p>
-            <p data-i18n="experienceItem3Text">Delivered support work on construction and maintenance teams while learning how disciplined project routines and teamwork improve technical results.</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="education" class="section reveal">
-        <div class="section-header">
-          <p class="section-label" data-i18n="educationLabel">Education</p>
-          <h2 data-i18n="educationHeading">Formal training in automation and electrical systems.</h2>
-        </div>
-        <div class="card-soft reveal">
-          <p class="timeline-meta" data-i18n="educationDegree">Bachelors Degree Programme in Electrical and Automation Engineering</p>
-          <p class="timeline-date" data-i18n="educationDate">HAMK University of Applied Sciences  2025-2027 (Expected)</p>
-          <p data-i18n="educationText">Focused on electrical systems, automation, PLC programming, measurements, and technical development for practical engineering workflows.</p>
-        </div>
-      </section>
-
-      <section id="tools" class="section reveal">
-        <div class="section-header">
-          <p class="section-label" data-i18n="toolsLabel">Tools & Tech</p>
-          <h2 data-i18n="toolsHeading">Software and systems I use.</h2>
-        </div>
-        <div class="pill-grid stagger-group">
-          <span>TwinCAT Beckhoff</span>
-          <span>Siemens TIA Portal</span>
-          <span>CODESYS</span>
-          <span>AutoCAD</span>
-          <span>GitHub</span>
-          <span>VS Code</span>
-          <span>HVAC systems</span>
-        </div>
-      </section>
-
-      <section id="contact" class="section reveal contact-panel">
-        <div class="contact-copy reveal reveal-soft">
-          <p class="section-label" data-i18n="contactLabel">Contact</p>
-          <h2 data-i18n="contactHeading">Ready for internship and engineering opportunities.</h2>
-          <p data-i18n="contactText">If you are looking for a student who values practical engineering, safe systems, and steady progress, please get in touch. I am available for internship roles, maintenance support, and automation projects.</p>
-          <p class="contact-note" data-i18n="contactFormIntro">Send a message directly here and it will be delivered securely.</p>
-        </div>
-        <div class="contact-form-card reveal">
-          <form id="contactForm" class="contact-form" action="/api/contact" method="POST" novalidate>
-            <div class="form-grid">
-              <label class="form-field">
-                <span data-i18n="contactNameLabel">Name</span>
-                <input type="text" name="name" autocomplete="name" required minlength="2" maxlength="120" />
-              </label>
-              <label class="form-field">
-                <span data-i18n="contactEmailLabel">Email</span>
-                <input type="email" name="email" autocomplete="email" required maxlength="160" />
-              </label>
-            </div>
-
-            <label class="form-field">
-              <span data-i18n="contactSubjectLabel">Subject</span>
-              <input type="text" name="subject" required minlength="3" maxlength="160" />
-            </label>
-
-            <label class="form-field">
-              <span data-i18n="contactMessageLabel">Message</span>
-              <textarea name="message" rows="5" required minlength="10" maxlength="4000"></textarea>
-            </label>
-
-            <div
-              id="contactTurnstile"
-              class="contact-turnstile"
-              aria-live="polite"
-              data-sitekey="0x4AAAAAAC_WnzOWpDebVPCC"
-            ></div>
-            <p id="contactFormStatus" class="contact-form-status" aria-live="polite"></p>
-
-            <div class="contact-actions">
-              <button id="contactSubmitButton" class="button button-primary" type="submit" data-i18n="contactSubmit">Send message</button>
-              <a id="contactEmail" class="button button-secondary" href="mailto:contact@jibranhussain.com" data-i18n="contactEmail">Email contact@jibranhussain.com</a>
-              <a id="contactLinkedin" class="button button-secondary" href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener" data-i18n="contactLinkedin">LinkedIn profile</a>
-            </div>
-          </form>
-        </div>
-      </section>
-    </main>
-
-    <footer class="footer reveal">
-      <p data-i18n="footerText">2026 Jibran Hussain.</p>
-      <p><a href="https://www.jibranhussain.com" target="_blank" rel="noopener">www.jibranhussain.com</a></p>
-    </footer>
   </div>
 
-  <script src="script.js"></script>
+  <div id="privacyModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="privacyModalTitle" hidden>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="privacyModalTitle">Privacy policy</h2>
+        <button id="privacyClose" class="modal-close" type="button" aria-label="Close privacy details">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>This site stores only essential local preferences, such as language and readable mode. No tracking cookies are used without permission.</p>
+        <p>You can change preferences anytime from your browser. This experience is built to be privacy-friendly and non-intrusive.</p>
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+    <section id="home" class="page-shell hero-layout">
+      <div class="hero-copy">
+        <p class="eyebrow" data-i18n="homeEyebrow">Portfolio</p>
+        <h1 data-i18n="homeTitle">Jibran Hussain</h1>
+        <p class="micro-label" data-i18n="homeTagline">Learning, building, and growing in engineering.</p>
+        <p class="hero-lead" data-i18n="homeLead">
+          I started from practical work and moved toward engineering studies because I wanted to understand systems more deeply. Today I study Electrical &amp; Automation Engineering in Finland and keep building skills for the future.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="/about/" data-i18n="homeAboutCta">About Me</a>
+          <a class="button button-secondary" href="/projects/" data-i18n="homeProjectsCta">Projects</a>
+          <a class="button button-secondary" href="/assets/Jibran-Hussain-CV.pdf" download>Download CV</a>
+          <span class="micro-label">Updated April 2026</span>
+          <a class="button button-tertiary" href="/contact/" data-i18n="homeContactCta">Contact</a>
+        </div>
+      </div>
+
+      <div class="hero-panel">
+        <article class="hero-portrait-card">
+          <div class="hero-portrait-frame">
+            <img src="/assets/profile.png" alt="Portrait of Jibran Hussain" loading="eager" fetchpriority="high" width="1024" height="1024" />
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-shell reveal">
+      <div class="section-header-row">
+        <div class="section-heading">
+          <p class="eyebrow">Featured projects</p>
+          <h2 class="section-title">Engineering work in progress.</h2>
+        </div>
+        <div class="project-links">
+          <a class="button button-secondary" href="/projects/">All Projects</a>
+          <a class="button button-tertiary" href="https://github.com/jibranthedecoder" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+      <div class="project-grid">
+        <article class="project-card">
+          <div class="project-card-top">
+            <span class="status-badge status-build">IN-PROGRESS</span>
+            <span class="project-category">MATERIAL HANDLING AUTOMATION</span>
+          </div>
+          <h3>Smart Conveyor System</h3>
+          <p class="project-summary">A control logic project focused on sequence states, blocked-flow handling, jam recovery, and operator-readable diagnostics.</p>
+          <div class="project-links">
+            <a class="button button-primary" href="/projects/smart-conveyor/">View Project</a>
+          </div>
+        </article>
+        <article class="project-card">
+          <div class="project-card-top">
+            <span class="status-badge status-build">BUILT</span>
+            <span class="project-category">ELECTRICAL POWER AND DRIVES</span>
+          </div>
+          <h3>Motor Control Center Study</h3>
+          <p class="project-summary">A practical MCC case study for start permissives, trip visibility, feedback checks, and maintenance-facing motor status.</p>
+          <div class="project-links">
+            <a class="button button-primary" href="/projects/motor-control-center/">View Project</a>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section class="section-shell reveal">
+      <div class="section-header-row">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="selectedWorkEyebrow">Selected work</p>
+          <h2 class="section-title" data-i18n="selectedWorkTitle">Projects I’m building.</h2>
+        </div>
+        <a class="button button-secondary" href="/projects/" data-i18n="selectedWorkCta">All Projects</a>
+      </div>
+      <div class="project-grid">
+        <article class="project-card">
+          <div class="project-card-top">
+            <span class="status-badge status-build">ACTIVE BUILD</span>
+            <span class="project-category">MATERIAL HANDLING AUTOMATION</span>
+          </div>
+          <h3>Smart Conveyor System</h3>
+          <p class="project-summary">A control logic project built around sensors, sequence control, fault handling, and safe machine behavior.</p>
+          <div class="project-links">
+            <a class="button button-primary" href="/projects/smart-conveyor/">View Project</a>
+          </div>
+        </article>
+        <article class="project-card">
+          <div class="project-card-top">
+            <span class="status-badge status-build">CASE STUDY BUILD</span>
+            <span class="project-category">ELECTRICAL POWER AND DRIVES</span>
+          </div>
+          <h3>Motor Control Study</h3>
+          <p class="project-summary">A practical project focused on starters, protection, signals, and how motors are controlled in real systems.</p>
+          <div class="project-links">
+            <a class="button button-primary" href="/projects/motor-control-center/">View Project</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-title">Jibran Hussain</p>
+        <p class="footer-copy" data-i18n="footerCopy">Thanks for visiting my portfolio.</p>
+        <p class="footer-copy">Open to internships, junior engineering roles, and technical opportunities. <a href="/contact/">Contact me</a></p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="/" data-i18n="navHome">Home</a>
+        <a href="/about/" data-i18n="navAbout">About</a>
+        <a href="/projects/" data-i18n="navProjects">Projects</a>
+        <a href="/contact/" data-i18n="navContact">Contact</a>
+      </nav>
+
+      <div class="footer-meta">
+        <a href="https://github.com/jibranthedecoder" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener">LinkedIn</a>
+        <p>&copy; <span id="currentYear"></span> Jibran Hussain</p>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

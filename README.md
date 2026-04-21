@@ -1,92 +1,38 @@
 # Jibran Hussain Portfolio
 
-A responsive personal portfolio website for Electrical and Automation Engineering student Jibran Hussain.
+A multi-page portfolio built with vanilla HTML, CSS, JavaScript, and Cloudflare Pages Functions.
 
-The site is built with vanilla HTML, CSS, JavaScript, and Cloudflare Pages Functions. It includes polished styling, responsive layout, dark/light theming, accessibility-focused enhancements, and a production-ready contact form backend.
+## Live architecture
 
-## Project structure
+- Home page at `/`
+- About page at `/about/`
+- Projects landing page at `/projects/`
+- Contact page at `/contact/`
+- Project case-study routes at `/projects/<slug>/`
+- Shared styling in `styles.css`
+- Shared client logic in `script.js`
+- Shared project metadata in `project-data.js`
+- Contact delivery through `functions/api/contact.js`
 
-- `index.html` - main portfolio page structure and content
-- `styles.css` - responsive styling, theme support, and readable mode design
-- `script.js` - interactivity, theme management, language switching, speech synthesis, privacy preferences, and contact form handling
-- `functions/api/contact.js` - Cloudflare Pages Function for validation, Turnstile verification, and message delivery
-- `wrangler.toml` - Cloudflare local development and Pages configuration
-- `assets/` - image assets used in the site
+## Local preview
 
-## Key features
+Static preview:
 
-- Responsive hero, about, skills, experience, education, tools, and contact sections
-- Dark/light mode toggle with local preference persistence
-- Automatic browser language detection with Finnish and English support
-- Manual language switch buttons that override auto-detection
-- Read aloud feature using the browser SpeechSynthesis API
-- Dyslexia-friendly mode with larger spacing and Open-Dyslexic font support
-- Minimal privacy banner and modal with consent persistence in `localStorage`
-- Cloudflare Turnstile protected contact form with server-side validation
-- Accessible navigation, ARIA labels, and keyboard-friendly controls
-
-## Running locally
-
-Open the project using a local server for best browser compatibility.
-
-### Python
-
-```bash
+```powershell
 python -m http.server 8000
 ```
 
-Then open `http://localhost:8000` in your browser.
+Cloudflare Pages Functions preview:
 
-Note: the contact form itself requires Cloudflare Pages Functions, so Turnstile verification and email delivery will only work locally when you use `wrangler pages dev .`.
-
-### Cloudflare Pages local dev
-
-```bash
+```powershell
 wrangler pages dev .
 ```
 
-## Cloudflare contact form setup
+## Required environment variables
 
-Set these Cloudflare Pages environment variables for both preview and production:
-
-- `TURNSTILE_SECRET_KEY` - Turnstile secret key used only in the backend function
-- `RESEND_API_KEY` - Resend API key used only in the backend function
-- `CONTACT_TO_EMAIL` - destination inbox, for example `contact@jibranhussain.com`
-- `CONTACT_FROM_EMAIL` - verified sender address for Resend delivery
-- `CONTACT_FROM_NAME` - optional display name for outgoing mail
-- `CONTACT_ALLOWED_ORIGINS` - optional comma-separated extra origins or hostnames beyond the built-in allowlist
-
-Important: in Cloudflare Pages, environment variables are scoped by environment. If you add `TURNSTILE_SECRET_KEY` only under Preview, the Production deployment on `jibranhussain.com` will still report it missing until you add it to Production and redeploy.
-
-Recommended flow:
-
-1. Create a Turnstile widget in Cloudflare and allow your production domain.
-2. Use the site key `0x4AAAAAAC_WnzOWpDebVPCC` in the frontend.
-3. Add `TURNSTILE_SECRET_KEY`, `RESEND_API_KEY`, and the contact email variables in Cloudflare Pages environment settings.
-4. Deploy the site to Cloudflare Pages.
-5. Submit the contact form once from the deployed site and confirm delivery.
-
-### Runtime health check
-
-Open `/api/contact` on the deployed site to verify runtime configuration safely. The response includes booleans such as `hasTurnstileSecretKey`, `hasResendApiKey`, and `hasContactToEmail`, but never exposes any secret values.
-
-## Deploying
-
-1. Commit all files to your repository.
-2. Push to the `main` branch.
-3. Connect the repository to Cloudflare Pages.
-4. Use the project root as the build output directory.
-5. Add the environment variables listed above.
-6. Visit the published Pages URL.
-
-## Editing content
-
-Update the content directly in `index.html` for this portfolio project. The page is currently built as a stable site template rather than a content-driven markdown system.
-
-## Notes
-
-- The site keeps user preferences for theme, language, dyslexia mode, and privacy consent in `localStorage`.
-- The read aloud feature uses browser support for `speechSynthesis`; if unsupported, it disables cleanly.
-- The contact form frontend renders Turnstile directly with the public site key, while the backend uses `TURNSTILE_SECRET_KEY` to verify tokens before sending mail through Resend with `RESEND_API_KEY`.
-- The `/api/contact` `GET` route acts as a safe health check for Pages Functions runtime bindings and hostname allowlist behavior.
-- The design preserves the existing layout and navigation while improving usability and accessibility.
+- `TURNSTILE_SECRET_KEY`
+- `RESEND_API_KEY`
+- `CONTACT_TO_EMAIL`
+- `CONTACT_FROM_EMAIL`
+- `CONTACT_FROM_NAME`
+- `CONTACT_ALLOWED_ORIGINS`

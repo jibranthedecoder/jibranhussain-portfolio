@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Virtual Commissioning Project | Projects | Jibran Hussain</title>
+  <meta name="description" content="Virtual Commissioning Project — a simulation-first study for validating sequence logic and fault scenarios before live deployment." />
+  <meta name="theme-color" content="#0b1016" />
+  <link rel="canonical" href="https://www.jibranhussain.com/projects/virtual-commissioning-project/" />
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="/project-data.js" defer></script>
+  <script src="/script.js" defer></script>
+</head>
+<body data-page="project-detail">
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand-mark" href="/" aria-label="Go to home">
+        <span class="brand-monogram">JH</span>
+        <span class="brand-copy">
+          <span class="brand-name">Jibran Hussain</span>
+          <span class="brand-role" data-i18n="brandRole">Electrical &amp; Automation Engineering</span>
+        </span>
+      </a>
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="primary-nav" id="primaryNav" aria-label="Primary navigation">
+        <a href="/" data-i18n="navHome">Home</a>
+        <a href="/about/" data-i18n="navAbout">About</a>
+        <a href="/projects/" aria-current="page" data-i18n="navProjects">Projects</a>
+        <a href="/contact/" data-i18n="navContact">Contact</a>
+      </nav>
+      <div class="header-controls">
+        <button id="langToggle" class="control-button" type="button" aria-pressed="false">FI</button>
+        <button id="speakToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Read aloud">
+          <span class="control-icon" aria-hidden="true"></span>
+          <span class="sr-only control-button-text">Read</span>
+        </button>
+        <button id="pauseToggle" class="control-button control-button-icon" type="button" hidden aria-label="Pause reading">
+          <span class="control-icon" aria-hidden="true"></span>
+          <span class="sr-only control-button-text">Pause</span>
+        </button>
+        <button id="readableToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Toggle dyslexic mode">
+          <span class="control-icon" aria-hidden="true"></span>
+          <span class="sr-only control-button-text">Dyslexic</span>
+        </button>
+        <button id="themeToggle" class="control-button control-button-icon" type="button" aria-label="Toggle theme mode">
+          <span class="control-icon" aria-hidden="true"></span>
+          <span class="sr-only control-button-text">Theme</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div id="privacyBanner" class="privacy-banner" aria-live="polite" hidden>
+    <p>We store only minimal local preferences and may use privacy-friendly analytics to improve the experience.</p>
+    <div class="privacy-actions">
+      <button id="privacyDetails" class="button button-secondary" type="button">Details</button>
+      <button id="privacyAccept" class="button button-primary" type="button">Accept</button>
+    </div>
+  </div>
+
+  <div id="privacyModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="privacyModalTitle" hidden>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="privacyModalTitle">Privacy policy</h2>
+        <button id="privacyClose" class="modal-close" type="button" aria-label="Close privacy details">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>This site stores only essential local preferences, such as language and readable mode. No tracking cookies are used without permission.</p>
+        <p>You can change preferences anytime from your browser. This experience is built to be privacy-friendly and non-intrusive.</p>
+      </div>
+    </div>
+  </div>
+
+  <main id="main" class="project-detail-shell" data-project-slug="virtual-commissioning-project">
+    <section class="page-shell detail-hero">
+      <div class="detail-copy reveal">
+        <p class="eyebrow">Project case study</p>
+        <h1 data-project-title></h1>
+        <p class="hero-lead" data-project-intro></p>
+        <div class="detail-meta">
+          <span class="status-badge" data-project-status></span>
+          <span class="project-category" data-project-category></span>
+        </div>
+        <div class="detail-actions">
+          <a class="button button-secondary" href="/projects/">Back to Projects</a>
+          <a class="button button-primary" data-project-github href="#" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+      <div class="detail-visual reveal">
+        <div class="diagram-stage">
+          <p class="aside-label">Visual package</p>
+          <div class="diagram-window"></div>
+          <div class="diagram-notes"><span></span><span></span><span></span></div>
+          <p class="panel-copy" data-project-visual></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-shell detail-layout">
+      <article class="detail-panel reveal">
+        <p class="aside-label">Overview</p>
+        <p data-project-summary></p>
+      </article>
+      <article class="detail-panel reveal">
+        <p class="aside-label">Engineering problem</p>
+        <p data-project-problem></p>
+      </article>
+      <div class="detail-grid">
+        <article class="detail-panel reveal">
+          <p class="aside-label">Technologies</p>
+          <ul class="detail-list" data-project-technologies></ul>
+        </article>
+        <article class="detail-panel reveal">
+          <p class="aside-label">Skills demonstrated</p>
+          <ul class="detail-list" data-project-skills></ul>
+        </article>
+        <article class="detail-panel reveal">
+          <p class="aside-label">What this proves</p>
+          <p data-project-why></p>
+        </article>
+        <article class="detail-panel reveal">
+          <p class="aside-label">Next steps</p>
+          <ul class="detail-list" data-project-next-steps></ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-shell reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Project outcomes</p>
+        <h2 class="section-title">Evidence the case study is designed to show.</h2>
+      </div>
+      <ul class="story-list" data-project-outcomes></ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-title">Jibran Hussain</p>
+        <p class="footer-copy" data-i18n="footerCopy">Thanks for visiting my portfolio.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="/" data-i18n="navHome">Home</a>
+        <a href="/about/" data-i18n="navAbout">About</a>
+        <a href="/projects/" aria-current="page" data-i18n="navProjects">Projects</a>
+        <a href="/contact/" data-i18n="navContact">Contact</a>
+      </nav>
+      <div class="footer-meta">
+        <a href="https://github.com/jibranthedecoder" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener">LinkedIn</a>
+        <p>&copy; <span id="currentYear"></span> Jibran Hussain</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
