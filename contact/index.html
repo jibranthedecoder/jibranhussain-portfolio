@@ -29,6 +29,7 @@
     onerror="this.dataset.loadError='true';"
   ></script>
   <script src="/script.js" defer></script>
+  <script src="/assets/lottie-loader.js" defer></script>
 </head>
 <body data-page="contact">
   <a class="skip-link" href="#main" data-i18n="skipToMain">Skip to main content</a>
@@ -102,6 +103,7 @@
       </div>
       <div class="page-lottie-wrap reveal"
            id="contactLottie"
+           data-lottie-path="/assets/contact-wave-hand.json"
            aria-hidden="true"
            role="presentation"></div>
     </section>
@@ -182,54 +184,5 @@
       </div>
     </div>
   </footer>
-  <script>
-  (function () {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    var el = document.getElementById('contactLottie');
-    if (!el) return;
-
-    function initLottie() {
-      if (el.dataset.lottieLoaded === 'true') return;
-      el.dataset.lottieLoaded = 'true';
-      try {
-        window.lottie.loadAnimation({
-          container: el,
-          renderer: 'svg',
-          loop: true,
-          autoplay: true,
-          path: '/assets/contact-wave-hand.json'
-        });
-      } catch (e) {
-        el.dataset.lottieLoaded = 'false';
-      }
-    }
-
-    function loadPlayer() {
-      if (window.lottie) {
-        initLottie();
-        return;
-      }
-
-      var existing = document.querySelector('script[data-lottie-player="true"]');
-      if (existing) {
-        existing.addEventListener('load', initLottie, { once: true });
-        return;
-      }
-
-      var s = document.createElement('script');
-      s.src = '/assets/lottie-light.min.js';
-      s.dataset.lottiePlayer = 'true';
-      s.onload = initLottie;
-      document.head.appendChild(s);
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', loadPlayer, { once: true });
-    } else {
-      loadPlayer();
-    }
-  }());
-  </script>
 </body>
 </html>
