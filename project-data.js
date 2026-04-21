@@ -4,7 +4,7 @@ window.PORTFOLIO_PROJECTS = [
     title: "Smart Conveyor System",
     category: "Material handling automation",
     status: "build",
-    statusLabel: "In-progress",
+    statusLabel: "In Progress",
     summary: "A project focused on how machines move products step by step, and what happens when something goes wrong.",
     intro: "A controls case study built to show how I think about sequence design, failure handling, and maintainable PLC behavior.",
     problem: "Conveyors seem simple until flow stops. The real work is handling blocked paths, conflicting signals, and getting the system running again without causing more issues.",
