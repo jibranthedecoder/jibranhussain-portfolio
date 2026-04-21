@@ -157,6 +157,7 @@
   .cv-meta p,
   .cv-content p,
   .cv-content li {
+    font-size: 9.7pt;
     line-height: 1.34;
     color: #222222;
   }
