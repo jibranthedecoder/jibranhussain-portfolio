@@ -1,7 +1,8 @@
 // @ts-check
 /**
  * Smoke tests — run against every page on desktop + mobile viewports.
- * Checks: page load, title, h1 presence, no JS console errors, basic a11y.
+ * Checks: page load, title, h1 presence, no JS console errors, basic a11y,
+ * language toggle, FI direct-load persistence, theme toggle, reduced motion.
  *
  * Run:  npx playwright test qa/tests/smoke.test.js
  */
@@ -10,28 +11,26 @@ const { test, expect } = require('@playwright/test');
 
 /** Pages to smoke-test. Paths relative to baseURL. */
 const PAGES = [
-  { path: '/',          title: /Jibran Hussain/i,   h1: /Jibran/i },
-  { path: '/about/',    title: /About/i,             h1: /./       },   // h1 is a personal tagline, not "About"
-  { path: '/projects/', title: /Projects/i,          h1: /Projects/i },
-  { path: '/contact/',  title: /Contact/i,            h1: /./         },   // h1 is a custom CTA, not "Contact"
-  { path: '/cv/',       title: /CV/i,                h1: /Jibran/i   },
+  { path: '/',          title: /Jibran Hussain/i, h1: /Jibran/i,        hasNav: true,  hasChrome: true  },
+  { path: '/about/',    title: /About/i,          h1: /./,              hasNav: true,  hasChrome: true  },
+  { path: '/projects/', title: /Projects/i,       h1: /Projects/i,      hasNav: true,  hasChrome: true  },
+  { path: '/contact/',  title: /Contact/i,        h1: /./,              hasNav: true,  hasChrome: true  },
+  { path: '/cv/',       title: /CV/i,             h1: /Jibran/i,        hasNav: false, hasChrome: false },
 ];
 
 /** Console message severities that count as failures. */
 const ERROR_TYPES = new Set(['error']);
 
-for (const { path, title, h1 } of PAGES) {
+for (const { path, title, h1, hasNav, hasChrome } of PAGES) {
   test.describe(`Page: ${path}`, () => {
-
-    /** Collect console errors during page load. */
     test('loads without JS console errors', async ({ page }) => {
       const consoleErrors = /** @type {string[]} */ ([]);
-      page.on('console', msg => {
+      page.on('console', (msg) => {
         if (ERROR_TYPES.has(msg.type())) {
           consoleErrors.push(`[${msg.type()}] ${msg.text()}`);
         }
       });
-      page.on('pageerror', err => {
+      page.on('pageerror', (err) => {
         consoleErrors.push(`[pageerror] ${err.message}`);
       });
 
@@ -79,6 +78,52 @@ for (const { path, title, h1 } of PAGES) {
       await expect(canonical).toHaveCount(1);
     });
 
+    test('supports reduced motion without hiding core content', async ({ browser }) => {
+      const context = await browser.newContext({ reducedMotion: 'reduce' });
+      const page = await context.newPage();
+      await page.goto(path);
+      await expect(page.locator('main')).toBeVisible();
+      await expect(page.locator('h1').first()).toBeVisible();
+      await context.close();
+    });
+
+    test('FI direct-load persists and renders cleanly', async ({ page }) => {
+      test.skip(!hasChrome, 'page does not use shared site chrome');
+      await page.goto(path);
+      await page.evaluate(() => localStorage.setItem('jh-language', 'fi'));
+      await page.reload();
+      await expect(page.locator('html')).toHaveAttribute('lang', 'fi');
+      const bodyText = await page.locator('body').innerText();
+      expect(bodyText.includes('�'), `Replacement character found on ${path}`).toBeFalsy();
+      expect(/\?[a-zåäö]/i.test(bodyText), `Potential mojibake fragment found on ${path}`).toBeFalsy();
+    });
+
+    test('theme toggle switches theme mode', async ({ page }) => {
+      test.skip(!hasChrome, 'page does not use shared site chrome');
+      await page.goto(path);
+      const themeToggle = page.locator('#themeToggle');
+      await expect(themeToggle).toHaveCount(1);
+      const before = await page.locator('html').getAttribute('data-theme');
+      await themeToggle.click();
+      const after = await page.locator('html').getAttribute('data-theme');
+      expect(after, `Theme did not change on ${path}`).not.toBe(before);
+    });
+
+    test('language toggle switches to Finnish', async ({ page }) => {
+      test.skip(!hasChrome, 'page does not use shared site chrome');
+      await page.goto(path);
+      const langToggle = page.locator('#langToggle');
+      await expect(langToggle).toHaveCount(1);
+      await langToggle.click();
+      await expect(page.locator('html')).toHaveAttribute('lang', 'fi');
+    });
+
+    test('has nav or menu when expected', async ({ page }) => {
+      await page.goto(path);
+      const navCount = await page.locator('nav').count();
+      if (hasNav) expect(navCount, `No <nav> on ${path}`).toBeGreaterThanOrEqual(1);
+      else expect(navCount).toBeGreaterThanOrEqual(0);
+    });
   });
 }
 
@@ -87,24 +132,21 @@ for (const { path, title, h1 } of PAGES) {
 // ---------------------------------------------------------------------------
 
 test.describe('Mobile layout', () => {
-  // Only run these in mobile projects
   test.skip(({ isMobile }) => !isMobile, 'mobile only');
 
-  for (const { path } of PAGES) {
-    test(`${path} — no horizontal scroll on mobile`, async ({ page, isMobile: _im }) => {
+  for (const { path, hasNav } of PAGES) {
+    test(`${path} — no horizontal scroll on mobile`, async ({ page }) => {
       await page.goto(path);
-      const bodyScrollWidth   = await page.evaluate(() => document.body.scrollWidth);
-      const viewportWidth     = page.viewportSize()?.width ?? 375;
+      const bodyScrollWidth = await page.evaluate(() => document.body.scrollWidth);
+      const viewportWidth = page.viewportSize()?.width ?? 375;
       expect(
         bodyScrollWidth,
         `Horizontal overflow on ${path} (scrollWidth ${bodyScrollWidth} > viewport ${viewportWidth})`
-      ).toBeLessThanOrEqual(viewportWidth + 2);   // 2px tolerance for rounding
+      ).toBeLessThanOrEqual(viewportWidth + 2);
     });
 
     test(`${path} — nav or menu is accessible on mobile`, async ({ page }) => {
-      // CV is a standalone print page — it uses action buttons, not a <nav>.
-      // All other pages must have a <nav> element.
-      if (path === '/cv/') return;
+      if (!hasNav) return;
       await page.goto(path);
       const navCount = await page.locator('nav').count();
       expect(navCount, `No <nav> on mobile ${path}`).toBeGreaterThanOrEqual(1);
