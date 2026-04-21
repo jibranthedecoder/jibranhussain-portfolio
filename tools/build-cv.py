@@ -27,7 +27,10 @@ try:
         Spacer,
         HRFlowable,
         KeepTogether,
+        Table,
+        TableStyle,
     )
+    from reportlab.lib import colors
 except ImportError:
     sys.exit(
         "\nreportlab is required.\n"
@@ -46,8 +49,10 @@ OUTPUT = REPO / "assets" / "Jibran-Hussain-CV-EN.pdf"
 # Colours
 # ---------------------------------------------------------------------------
 
+C_NAME   = HexColor("#111111")
 C_TEXT   = HexColor("#111111")
 C_MUTED  = HexColor("#444444")
+C_LABEL  = HexColor("#777777")
 C_ACCENT = HexColor("#1a2128")
 C_RULE   = HexColor("#cccccc")
 C_LINK   = "#1a5276"
@@ -61,24 +66,29 @@ def make_styles():
         "base",
         fontName="Helvetica",
         fontSize=9.7,
-        leading=13.3,
+        leading=13.5,
         textColor=C_TEXT,
     )
     return {
+        # Large bold name matching the approved reference
         "name": ParagraphStyle(
             "s_name", parent=base,
             fontName="Helvetica-Bold",
-            fontSize=22,
-            leading=26,
-            spaceAfter=1 * mm,
+            fontSize=26,
+            leading=30,
+            textColor=C_NAME,
+            spaceAfter=1.5 * mm,
         ),
-        "job_title": ParagraphStyle(
-            "s_job_title", parent=base,
-            fontSize=10.5,
-            leading=14,
+        # Bold subtitle (not muted) to match reference weight
+        "subtitle": ParagraphStyle(
+            "s_subtitle", parent=base,
+            fontName="Helvetica-Bold",
+            fontSize=11,
+            leading=15,
             textColor=C_MUTED,
-            spaceAfter=2 * mm,
+            spaceAfter=3 * mm,
         ),
+        # Compact contact row: small label prefix + value
         "meta": ParagraphStyle(
             "s_meta", parent=base,
             fontSize=8.8,
@@ -86,29 +96,33 @@ def make_styles():
             textColor=C_MUTED,
             spaceAfter=0.8 * mm,
         ),
+        # Section heading: prominent, bold, with room to breathe
         "h2": ParagraphStyle(
             "s_h2", parent=base,
             fontName="Helvetica-Bold",
-            fontSize=11,
-            leading=14,
+            fontSize=13,
+            leading=16,
             textColor=C_ACCENT,
-            spaceBefore=5 * mm,
-            spaceAfter=1 * mm,
+            spaceBefore=5.5 * mm,
+            spaceAfter=1.2 * mm,
         ),
+        # Body paragraph
         "body": ParagraphStyle(
             "s_body", parent=base,
             fontSize=9.7,
-            leading=13.3,
+            leading=14,
             textColor=C_MUTED,
-            spaceAfter=1.5 * mm,
+            spaceAfter=2 * mm,
         ),
+        # Bullet item — supports inline bold for "Category:" labels
         "bullet": ParagraphStyle(
             "s_bullet", parent=base,
             fontSize=9.7,
-            leading=13.3,
+            leading=13.5,
             textColor=C_MUTED,
-            leftIndent=4 * mm,
-            spaceAfter=0.9 * mm,
+            leftIndent=3.5 * mm,
+            bulletIndent=0,
+            spaceAfter=1.2 * mm,
         ),
     }
 
@@ -133,14 +147,12 @@ def parse_frontmatter(text):
     return fm, m.group(2).strip()
 
 # ---------------------------------------------------------------------------
-# Inline markup converter
+# Inline markup
 # ---------------------------------------------------------------------------
 
 def inline_markup(text):
-    """Convert markdown bold and links to ReportLab XML paragraph markup."""
-    # **bold**
+    """Convert **bold** and [label](url) to ReportLab XML markup."""
     text = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", text)
-    # [label](url)
     def _link(m):
         label = m.group(1)
         url   = m.group(2).strip()
@@ -149,18 +161,27 @@ def inline_markup(text):
         return f'<a href="{url}" color="{C_LINK}">{label}</a>'
     return re.sub(r"\[([^\]]+)\]\(([^)]+)\)", _link, text)
 
+def auto_bold_label(text):
+    """
+    If text begins with 'Category: rest…', bold the label portion.
+    Matches labels up to 45 chars before the first colon, with no
+    period or existing markup in the label itself.
+    Applied only when the text doesn't already open with a tag.
+    """
+    if text.startswith("<"):
+        return text
+    m = re.match(r"^([^:<.]{2,45}):\s+(.*)", text, re.DOTALL)
+    if m:
+        return f"<b>{m.group(1)}:</b> {m.group(2)}"
+    return text
+
 # ---------------------------------------------------------------------------
 # Body section parser
 # ---------------------------------------------------------------------------
 
 def parse_body(text):
-    """
-    Returns list of tuples:
-        ('h2',     heading_str)
-        ('para',   paragraph_str)
-        ('bullets', [item_str, ...])
-    """
-    items          = []
+    """Return list of ('h2'|'para'|'bullets', content) tuples."""
+    items           = []
     current_bullets = None
 
     for raw in text.splitlines():
@@ -195,14 +216,11 @@ def parse_body(text):
     return items
 
 # ---------------------------------------------------------------------------
-# Contact meta row builder
+# Contact meta rows
 # ---------------------------------------------------------------------------
 
 def meta_rows(fm):
-    """
-    Return list of (label, display_text, href_or_None) for the contact block.
-    Handles the [label](mailto:...) markdown syntax used in the frontmatter.
-    """
+    """Build (label, display, href_or_None) list for the contact block."""
     rows = []
 
     if fm.get("location"):
@@ -233,10 +251,10 @@ def meta_rows(fm):
 # ---------------------------------------------------------------------------
 
 def build(source: Path, output: Path) -> None:
-    raw             = source.read_text(encoding="utf-8")
-    fm, body        = parse_frontmatter(raw)
-    sections        = parse_body(body)
-    S               = make_styles()
+    raw      = source.read_text(encoding="utf-8")
+    fm, body = parse_frontmatter(raw)
+    sections = parse_body(body)
+    S        = make_styles()
 
     name      = fm.get("name", "")
     doc_title = f"{name} — CV" if name else "CV"
@@ -244,10 +262,10 @@ def build(source: Path, output: Path) -> None:
     doc = SimpleDocTemplate(
         str(output),
         pagesize=A4,
-        leftMargin=14 * mm,
-        rightMargin=14 * mm,
-        topMargin=12 * mm,
-        bottomMargin=12 * mm,
+        leftMargin=16 * mm,
+        rightMargin=16 * mm,
+        topMargin=14 * mm,
+        bottomMargin=14 * mm,
         title=doc_title,
         author=name,
         subject="",
@@ -256,41 +274,42 @@ def build(source: Path, output: Path) -> None:
 
     story = []
 
-    # --- Header: name + job title ---
+    # --- Header block: name + subtitle ---
     if name:
         story.append(Paragraph(name, S["name"]))
     if fm.get("title"):
-        story.append(Paragraph(fm["title"], S["job_title"]))
+        story.append(Paragraph(fm["title"], S["subtitle"]))
 
     story.append(HRFlowable(
-        width="100%", thickness=0.6, color=C_RULE, spaceAfter=2 * mm,
+        width="100%", thickness=0.7, color=C_RULE,
+        spaceBefore=0, spaceAfter=2.5 * mm,
     ))
 
-    # --- Contact meta ---
+    # --- Contact meta rows ---
     for label, display, href in meta_rows(fm):
+        label_tag = f'<font color="#999999">{label}</font>'
         if href:
-            line = (
-                f'<b>{label}</b>'
-                f'  '
-                f'<a href="{href}" color="{C_LINK}">{display}</a>'
-            )
+            val_tag = f'<a href="{href}" color="{C_LINK}">{display}</a>'
         else:
-            line = f"<b>{label}</b>  {display}"
-        story.append(Paragraph(line, S["meta"]))
+            val_tag = display
+        story.append(Paragraph(f"{label_tag}   {val_tag}", S["meta"]))
 
-    story.append(Spacer(1, 2 * mm))
+    story.append(Spacer(1, 2.5 * mm))
     story.append(HRFlowable(
-        width="100%", thickness=0.6, color=C_RULE, spaceAfter=0,
+        width="100%", thickness=0.7, color=C_RULE,
+        spaceBefore=0, spaceAfter=0,
     ))
 
     # --- Body sections ---
     for kind, content in sections:
 
         if kind == "h2":
+            # Keep heading + its rule together so they never orphan
             story.append(KeepTogether([
                 Paragraph(content, S["h2"]),
                 HRFlowable(
-                    width="100%", thickness=0.25, color=C_RULE, spaceAfter=1 * mm,
+                    width="100%", thickness=0.3, color=C_RULE,
+                    spaceBefore=0, spaceAfter=1.5 * mm,
                 ),
             ]))
 
@@ -298,17 +317,21 @@ def build(source: Path, output: Path) -> None:
             story.append(Paragraph(inline_markup(content), S["body"]))
 
         elif kind == "bullets":
-            block = [
-                Paragraph(
-                    f"• {inline_markup(item)}",
-                    S["bullet"],
+            block = []
+            for item in content:
+                marked = inline_markup(item)
+                marked = auto_bold_label(marked)
+                block.append(
+                    Paragraph(
+                        f"• {marked}",   # bullet + en-space
+                        S["bullet"],
+                    )
                 )
-                for item in content
-            ]
+            # Keep each bullet group together where possible
             story.append(KeepTogether(block))
-            story.append(Spacer(1, 1 * mm))
+            story.append(Spacer(1, 1.2 * mm))
 
-    # --- Metadata callback: minimise leakage ---
+    # --- Privacy: minimise PDF metadata leakage ---
     def _set_meta(canvas, _doc):
         canvas.setAuthor(name)
         canvas.setTitle(doc_title)
@@ -322,9 +345,9 @@ def build(source: Path, output: Path) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     doc.build(story, onFirstPage=_set_meta, onLaterPages=_set_meta)
 
-    rel = output.relative_to(REPO)
+    rel     = output.relative_to(REPO)
     size_kb = output.stat().st_size // 1024
-    print(f"✓  Written: {rel}  ({size_kb} KB)")
+    print(f"  Written: {rel}  ({size_kb} KB)")
 
 # ---------------------------------------------------------------------------
 # Entry point
