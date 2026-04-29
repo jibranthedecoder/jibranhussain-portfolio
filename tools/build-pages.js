@@ -20,6 +20,7 @@ const COPY_FILES = [
   "index.html",
   "robots.txt",
   "sitemap.xml",
+  "project-data.js",
   "script.js",
   "styles.css",
 ];
@@ -72,4 +73,3 @@ main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
-
