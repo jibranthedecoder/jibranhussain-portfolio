@@ -1,3 +1,5 @@
 node_modules/
 qa/playwright-report/
 qa/screenshots/
+test-results/
+.tools/
