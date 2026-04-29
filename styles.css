@@ -60,8 +60,6 @@ html {
 }
 
 html.readable-mode {
-  font-size: 17px;
-  letter-spacing: 0.01em;
   --display-font: var(--dyslexic-font);
   --text-font: var(--dyslexic-font);
 }
