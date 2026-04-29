@@ -1,5 +1,6 @@
 (function () {
   const projects = window.PORTFOLIO_PROJECTS || [];
+  const ecosystems = window.PORTFOLIO_ECOSYSTEMS || [];
   const root = document.documentElement;
 
   const currentYear = document.getElementById('currentYear');
