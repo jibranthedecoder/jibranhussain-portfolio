@@ -1,10 +1,26 @@
 /* Production safety overrides loaded through the Cloudflare Link header. */
 
-/* Make readable/dyslexic mode visibly different even if the webfont is slow or blocked. */
+@font-face {
+  font-family: "OpenDyslexicOverride";
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/opendyslexic@latest/latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OpenDyslexicOverride";
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/opendyslexic@latest/latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Make readable/dyslexic mode visibly different and force the actual dyslexic font. */
 html.readable-mode,
 html.readable-mode body {
-  letter-spacing: 0.015em;
-  word-spacing: 0.06em;
+  letter-spacing: 0.012em;
+  word-spacing: 0.05em;
   line-height: 1.85;
 }
 
@@ -19,10 +35,19 @@ html.readable-mode h3,
 html.readable-mode h4,
 html.readable-mode h5,
 html.readable-mode h6,
+html.readable-mode p,
+html.readable-mode li,
+html.readable-mode a,
+html.readable-mode span,
+html.readable-mode label,
 html.readable-mode .button,
 html.readable-mode .control-button,
-html.readable-mode .project-toggle {
-  font-family: var(--dyslexic-font, "OpenDyslexic", "Comic Sans MS", "Trebuchet MS", sans-serif) !important;
+html.readable-mode .project-toggle,
+html.readable-mode .project-summary,
+html.readable-mode .panel-copy,
+html.readable-mode .hero-lead,
+html.readable-mode .footer-copy {
+  font-family: "OpenDyslexicOverride", "OpenDyslexic", "Comic Sans MS", "Trebuchet MS", sans-serif !important;
 }
 
 html.readable-mode p,
