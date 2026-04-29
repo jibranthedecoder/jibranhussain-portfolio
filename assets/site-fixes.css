@@ -274,6 +274,53 @@ html.readable-mode .profile-card {
     border-radius: 16px;
   }
 
+  body[data-page="projects"] .section-shell {
+    padding: 1rem;
+  }
+
+  body[data-page="projects"] .project-toolbar {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    align-items: start;
+  }
+
+  body[data-page="projects"] .search-field {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  body[data-page="projects"] .search-field input {
+    min-height: 3.2rem;
+    font-size: 1rem;
+  }
+
+  body[data-page="projects"] .filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    align-items: center;
+    margin: 0;
+  }
+
+  body[data-page="projects"] .filter-chip {
+    flex: 0 0 auto;
+    min-height: 2.8rem;
+  }
+
+  body[data-page="projects"] #projectsGrid.project-grid {
+    margin-top: 1rem;
+    gap: 1.15rem;
+  }
+
+  body[data-page="projects"] .project-ecosystem-section {
+    gap: 0.75rem;
+  }
+
+  body[data-page="projects"] .project-ecosystem-heading p {
+    margin-bottom: 0;
+  }
+
   .project-card,
   .detail-panel,
   .contact-form-shell,
@@ -294,8 +341,11 @@ html.readable-mode .profile-card {
   }
 
   .hero-actions .button,
-  .form-actions .button,
-  .project-links .button {
+  .form-actions .button {
+    width: 100%;
+  }
+
+  .project-card .project-links .button {
     width: 100%;
   }
 }
