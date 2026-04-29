@@ -24,6 +24,8 @@ const EXPECTED_ENV_KEYS = [
   'CONTACT_ALLOWED_ORIGINS',
 ];
 
+const MAX_MESSAGE_LINKS = 5;
+
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
@@ -64,6 +66,7 @@ function getRuntimeConfig(env) {
     contactFromEmail: readEnvString(env, 'CONTACT_FROM_EMAIL', 320),
     contactFromName: readEnvString(env, 'CONTACT_FROM_NAME', 320),
     contactAllowedOrigins: readEnvString(env, 'CONTACT_ALLOWED_ORIGINS', 2000),
+    debugContactEndpoint: readEnvString(env, 'DEBUG_CONTACT_ENDPOINT', 16),
   };
 }
 
@@ -78,6 +81,10 @@ function escapeHtml(value) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+function countLinks(value) {
+  return (value.match(/https?:\/\/|www\./gi) || []).length;
 }
 
 function getAllowedHostnames(env) {
@@ -273,8 +280,13 @@ function validatePayload(body) {
     email: sanitize(body?.email, 160),
     subject: sanitize(body?.subject, 160),
     message: sanitize(body?.message, 4000),
+    website: sanitize(body?.website, 320),
     turnstileToken: sanitize(body?.turnstileToken, 2048),
   };
+
+  if (payload.website) {
+    return { error: 'Message rejected.' };
+  }
 
   if (payload.name.length < 2) {
     return { error: 'Please enter your name.' };
@@ -292,6 +304,10 @@ function validatePayload(body) {
     return { error: 'Please enter a longer message.' };
   }
 
+  if (countLinks(payload.message) > MAX_MESSAGE_LINKS) {
+    return { error: 'Please reduce the number of links in your message.' };
+  }
+
   if (!payload.turnstileToken) {
     return { error: 'Please complete the spam protection check before sending.' };
   }
@@ -306,36 +322,15 @@ export async function onRequestPost(context) {
   const requestHostname = getRequestHostname(request);
 
   if (!runtimeConfig.turnstileSecretKey) {
-    return json(
-      {
-        message:
-          'TURNSTILE_SECRET_KEY is unavailable in this Cloudflare Pages runtime. Confirm it is set for the active environment and redeploy.',
-        diagnostics: getConfigDiagnostics(env, request),
-      },
-      500
-    );
+    return json({ message: 'Contact form is temporarily unavailable.' }, 503);
   }
 
   if (!runtimeConfig.resendApiKey) {
-    return json(
-      {
-        message:
-          'RESEND_API_KEY is unavailable in this Cloudflare Pages runtime. Confirm it is set for the active environment and redeploy.',
-        diagnostics: getConfigDiagnostics(env, request),
-      },
-      500
-    );
+    return json({ message: 'Contact form is temporarily unavailable.' }, 503);
   }
 
   if (!runtimeConfig.contactToEmail) {
-    return json(
-      {
-        message:
-          'CONTACT_TO_EMAIL is unavailable in this Cloudflare Pages runtime. Confirm it is set for the active environment and redeploy.',
-        diagnostics: getConfigDiagnostics(env, request),
-      },
-      500
-    );
+    return json({ message: 'Contact form is temporarily unavailable.' }, 503);
   }
 
   if (!isAllowedHostname(requestHostname, allowedHostnames)) {
@@ -386,13 +381,23 @@ export async function onRequestPost(context) {
 
 export async function onRequestGet(context) {
   const { request, env } = context;
-  const diagnostics = getConfigDiagnostics(env, request);
+  const runtimeConfig = getRuntimeConfig(env);
+
+  if (runtimeConfig.debugContactEndpoint === 'true') {
+    const diagnostics = getConfigDiagnostics(env, request);
+
+    return json({
+      ...diagnostics,
+      message: diagnostics.ok
+        ? 'Contact endpoint is available and required runtime config is present. Submit with POST.'
+        : 'Contact endpoint is available, but required runtime config is missing for this deployment.',
+    });
+  }
 
   return json({
-    ...diagnostics,
-    message: diagnostics.ok
-      ? 'Contact endpoint is available and required runtime config is present. Submit with POST.'
-      : 'Contact endpoint is available, but required runtime config is missing for this deployment.',
+    ok: true,
+    route: '/api/contact',
+    message: 'Contact endpoint is available. Submit with POST.',
   });
 }
 
