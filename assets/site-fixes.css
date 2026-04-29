@@ -16,6 +16,102 @@
   font-display: swap;
 }
 
+/* Global polish: keep cards aligned, reduce accidental huge gaps, and improve rhythm. */
+main {
+  width: 100%;
+}
+
+.page-shell,
+.section-shell,
+.project-card,
+.detail-panel,
+.contact-form-shell,
+.profile-card,
+.hero-portrait-card {
+  overflow-wrap: anywhere;
+}
+
+.section-shell + .section-shell {
+  margin-top: clamp(0.9rem, 2vw, 1.25rem);
+}
+
+.section-header-row {
+  align-items: flex-start;
+}
+
+.section-header-row .project-links,
+.section-header-row > .button {
+  margin-top: 0.15rem;
+}
+
+.hero-copy,
+.page-intro-copy,
+.detail-copy,
+.section-heading,
+.project-card,
+.detail-panel,
+.contact-form-shell form {
+  min-width: 0;
+}
+
+.hero-lead,
+.project-summary,
+.panel-copy,
+.footer-copy,
+.detail-copy p,
+.detail-panel p {
+  text-wrap: pretty;
+}
+
+.project-card {
+  align-content: start;
+  min-height: 100%;
+}
+
+.project-card h3,
+.detail-panel h3,
+.section-title {
+  text-wrap: balance;
+}
+
+.project-card-top {
+  align-items: flex-start;
+}
+
+.project-category,
+.status-badge {
+  line-height: 1.35;
+}
+
+.project-links {
+  margin-top: auto;
+  align-items: center;
+}
+
+.project-links .button,
+.form-actions .button,
+.hero-actions .button {
+  white-space: nowrap;
+}
+
+.project-problem,
+.project-details,
+.detail-panel,
+.timeline-item,
+.plain-block {
+  min-width: 0;
+}
+
+.pill-list,
+.detail-list {
+  align-items: flex-start;
+}
+
+.pill-list li,
+.detail-list li {
+  line-height: 1.35;
+}
+
 /* Make readable/dyslexic mode visibly different and force the actual dyslexic font. */
 html.readable-mode,
 html.readable-mode body {
@@ -65,11 +161,18 @@ html.readable-mode #readableToggle {
   outline-offset: 3px;
 }
 
+html.readable-mode .project-card,
+html.readable-mode .detail-panel,
+html.readable-mode .contact-form-shell,
+html.readable-mode .profile-card {
+  gap: 0.9rem;
+}
+
 /* Projects page: ecosystem sections should stack vertically, not fight the card grid. */
 #projectsGrid.project-grid {
   grid-template-columns: 1fr;
   align-items: start;
-  gap: 1.25rem;
+  gap: clamp(1rem, 2vw, 1.45rem);
 }
 
 .project-ecosystem-section {
@@ -81,6 +184,10 @@ html.readable-mode #readableToggle {
 
 .project-ecosystem-section + .project-ecosystem-section {
   margin-top: 0.6rem;
+}
+
+.project-ecosystem-heading {
+  max-width: 58rem;
 }
 
 .project-grid-section {
@@ -99,7 +206,42 @@ html.readable-mode #readableToggle {
   margin-top: auto;
 }
 
-@media (max-width: 760px) {
+/* Contact polish */
+.contact-form-shell {
+  align-self: start;
+}
+
+.field textarea {
+  line-height: 1.6;
+}
+
+.form-note {
+  margin: 0;
+}
+
+/* Footer polish */
+.footer-inner {
+  gap: 1rem;
+}
+
+.footer-meta,
+.footer-nav {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .header-inner {
+    gap: 0.75rem;
+  }
+
+  .brand-copy {
+    min-width: 0;
+  }
+
+  .brand-role {
+    max-width: 20ch;
+  }
+
   .project-grid,
   .project-grid-section,
   .overview-grid,
@@ -107,8 +249,29 @@ html.readable-mode #readableToggle {
   .contact-grid,
   .split-layout,
   .hero-layout,
-  .page-intro.has-lottie {
+  .page-intro.has-lottie,
+  .footer-inner {
     grid-template-columns: 1fr !important;
+  }
+
+  .page-lottie-wrap {
+    max-width: 520px;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 760px) {
+  main {
+    padding-inline: 0.85rem;
+  }
+
+  .site-header {
+    padding-inline: 0.85rem;
+  }
+
+  .page-shell,
+  .section-shell {
+    border-radius: 16px;
   }
 
   .project-card,
@@ -116,5 +279,42 @@ html.readable-mode #readableToggle {
   .contact-form-shell,
   .profile-card {
     min-width: 0;
+  }
+
+  .project-links .button,
+  .form-actions .button,
+  .hero-actions .button {
+    white-space: normal;
+  }
+
+  .hero-actions,
+  .form-actions,
+  .project-links {
+    align-items: stretch;
+  }
+
+  .hero-actions .button,
+  .form-actions .button,
+  .project-links .button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .header-controls {
+    gap: 0.35rem;
+  }
+
+  .control-button,
+  .control-button-icon,
+  #langToggle {
+    width: 2.45rem;
+    min-width: 2.45rem;
+    height: 2.45rem;
+    min-height: 2.45rem;
+  }
+
+  h1 {
+    font-size: clamp(2.1rem, 12vw, 2.85rem);
   }
 }
