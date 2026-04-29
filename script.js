@@ -584,21 +584,33 @@
   }
 
   function applyProjectFilters() {
-    if (!projectsGrid) return;
-    const query = String(projectSearch?.value || '').trim().toLowerCase();
-    const cards = Array.from(projectsGrid.querySelectorAll('.project-card'));
-    let visibleCount = 0;
+  if (!projectsGrid) return;
 
-    cards.forEach((card) => {
-      const matchesFilter = activeFilter === 'all' || card.dataset.status === activeFilter;
-      const matchesQuery = !query || card.dataset.search.includes(query);
-      const isVisible = matchesFilter && matchesQuery;
-      card.hidden = !isVisible;
-      if (isVisible) visibleCount += 1;
-    });
+  const query = String(projectSearch?.value || '').trim().toLowerCase();
+  const cards = Array.from(projectsGrid.querySelectorAll('.project-card'));
+  let visibleCount = 0;
 
-    if (projectsEmpty) projectsEmpty.hidden = visibleCount !== 0;
-  }
+  cards.forEach((card) => {
+    const matchesFilter = activeFilter === 'all' || card.dataset.status === activeFilter;
+    const matchesQuery = !query || card.dataset.search.includes(query);
+    const show = matchesFilter && matchesQuery;
+
+    card.hidden = !show;
+    if (show) visibleCount += 1;
+  });
+
+  const sections = Array.from(projectsGrid.querySelectorAll('.project-ecosystem-section'));
+
+  sections.forEach((section) => {
+    const visibleCards = Array.from(section.querySelectorAll('.project-card')).filter(
+      (card) => !card.hidden
+    ).length;
+
+    section.hidden = visibleCards === 0;
+  });
+
+  if (projectsEmpty) projectsEmpty.hidden = visibleCount !== 0;
+}
 
   function updateRenderedProjects() {
     if (!projectsGrid) return;
