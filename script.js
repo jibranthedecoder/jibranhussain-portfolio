@@ -600,9 +600,9 @@
     if (labelNode) labelNode.textContent = text;
   }
 
-  function applyTheme(theme) {
+  function applyTheme(theme, { persist = true } = {}) {
     root.setAttribute("data-theme", theme);
-    localStorage.setItem(themeStorageKey, theme);
+    if (persist) localStorage.setItem(themeStorageKey, theme);
     if (themeToggle) {
       setButtonText(themeToggle, t("theme"));
       setButtonIcon(themeToggle, theme === "dark" ? "sun" : "moon");
@@ -613,7 +613,10 @@
   function initTheme() {
     if (!themeToggle) return;
     const storedTheme = localStorage.getItem(themeStorageKey);
-    applyTheme(storedTheme || "light");
+    const hasStoredPreference = storedTheme === "light" || storedTheme === "dark";
+    const systemPrefersDark = window.matchMedia?.("(prefers-color-scheme: dark)")?.matches;
+    const initialTheme = hasStoredPreference ? storedTheme : (systemPrefersDark ? "dark" : "light");
+    applyTheme(initialTheme, { persist: hasStoredPreference });
     themeToggle.addEventListener("click", () => {
       applyTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
     });
@@ -667,9 +670,9 @@
     if (privacyModalBody[0]) privacyModalBody[0].textContent = t("privacyBodyOne");
     if (privacyModalBody[1]) privacyModalBody[1].textContent = t("privacyBodyTwo");
     applyStaticTranslations();
-    // Re-apply dynamic theme toggle label in the active language.
+    // Re-apply dynamic theme toggle label in the active language without changing stored preference.
     const activeTheme = root.getAttribute("data-theme") || "light";
-    applyTheme(activeTheme);
+    applyTheme(activeTheme, { persist: false });
     updateRenderedProjects();
     populateProjectDetail();
   }
