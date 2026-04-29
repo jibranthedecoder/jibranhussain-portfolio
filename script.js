@@ -634,12 +634,39 @@
   }
 
   function renderProjects() {
-    if (!projectsGrid) return;
-    projectsGrid.innerHTML = '';
-    projects.forEach((project) => projectsGrid.appendChild(createProjectCard(project)));
-    initReveal();
-    applyProjectFilters();
-  }
+  if (!projectsGrid) return;
+
+  projectsGrid.innerHTML = '';
+
+  ecosystems.forEach((eco) => {
+    const group = projects.filter((project) => project.ecosystem === eco.id);
+    if (!group.length) return;
+
+    const section = document.createElement('section');
+    section.className = 'project-ecosystem-section reveal';
+
+    const heading = document.createElement('div');
+    heading.className = 'project-ecosystem-heading';
+    heading.innerHTML = `
+      <h2>${eco.title}</h2>
+      <p>${eco.description || ''}</p>
+    `;
+
+    const grid = document.createElement('div');
+    grid.className = 'project-grid-section';
+
+    group.forEach((project) => {
+      grid.appendChild(createProjectCard(project));
+    });
+
+    section.appendChild(heading);
+    section.appendChild(grid);
+    projectsGrid.appendChild(section);
+  });
+
+  initReveal();
+  applyProjectFilters();
+}
 
   function initProjectsPage() {
     if (!projectsGrid) return;
