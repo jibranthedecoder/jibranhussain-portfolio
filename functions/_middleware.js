@@ -1,4 +1,5 @@
 const INJECTED_SCRIPTS = [
+  '<script src="/assets/theme-persistence.js" defer></script>',
   '<script src="/assets/finnish-copy-polish.js" defer></script>',
 ];
 
@@ -14,9 +15,14 @@ function shouldInject(request, response) {
 }
 
 function injectBeforeBody(html) {
-  if (html.includes('/assets/finnish-copy-polish.js')) return html;
+  const scriptsToInject = INJECTED_SCRIPTS.filter((script) => {
+    const srcMatch = script.match(/src="([^"]+)"/);
+    return !srcMatch || !html.includes(srcMatch[1]);
+  });
 
-  const injection = INJECTED_SCRIPTS.join('\n');
+  if (scriptsToInject.length === 0) return html;
+
+  const injection = scriptsToInject.join('\n');
   if (html.includes('</body>')) {
     return html.replace('</body>', `${injection}\n</body>`);
   }
