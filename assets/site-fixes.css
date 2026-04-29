@@ -1,0 +1,95 @@
+/* Production safety overrides loaded through the Cloudflare Link header. */
+
+/* Make readable/dyslexic mode visibly different even if the webfont is slow or blocked. */
+html.readable-mode,
+html.readable-mode body {
+  letter-spacing: 0.015em;
+  word-spacing: 0.06em;
+  line-height: 1.85;
+}
+
+html.readable-mode body,
+html.readable-mode button,
+html.readable-mode input,
+html.readable-mode textarea,
+html.readable-mode select,
+html.readable-mode h1,
+html.readable-mode h2,
+html.readable-mode h3,
+html.readable-mode h4,
+html.readable-mode h5,
+html.readable-mode h6,
+html.readable-mode .button,
+html.readable-mode .control-button,
+html.readable-mode .project-toggle {
+  font-family: var(--dyslexic-font, "OpenDyslexic", "Comic Sans MS", "Trebuchet MS", sans-serif) !important;
+}
+
+html.readable-mode p,
+html.readable-mode li,
+html.readable-mode .hero-lead,
+html.readable-mode .project-summary,
+html.readable-mode .panel-copy,
+html.readable-mode .footer-copy {
+  line-height: 1.9;
+}
+
+html.readable-mode .control-button[aria-pressed="true"],
+html.readable-mode #readableToggle {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* Projects page: ecosystem sections should stack vertically, not fight the card grid. */
+#projectsGrid.project-grid {
+  grid-template-columns: 1fr;
+  align-items: start;
+  gap: 1.25rem;
+}
+
+.project-ecosystem-section {
+  display: grid;
+  gap: 0.85rem;
+  align-content: start;
+  margin: 0;
+}
+
+.project-ecosystem-section + .project-ecosystem-section {
+  margin-top: 0.6rem;
+}
+
+.project-grid-section {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+  align-items: stretch;
+}
+
+.project-grid-section .project-card {
+  min-height: 100%;
+  align-content: start;
+}
+
+.project-grid-section .project-links {
+  margin-top: auto;
+}
+
+@media (max-width: 760px) {
+  .project-grid,
+  .project-grid-section,
+  .overview-grid,
+  .detail-grid,
+  .contact-grid,
+  .split-layout,
+  .hero-layout,
+  .page-intro.has-lottie {
+    grid-template-columns: 1fr !important;
+  }
+
+  .project-card,
+  .detail-panel,
+  .contact-form-shell,
+  .profile-card {
+    min-width: 0;
+  }
+}
