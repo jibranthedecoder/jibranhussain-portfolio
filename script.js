@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
   const projects = window.PORTFOLIO_PROJECTS || [];
   const ecosystems = window.PORTFOLIO_ECOSYSTEMS || [];
 
