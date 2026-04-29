@@ -78,7 +78,7 @@
   </header>
 
   <div id="privacyBanner" class="privacy-banner" aria-live="polite" hidden>
-    <p>We store only minimal local preferences and may use privacy-friendly analytics to improve the experience.</p>
+    <p>This site stores only local preferences such as language, theme, and readable mode. The contact form uses Cloudflare Turnstile for spam protection. No advertising cookies are used.</p>
     <div class="privacy-actions">
       <button id="privacyDetails" class="button button-secondary" type="button">Details</button>
       <button id="privacyAccept" class="button button-primary" type="button">Accept</button>
@@ -92,8 +92,8 @@
         <button id="privacyClose" class="modal-close" type="button" aria-label="Close privacy details" data-i18n-aria-label="privacyClose">&times;</button>
       </div>
       <div class="modal-body">
-        <p>This site stores only essential local preferences, such as language and readable mode. No tracking cookies are used without permission.</p>
-        <p>You can change preferences anytime from your browser. This experience is built to be privacy-friendly and non-intrusive.</p>
+        <p>This site stores only essential local preferences, such as language, theme, and readable mode. The contact form uses Cloudflare Turnstile for spam protection.</p>
+        <p>No advertising cookies are used. You can change local preferences anytime from your browser settings.</p>
       </div>
     </div>
   </div>
@@ -136,6 +136,7 @@
 
       <div class="contact-form-shell reveal">
         <form id="contactForm" action="/api/contact" method="POST" novalidate>
+          <input type="text" name="website" tabindex="-1" autocomplete="off" hidden aria-hidden="true" />
           <div class="form-row">
             <label class="field">
               <span data-i18n="contactFormName">Name</span>
