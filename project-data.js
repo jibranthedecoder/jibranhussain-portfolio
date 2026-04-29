@@ -3,6 +3,7 @@ window.PORTFOLIO_PROJECTS = [
     slug: "smart-conveyor",
     title: "Smart Conveyor System",
     category: "Material handling automation",
+    ecosystem: "siemens-tia",
     status: "build",
     statusLabel: "In Progress",
     summary: "A project focused on how machines move products step by step, and what happens when something goes wrong.",
@@ -28,6 +29,7 @@ window.PORTFOLIO_PROJECTS = [
     slug: "tank-pid",
     title: "Tank PID Control Lab",
     category: "Process control",
+    ecosystem: "codesys-openplc",
     status: "roadmap",
     statusLabel: "Roadmap",
     summary: "A study project where I worked with process control and tried to understand how systems react over time.",
@@ -53,6 +55,7 @@ window.PORTFOLIO_PROJECTS = [
     slug: "smart-hvac",
     title: "Smart HVAC Automation",
     category: "Building automation",
+    ecosystem: "codesys-openplc",
     status: "roadmap",
     statusLabel: "Roadmap",
     summary: "HVAC control concept built around schedules, environmental logic, alarms, and safe fallback states.",
@@ -78,6 +81,7 @@ window.PORTFOLIO_PROJECTS = [
     slug: "motor-control-center",
     title: "Motor Control Center Study",
     category: "Electrical power and drives",
+    ecosystem: "electrical-design",
     status: "build",
     statusLabel: "Built",
     summary: "MCC-focused study for coordinated motor logic, permissives, electrical awareness, and fault status handling.",
@@ -103,6 +107,7 @@ window.PORTFOLIO_PROJECTS = [
     slug: "remote-monitoring-dashboard",
     title: "Remote Monitoring Dashboard",
     category: "Industrial visibility",
+    ecosystem: "python-tools",
     status: "roadmap",
     statusLabel: "Roadmap",
     summary: "SCADA-style monitoring study for alarms, trends, maintenance visibility, and operator-readable status.",
@@ -128,6 +133,7 @@ window.PORTFOLIO_PROJECTS = [
     slug: "safety-interlock-system",
     title: "Safety Interlock System",
     category: "Machine safety",
+    ecosystem: "siemens-tia",
     status: "roadmap",
     statusLabel: "Roadmap",
     summary: "Safety-focused logic study around permissives, safe states, emergency stops, and restart conditions.",
@@ -153,6 +159,7 @@ window.PORTFOLIO_PROJECTS = [
     slug: "pick-place-robot-cell",
     title: "Pick and Place Robot Cell",
     category: "Robotics",
+    ecosystem: "webots-robotics",
     status: "roadmap",
     statusLabel: "Roadmap",
     summary: "Cell-level control concept around motion coordination, sequence timing, detection logic, and recovery paths.",
@@ -178,6 +185,7 @@ window.PORTFOLIO_PROJECTS = [
     slug: "quality-inspection-vision-station",
     title: "Quality Inspection Vision Station",
     category: "Inspection systems",
+    ecosystem: "python-tools",
     status: "roadmap",
     statusLabel: "Roadmap",
     summary: "Inspection workflow concept combining pass/fail logic, reject handling, and operator feedback states.",
@@ -203,6 +211,7 @@ window.PORTFOLIO_PROJECTS = [
     slug: "smart-energy-metering-system",
     title: "Smart Energy Metering System",
     category: "Energy systems",
+    ecosystem: "electrical-design",
     status: "roadmap",
     statusLabel: "Roadmap",
     summary: "Energy-use monitoring study focused on load behavior, reporting, and engineering-readable consumption insight.",
@@ -228,6 +237,7 @@ window.PORTFOLIO_PROJECTS = [
     slug: "packaging-line-automation",
     title: "Packaging Line Automation",
     category: "Production systems",
+    ecosystem: "siemens-tia",
     status: "roadmap",
     statusLabel: "Roadmap",
     summary: "Production-line control concept for synchronization, downtime handling, and operator intervention logic.",
@@ -253,6 +263,7 @@ window.PORTFOLIO_PROJECTS = [
     slug: "virtual-commissioning-project",
     title: "Virtual Commissioning Project",
     category: "Simulation",
+    ecosystem: "twincat-beckhoff",
     status: "roadmap",
     statusLabel: "Roadmap",
     summary: "Simulation-first study for validating sequence logic and fault scenarios before live deployment.",
@@ -278,6 +289,7 @@ window.PORTFOLIO_PROJECTS = [
     slug: "predictive-maintenance-system",
     title: "Predictive Maintenance System",
     category: "Reliability engineering",
+    ecosystem: "python-tools",
     status: "roadmap",
     statusLabel: "Roadmap",
     summary: "Condition-monitoring concept for early fault indicators, maintenance triggers, and reliability planning.",
@@ -299,4 +311,37 @@ window.PORTFOLIO_PROJECTS = [
       "Connect the project to a monitoring dashboard."
     ]
   }
+];
+
+window.PORTFOLIO_ECOSYSTEMS = [
+  {
+    id: "twincat-beckhoff",
+    title: "TwinCAT / Beckhoff",
+    description: "PLC and motion projects built around Beckhoff workflows, structured code, and commissioning habits.",
+  },
+  {
+    id: "siemens-tia",
+    title: "Siemens / TIA Portal",
+    description: "Case studies shaped by Siemens-style sequencing, diagnostics, and operator-focused logic.",
+  },
+  {
+    id: "codesys-openplc",
+    title: "CODESYS / OpenPLC",
+    description: "Portable PLC concepts and labs for process and building automation problems.",
+  },
+  {
+    id: "webots-robotics",
+    title: "Webots / Robotics",
+    description: "Robot cell simulations and automation studies with a focus on behavior, safety, and integration.",
+  },
+  {
+    id: "python-tools",
+    title: "Python Tools",
+    description: "Automation utilities, dashboards, and analysis tooling that supports engineering workflows.",
+  },
+  {
+    id: "electrical-design",
+    title: "Electrical Design",
+    description: "Electrical system design work, documentation, and panel-level thinking for automation projects.",
+  },
 ];

@@ -1,5 +1,6 @@
 (function () {
   const projects = window.PORTFOLIO_PROJECTS || [];
+  const ecosystems = window.PORTFOLIO_ECOSYSTEMS || [];
 
   const root = document.documentElement;
   const currentYear = document.getElementById("currentYear");
@@ -994,6 +995,7 @@
 
   function applyProjectFilters() {
     if (!projectsGrid) return;
+
     const query = String(projectSearch?.value || "").trim().toLowerCase();
     const cards = Array.from(projectsGrid.querySelectorAll(".project-card"));
     let visibleCount = 0;
@@ -1002,8 +1004,16 @@
       const matchesFilter = activeFilter === "all" || card.dataset.status === activeFilter;
       const matchesQuery = !query || card.dataset.search.includes(query);
       const isVisible = matchesFilter && matchesQuery;
+
       card.hidden = !isVisible;
       if (isVisible) visibleCount += 1;
+    });
+
+    const sections = Array.from(projectsGrid.querySelectorAll(".project-ecosystem-section"));
+
+    sections.forEach((section) => {
+      const visibleCards = Array.from(section.querySelectorAll(".project-card")).filter((card) => !card.hidden);
+      section.hidden = visibleCards.length === 0;
     });
 
     if (projectsEmpty) projectsEmpty.hidden = visibleCount !== 0;
@@ -1011,10 +1021,36 @@
 
   function renderProjects() {
     if (!projectsGrid) return;
+
     projectsGrid.innerHTML = "";
-    projects.forEach((project) => {
-      projectsGrid.appendChild(createProjectCard(project));
+
+    ecosystems.forEach((ecosystem) => {
+      const ecosystemProjects = projects.filter((project) => project.ecosystem === ecosystem.id);
+      if (!ecosystemProjects.length) return;
+
+      const section = document.createElement("section");
+      section.className = "project-ecosystem-section reveal";
+      section.dataset.ecosystem = ecosystem.id;
+
+      const heading = document.createElement("div");
+      heading.className = "project-ecosystem-heading";
+      heading.innerHTML = `
+        <h2>${ecosystem.title}</h2>
+        <p>${ecosystem.description || ""}</p>
+      `;
+
+      const grid = document.createElement("div");
+      grid.className = "project-grid-section";
+
+      ecosystemProjects.forEach((project) => {
+        grid.appendChild(createProjectCard(project));
+      });
+
+      section.appendChild(heading);
+      section.appendChild(grid);
+      projectsGrid.appendChild(section);
     });
+
     initReveal();
     applyProjectFilters();
   }
