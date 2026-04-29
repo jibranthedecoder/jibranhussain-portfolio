@@ -8,7 +8,7 @@
     "qa:links": "playwright test qa/tests/links.test.js",
     "qa:screenshots": "playwright test qa/tests/screenshots.test.js",
     "qa:report": "playwright show-report qa/playwright-report",
-    "cv":    "node tools/gen-cv-pdf.js",
+    "cv": "node tools/gen-cv-pdf.js",
     "pages:build": "node tools/build-pages.js",
     "serve": "npx --yes serve . --listen 8080 --no-clipboard"
   },
