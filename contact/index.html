@@ -26,9 +26,9 @@
     id="turnstileScript"
     src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
     defer
-    onerror="this.dataset.loadError='true';"
   ></script>
   <script src="/script.js" defer></script>
+  <script src="/assets/contact-lottie.js" defer></script>
 </head>
 <body data-page="contact">
   <a class="skip-link" href="#main" data-i18n="skipToMain">Skip to main content</a>
@@ -191,59 +191,5 @@
       </div>
     </div>
   </footer>
-  <script>
-  (function () {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var el = document.getElementById('contactLottie');
-    if (!el) return;
-
-    function initLottie() {
-      try {
-        if (!window.lottie || typeof window.lottie.loadAnimation !== 'function') return;
-        window.lottie.loadAnimation({
-          container: el,
-          renderer: 'svg',
-          loop: true,
-          autoplay: true,
-          path: '/assets/contact-wave-hand.json'
-        });
-      } catch (e) {}
-    }
-
-    function loadPlayer() {
-      if (window.lottie && typeof window.lottie.loadAnimation === 'function') {
-        return Promise.resolve();
-      }
-      return new Promise(function (resolve) {
-        var existing = document.querySelector('script[data-lottie-loader="true"]');
-        if (existing) {
-          existing.addEventListener('load', function () { resolve(); }, { once: true });
-          existing.addEventListener('error', function () { resolve(); }, { once: true });
-          return;
-        }
-        var s = document.createElement('script');
-        s.src = '/assets/lottie-light.min.js';
-        s.async = true;
-        s.dataset.lottieLoader = 'true';
-        s.onload = function () { resolve(); };
-        s.onerror = function () { resolve(); };
-        document.head.appendChild(s);
-      });
-    }
-
-    if (!('IntersectionObserver' in window)) {
-      loadPlayer().then(initLottie);
-      return;
-    }
-
-    var io = new IntersectionObserver(function (entries) {
-      if (!entries[0].isIntersecting) return;
-      io.disconnect();
-      loadPlayer().then(initLottie);
-    }, { threshold: 0.1 });
-
-    io.observe(el);
-  }());
-  </script>
 </body>
 </html>
