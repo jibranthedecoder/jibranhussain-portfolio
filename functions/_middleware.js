@@ -1,5 +1,6 @@
 const INJECTED_SCRIPTS = [
   '<script src="/assets/theme-persistence.js" defer></script>',
+  '<script src="/assets/readable-mode.js" defer></script>',
   '<script src="/assets/finnish-copy-polish.js" defer></script>',
 ];
 
