@@ -65,6 +65,64 @@
     }
   };
 
+  function installLayoutGuard() {
+    if (document.getElementById('line-following-layout-guard')) return;
+
+    const style = document.createElement('style');
+    style.id = 'line-following-layout-guard';
+    style.textContent = `
+      .line-following-page .detail-visual,
+      .line-following-page .line-following-visual,
+      .line-following-page .webots-video-card {
+        min-width: 0 !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+      }
+
+      .line-following-page .webots-video-card {
+        width: min(100%, 34rem) !important;
+        justify-self: center !important;
+        margin-inline: auto !important;
+        padding: 0.6rem !important;
+      }
+
+      .line-following-page .webots-video-card video {
+        display: block !important;
+        width: 100% !important;
+        max-width: 31rem !important;
+        height: auto !important;
+        max-height: 17rem !important;
+        margin-inline: auto !important;
+        object-fit: contain !important;
+      }
+
+      .line-following-page .metric-strip {
+        max-width: 34rem !important;
+        margin-inline: auto !important;
+      }
+
+      .line-following-page .visual-video-link {
+        max-width: 34rem !important;
+        justify-self: center !important;
+      }
+
+      @media (max-width: 760px) {
+        .line-following-page .webots-video-card,
+        .line-following-page .metric-strip,
+        .line-following-page .visual-video-link {
+          width: 100% !important;
+          max-width: 100% !important;
+        }
+
+        .line-following-page .webots-video-card video {
+          max-width: 100% !important;
+          max-height: 13.5rem !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   function isFinnish() {
     try {
       if (window.localStorage.getItem('jh-language') === 'fi') return true;
@@ -87,6 +145,8 @@
   }
 
   function apply() {
+    installLayoutGuard();
+
     const lang = isFinnish() ? 'fi' : 'en';
     const t = content[lang];
 
@@ -124,6 +184,7 @@
     window.setTimeout(apply, 0);
     window.setTimeout(apply, 80);
     window.setTimeout(apply, 250);
+    window.setTimeout(apply, 700);
   }
 
   schedule();
