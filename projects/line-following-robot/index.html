@@ -37,22 +37,10 @@
       </nav>
       <div class="header-controls">
         <button id="langToggle" class="control-button" type="button" aria-pressed="false">FI</button>
-        <button id="speakToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Read aloud" data-i18n-aria-label="readAloud">
-          <span class="control-icon" aria-hidden="true"></span>
-          <span class="sr-only control-button-text">Read</span>
-        </button>
-        <button id="pauseToggle" class="control-button control-button-icon" type="button" hidden aria-label="Pause reading" data-i18n-aria-label="pauseReading">
-          <span class="control-icon" aria-hidden="true"></span>
-          <span class="sr-only control-button-text">Pause</span>
-        </button>
-        <button id="readableToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Toggle dyslexic mode" data-i18n-aria-label="dyslexic">
-          <span class="control-icon" aria-hidden="true"></span>
-          <span class="sr-only control-button-text">Dyslexic</span>
-        </button>
-        <button id="themeToggle" class="control-button control-button-icon" type="button" aria-label="Toggle theme mode" data-i18n-aria-label="theme">
-          <span class="control-icon" aria-hidden="true"></span>
-          <span class="sr-only control-button-text">Theme</span>
-        </button>
+        <button id="speakToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Read aloud" data-i18n-aria-label="readAloud"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Read</span></button>
+        <button id="pauseToggle" class="control-button control-button-icon" type="button" hidden aria-label="Pause reading" data-i18n-aria-label="pauseReading"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Pause</span></button>
+        <button id="readableToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Toggle dyslexic mode" data-i18n-aria-label="dyslexic"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Dyslexic</span></button>
+        <button id="themeToggle" class="control-button control-button-icon" type="button" aria-label="Toggle theme mode" data-i18n-aria-label="theme"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Theme</span></button>
       </div>
     </div>
   </header>
@@ -94,11 +82,21 @@
         </div>
       </div>
       <div class="detail-visual reveal">
-        <div class="diagram-stage">
-          <p class="aside-label" data-i18n="visualPackage">Visual package</p>
-          <div class="diagram-window"></div>
-          <div class="diagram-notes"><span></span><span></span><span></span></div>
-          <p class="panel-copy" data-project-visual></p>
+        <div class="diagram-stage line-following-visual">
+          <p class="aside-label">Visual evidence</p>
+          <div class="webots-track-card" aria-label="Line following robot visual summary">
+            <div class="track-line"></div>
+            <div class="robot-dot">e-puck</div>
+            <div class="track-label track-start">Start</div>
+            <div class="track-label track-finish">Finish</div>
+          </div>
+          <div class="metric-strip">
+            <span><strong>33.38 s</strong><small>lap time</small></span>
+            <span><strong>2.61 m</strong><small>distance</small></span>
+            <span><strong>Kp 7.0</strong><small>P gain</small></span>
+            <span><strong>Kd 0.85</strong><small>D gain</small></span>
+          </div>
+          <p class="panel-copy">Webots e-puck simulation with three ground sensors, PD controller tuning, motor saturation, and measured final performance.</p>
         </div>
       </div>
     </section>
@@ -113,22 +111,10 @@
         <p data-project-problem></p>
       </article>
       <div class="detail-grid">
-        <article class="detail-panel reveal">
-          <p class="aside-label" data-i18n="projectTechnologies">Technologies</p>
-          <ul class="detail-list" data-project-technologies></ul>
-        </article>
-        <article class="detail-panel reveal">
-          <p class="aside-label" data-i18n="projectSkills">Skills demonstrated</p>
-          <ul class="detail-list" data-project-skills></ul>
-        </article>
-        <article class="detail-panel reveal">
-          <p class="aside-label" data-i18n="projectWhy">What this proves</p>
-          <p data-project-why></p>
-        </article>
-        <article class="detail-panel reveal">
-          <p class="aside-label" data-i18n="projectNextSteps">Next steps</p>
-          <ul class="detail-list" data-project-next-steps></ul>
-        </article>
+        <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectTechnologies">Technologies</p><ul class="detail-list" data-project-technologies></ul></article>
+        <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectSkills">Skills demonstrated</p><ul class="detail-list" data-project-skills></ul></article>
+        <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectWhy">What this proves</p><p data-project-why></p></article>
+        <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectNextSteps">Next steps</p><ul class="detail-list" data-project-next-steps></ul></article>
       </div>
     </section>
 
@@ -143,21 +129,11 @@
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <div>
-        <p class="footer-title">Jibran Hussain</p>
-        <p class="footer-copy" data-i18n="footerCopy">Thanks for visiting my portfolio.</p>
-      </div>
+      <div><p class="footer-title">Jibran Hussain</p><p class="footer-copy" data-i18n="footerCopy">Thanks for visiting my portfolio.</p></div>
       <nav class="footer-nav" aria-label="Footer navigation" data-i18n-aria-label="footerNavigation">
-        <a href="/" data-i18n="navHome">Home</a>
-        <a href="/about/" data-i18n="navAbout">About</a>
-        <a href="/projects/" aria-current="page" data-i18n="navProjects">Projects</a>
-        <a href="/contact/" data-i18n="navContact">Contact</a>
+        <a href="/" data-i18n="navHome">Home</a><a href="/about/" data-i18n="navAbout">About</a><a href="/projects/" aria-current="page" data-i18n="navProjects">Projects</a><a href="/contact/" data-i18n="navContact">Contact</a>
       </nav>
-      <div class="footer-meta">
-        <a href="https://github.com/jibranthedecoder" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener">LinkedIn</a>
-        <p>&copy; <span id="currentYear"></span> Jibran Hussain</p>
-      </div>
+      <div class="footer-meta"><a href="https://github.com/jibranthedecoder" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener">LinkedIn</a><p>&copy; <span id="currentYear"></span> Jibran Hussain</p></div>
     </div>
   </footer>
 </body>
