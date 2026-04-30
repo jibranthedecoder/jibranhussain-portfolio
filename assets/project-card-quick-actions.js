@@ -2,6 +2,7 @@
   const githubLinksBySlug = {
     'line-following-robot': 'https://github.com/jibranthedecoder/webots-line-following-robot',
     'dead-reckoning-navigation': 'https://github.com/jibranthedecoder/webots-dead-reckoning-navigation',
+    'maze-solving-robot': 'https://github.com/jibranthedecoder/webots-maze-solving-robot',
   };
 
   function slugFromCard(card) {
