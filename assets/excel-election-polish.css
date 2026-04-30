@@ -1,0 +1,85 @@
+.excel-election-page {
+  font-family: var(--font-sans, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+}
+
+.excel-election-page * {
+  font-family: inherit;
+}
+
+.excel-election-page .detail-hero {
+  align-items: start;
+  gap: clamp(1.5rem, 4vw, 3rem);
+}
+
+.excel-election-page .detail-copy,
+.excel-election-page .detail-visual,
+.excel-election-page .diagram-stage,
+.excel-election-page .embedded-explorer {
+  min-width: 0;
+}
+
+.excel-election-page .diagram-stage {
+  display: grid;
+  gap: clamp(0.85rem, 2vw, 1.15rem);
+  overflow: hidden;
+}
+
+.excel-election-page .result-summary-shot {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+}
+
+.excel-election-page .result-summary-shot img {
+  display: block;
+  width: 100%;
+  max-height: 18rem;
+  object-fit: contain;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
+}
+
+.excel-election-page .result-summary-shot figcaption {
+  color: var(--text-secondary, #64748b);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.excel-election-page .metric-strip {
+  margin-top: 0.1rem;
+}
+
+.excel-election-page .section-shell {
+  margin-top: clamp(1.25rem, 3vw, 1.9rem);
+}
+
+.excel-election-page .detail-layout {
+  gap: clamp(1rem, 2.4vw, 1.35rem);
+}
+
+.excel-election-page .method-flow {
+  margin-top: 0.25rem;
+}
+
+.excel-election-page .embedded-explorer {
+  margin-top: 0.25rem;
+}
+
+.excel-election-page .explorer-controls input,
+.excel-election-page .explorer-controls select,
+.excel-election-page .explorer-chip,
+.excel-election-page .explorer-table {
+  font-family: inherit;
+}
+
+@media (max-width: 900px) {
+  .excel-election-page .result-summary-shot img {
+    max-height: 13rem;
+  }
+
+  .excel-election-page .detail-hero {
+    gap: 1.25rem;
+  }
+}
