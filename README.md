@@ -1,6 +1,27 @@
 # Jibran Hussain Portfolio
 
-A multi-page portfolio built with vanilla HTML, CSS, JavaScript, and Cloudflare Pages Functions.
+A multi-page engineering portfolio built with vanilla HTML, CSS, JavaScript, and Cloudflare Pages Functions.
+
+Live site: https://www.jibranhussain.com
+
+## Purpose
+
+This portfolio presents engineering projects as recruiter-friendly case studies. Each strong project should have:
+
+- a portfolio case-study page
+- a separate public GitHub repository
+- English and Finnish README files when useful
+- evidence files such as code, reports, screenshots, and videos
+- direct links from the portfolio to the project repository and evidence
+
+## Current highlighted project
+
+### Webots Line Following Robot
+
+- Portfolio page: `/projects/line-following-robot/`
+- Repository: `https://github.com/jibranthedecoder/webots-line-following-robot`
+- Evidence: Python controller, PDF report, MP4 simulation video, and result screenshot
+- Languages: English and Finnish README files
 
 ## Live architecture
 
@@ -12,7 +33,34 @@ A multi-page portfolio built with vanilla HTML, CSS, JavaScript, and Cloudflare 
 - Shared styling in `styles.css`
 - Shared client logic in `script.js`
 - Shared project metadata in `project-data.js`
+- Additional project data in `assets/webots-project-data.js`
 - Contact delivery through `functions/api/contact.js`
+
+## Project publishing workflow
+
+For each new project:
+
+1. Create a dedicated public GitHub repository.
+2. Add the evidence files to the repository.
+3. Add or polish `README.md` and, when useful, `README.fi.md`.
+4. Add the project to the portfolio project data.
+5. Create or update the portfolio case-study page.
+6. Add direct portfolio buttons for case study, repository, report, code, video, and screenshots where relevant.
+7. Check desktop and mobile layout before sending the link forward.
+
+Recommended project repository structure:
+
+```text
+project-name/
+  README.md
+  README.fi.md
+  src/
+  docs/
+  media/
+  screenshots/
+```
+
+Existing school projects may keep files in the repository root if already uploaded. README links should match the actual file locations.
 
 ## Local preview
 
@@ -62,14 +110,11 @@ Limit: 5 requests per IP per 10 minutes
 Action: Managed Challenge or Block
 ```
 
----
-
 ## QA system
 
-Automated browser tests using [Playwright](https://playwright.dev/).  
-Tests cover: page load, console errors, broken links, mobile layout, screenshots, and contact endpoint safety checks.
+Automated browser tests use Playwright. Tests cover page load, console errors, broken links, mobile layout, screenshots, and contact endpoint safety checks.
 
-### Setup (first time)
+### Setup first time
 
 ```bash
 npm install
@@ -81,8 +126,8 @@ npx playwright install chromium
 | Command | What it does |
 |---|---|
 | `npm run serve` | Serve site locally on port 8080 |
-| `npm run qa` | Full test suite (smoke + links + screenshots + contact API checks) |
-| `npm run qa:smoke` | Smoke tests only (fast, all viewports) |
+| `npm run qa` | Full test suite |
+| `npm run qa:smoke` | Smoke tests only |
 | `npm run qa:links` | Broken link checker |
 | `npm run qa:screenshots` | Capture screenshots to `qa/screenshots/` |
 | `npm run qa:report` | Open last HTML report in browser |
@@ -100,47 +145,50 @@ wrangler pages dev .
 BASE_URL=http://localhost:8788 npx playwright test qa/tests/contact-api.test.js --project=desktop-chrome
 ```
 
-### Pre-launch checklist
+## Pre-launch checklist
 
-Run before every deploy. All items must be **PASS** before pushing to main.
+Run before every deploy. All items should pass before pushing or sending the site forward.
 
-**Automated (run `npm run qa`)**
+### Automated
 
-- [ ] All pages load without JS console errors (`/`, `/about/`, `/projects/`, `/contact/`, `/cv/`)
-- [ ] All pages have correct `<title>`, visible `<h1>`, `<meta name="description">`, `lang` attribute
-- [ ] No internal broken links on any page
-- [ ] CV PDF resolves (`/assets/Jibran-Hussain-CV-EN.pdf` returns 200)
+- [ ] All pages load without JavaScript console errors
+- [ ] All pages have correct `<title>`, visible `<h1>`, meta description, and `lang` attribute
+- [ ] No internal broken links
+- [ ] CV PDF resolves
 - [ ] Contact form has name, email, textarea, and submit button
 - [ ] Contact API does not expose diagnostics by default
 - [ ] Contact API rejects invalid formats, missing Turnstile token, and honeypot submissions
 - [ ] No horizontal scroll overflow on iPhone 12 or Pixel 5 viewports
-- [ ] Navigation present and accessible on mobile
+- [ ] Navigation is present and usable on mobile
 
-**Manual (spot-check before deploy)**
+### Manual
 
 - [ ] Dark/light theme toggle works and persists on refresh
-- [ ] Language toggle (EN/FI) works and persists on refresh
-- [ ] Contact form submits successfully (check Resend dashboard for delivery)
+- [ ] Language toggle EN/FI works and persists on refresh
+- [ ] Contact form submits successfully
 - [ ] Cloudflare Turnstile widget loads and passes on contact page
 - [ ] Cloudflare rate limiting/WAF rule is active for `/api/contact`
+- [ ] Project cards show case-study and GitHub buttons clearly near the top
 - [ ] Project case-study pages load and render content
-- [ ] CV download link prompts PDF download (not 404)
-- [ ] All images load (no broken image icons)
+- [ ] GitHub repository links work for published projects
+- [ ] Evidence links work: code, PDF, video, screenshot
+- [ ] CV download link prompts PDF download and is not 404
+- [ ] All images and videos load without broken placeholders
 - [ ] Scroll-reveal animations trigger on first visit
-- [ ] Site looks correct at 320px, 768px, 1280px widths
+- [ ] Site looks correct at 320px, 768px, and 1280px widths
 - [ ] `robots.txt` and `sitemap.xml` are reachable
 
-### Test file layout
+## Test file layout
 
-```
+```text
 qa/
   tests/
-    smoke.test.js         # page load, console errors, a11y basics, mobile layout
-    links.test.js         # broken internal link checker
-    screenshots.test.js   # full-page screenshots (desktop + mobile)
-    contact-api.test.js   # contact endpoint hardening checks
-  screenshots/            # output — gitignored
-  playwright-report/      # HTML report — gitignored
+    smoke.test.js
+    links.test.js
+    screenshots.test.js
+    contact-api.test.js
+  screenshots/
+  playwright-report/
 playwright.config.js
 package.json
 ```
