@@ -236,6 +236,35 @@ body[data-page="project-detail"] .story-list {
   width: 100%;
 }
 
+.webots-real-media-card {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+}
+
+.webots-real-media-card img {
+  display: block;
+  width: 100%;
+  max-height: clamp(15rem, 32vw, 24rem);
+  object-fit: cover;
+  object-position: center;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 22px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.14);
+  background: rgba(148, 163, 184, 0.08);
+}
+
+.webots-real-media-card figcaption {
+  color: var(--text-secondary, #64748b);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.visual-video-link {
+  justify-self: start;
+  width: auto;
+}
+
 .webots-track-card {
   position: relative;
   min-height: clamp(13rem, 28vw, 17rem);
@@ -515,7 +544,8 @@ html.readable-mode .profile-card {
   }
 
   body[data-page="project-detail"] .detail-actions .button,
-  .line-following-page .evidence-links .button {
+  .line-following-page .evidence-links .button,
+  .visual-video-link {
     width: 100%;
   }
 
@@ -529,6 +559,11 @@ html.readable-mode .profile-card {
 
   .webots-track-card {
     min-height: 12.5rem;
+    border-radius: 18px;
+  }
+
+  .webots-real-media-card img {
+    max-height: 16rem;
     border-radius: 18px;
   }
 
