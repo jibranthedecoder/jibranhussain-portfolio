@@ -9,7 +9,7 @@
   <link rel="canonical" href="https://www.jibranhussain.com/projects/line-following-robot/" />
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
   <link rel="stylesheet" href="/styles.css" />
-  <link rel="stylesheet" href="/assets/site-fixes.css?v=line-following-compact-webots-20260430" />
+  <link rel="stylesheet" href="/assets/site-fixes.css?v=line-following-video-anchor-20260430" />
   <style>
     .line-following-page .detail-visual,
     .line-following-page .line-following-visual,
@@ -79,9 +79,9 @@
     }
   </style>
   <script src="/project-data.js" defer></script>
-  <script src="/assets/webots-project-data.js?v=line-following-compact-webots-20260430" defer></script>
+  <script src="/assets/webots-project-data.js?v=line-following-video-anchor-20260430" defer></script>
   <script src="/script.js" defer></script>
-  <script src="/assets/line-following-detail.js?v=line-following-compact-webots-20260430" defer></script>
+  <script src="/assets/line-following-detail.js?v=line-following-video-anchor-20260430" defer></script>
 </head>
 <body data-page="project-detail">
   <a class="skip-link" href="#main" data-i18n="skipToMain">Skip to main content</a>
@@ -147,13 +147,13 @@
             <a class="button button-primary" data-line-link="repo" href="https://github.com/jibranthedecoder/webots-line-following-robot" target="_blank" rel="noopener">Repository</a>
             <a class="button button-secondary" data-line-link="code" href="https://github.com/jibranthedecoder/webots-line-following-robot/blob/main/line_follow.py" target="_blank" rel="noopener">Python code</a>
             <a class="button button-secondary" data-line-link="report" href="https://github.com/jibranthedecoder/webots-line-following-robot/blob/main/Robotics-viivanseuraaja.pdf" target="_blank" rel="noopener">PDF report</a>
-            <a class="button button-secondary" data-line-link="video" href="https://github.com/jibranthedecoder/webots-line-following-robot/blob/main/Task2_Vid.mp4" target="_blank" rel="noopener">Simulation video</a>
+            <a class="button button-secondary" data-line-link="video" href="#webots-simulation-window">Simulation video</a>
             <a class="button button-secondary" data-line-link="screenshot" href="https://github.com/jibranthedecoder/webots-line-following-robot/blob/main/best%20possible%20scenario.png" target="_blank" rel="noopener">Result screenshot</a>
           </div>
         </div>
       </div>
       <div class="detail-visual reveal">
-        <div class="diagram-stage line-following-visual">
+        <div class="diagram-stage line-following-visual" id="webots-simulation-window">
           <p class="aside-label" data-line-visual-label>Visual evidence</p>
           <figure class="webots-real-media-card webots-video-card">
             <video controls preload="metadata" playsinline poster="https://raw.githubusercontent.com/jibranthedecoder/webots-line-following-robot/main/best%20possible%20scenario.png" aria-label="Webots e-puck line following robot simulation video">
@@ -169,7 +169,7 @@
             <span><strong>Kd 0.85</strong><small>D gain</small></span>
           </div>
           <p class="panel-copy" data-line-visual-copy>Webots e-puck simulation with three ground sensors, PD controller tuning, motor saturation, and measured final performance.</p>
-          <a class="button button-secondary visual-video-link" href="https://github.com/jibranthedecoder/webots-line-following-robot/blob/main/Task2_Vid.mp4" target="_blank" rel="noopener">Open simulation video</a>
+          <a class="button button-secondary visual-video-link" href="#webots-simulation-window">Show simulation window</a>
         </div>
       </div>
     </section>
