@@ -9,108 +9,32 @@
   <link rel="canonical" href="https://www.jibranhussain.com/projects/excel-critical-point-calculator/" />
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
   <link rel="stylesheet" href="/styles.css" />
-  <link rel="stylesheet" href="/assets/site-fixes.css?v=excel-critical-point-20260430" />
+  <link rel="stylesheet" href="/assets/site-fixes.css?v=excel-critical-point-direct-20260430" />
   <style>
-    .excel-page .tool-frame-wrap {
-      display: grid;
-      gap: 0.75rem;
-      min-width: 0;
-      overflow: hidden;
-    }
-
-    .excel-page .tool-frame {
-      width: 100%;
-      min-height: min(76vh, 760px);
-      border: 1px solid rgba(148, 163, 184, 0.24);
-      border-radius: 22px;
-      background: #fff;
-    }
-
-    .excel-page .hero-evidence-package {
-      display: grid;
-      gap: 0.65rem;
-      max-width: 38rem;
-      margin-top: clamp(1.25rem, 3vw, 2rem);
-      padding: clamp(0.9rem, 2vw, 1.1rem);
-      border: 1px solid rgba(148, 163, 184, 0.22);
-      border-radius: 20px;
-      background: rgba(148, 163, 184, 0.06);
-    }
-
-    .excel-page .hero-evidence-package .section-title {
-      font-size: clamp(1.25rem, 2.5vw, 1.65rem);
-      line-height: 1.15;
-      margin: 0;
-    }
-
-    .excel-page .hero-evidence-package .panel-copy {
-      margin: 0;
-    }
-
-    @media (max-width: 760px) {
-      .excel-page .tool-frame {
-        min-height: 680px;
-        border-radius: 16px;
-      }
-    }
+    .excel-page .hero-evidence-package{display:grid;gap:.65rem;max-width:38rem;margin-top:clamp(1.25rem,3vw,2rem);padding:clamp(.9rem,2vw,1.1rem);border:1px solid rgba(148,163,184,.22);border-radius:20px;background:rgba(148,163,184,.06)}
+    .excel-page .hero-evidence-package .section-title{font-size:clamp(1.25rem,2.5vw,1.65rem);line-height:1.15;margin:0}.excel-page .hero-evidence-package .panel-copy{margin:0}
+    .calculator-shell{display:grid;gap:1rem}.calculator-grid{display:grid;grid-template-columns:minmax(260px,.75fr) minmax(0,1.25fr);gap:1rem;align-items:start}.calculator-card{display:grid;gap:1rem;padding:clamp(1rem,2vw,1.25rem);border:1px solid rgba(148,163,184,.22);border-radius:22px;background:rgba(148,163,184,.055)}
+    .calculator-inputs{display:grid;gap:.8rem}.calculator-inputs label{display:grid;gap:.32rem;font-weight:750}.calculator-inputs label span{color:var(--text-secondary,#64748b);font-size:.82rem;font-weight:700}.calculator-inputs input{width:100%;min-height:3rem;padding:.72rem .8rem;border:1px solid rgba(148,163,184,.25);border-radius:14px;background:var(--surface,#fff);color:var(--text-primary,#0f172a);font:inherit;font-weight:750}
+    .calculator-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.65rem}.calculator-kpi{padding:.8rem;border:1px solid rgba(148,163,184,.22);border-radius:16px;background:rgba(148,163,184,.08)}.calculator-kpi strong{display:block;font-size:clamp(1rem,2vw,1.25rem);line-height:1.1}.calculator-kpi small{color:var(--text-secondary,#64748b);font-size:.64rem;letter-spacing:.07em;text-transform:uppercase;font-weight:800}
+    .calculator-table-wrap{overflow-x:auto;border:1px solid rgba(148,163,184,.22);border-radius:18px}.calculator-table{width:100%;min-width:760px;border-collapse:collapse}.calculator-table th,.calculator-table td{padding:.7rem .75rem;border-bottom:1px solid rgba(148,163,184,.18);text-align:right;white-space:nowrap}.calculator-table th:first-child,.calculator-table td:first-child{text-align:left}.calculator-table th{color:var(--text-secondary,#64748b);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}.calculator-table tr:last-child td{border-bottom:0}.calculator-table .profit-loss{color:#b91c1c;font-weight:850}.calculator-table .profit-zero{color:#b45309;font-weight:900}.calculator-table .profit-gain{color:#047857;font-weight:850}.break-even-row{outline:2px solid rgba(4,120,87,.38);outline-offset:-2px}.calculator-note{margin:0;color:var(--text-secondary,#64748b)}
+    @media(max-width:900px){.calculator-grid,.calculator-kpis{grid-template-columns:1fr}.calculator-table{min-width:720px}}
   </style>
-  <script src="/project-data.js" defer></script>
-  <script src="/assets/webots-project-data.js" defer></script>
-  <script src="/assets/excel-project-data.js?v=excel-critical-point-20260430" defer></script>
-  <script src="/script.js" defer></script>
+  <script src="/project-data.js" defer></script><script src="/assets/webots-project-data.js" defer></script><script src="/assets/excel-project-data.js?v=excel-critical-point-direct-20260430" defer></script><script src="/script.js" defer></script>
 </head>
 <body data-page="project-detail">
   <a class="skip-link" href="#main" data-i18n="skipToMain">Skip to main content</a>
-
-  <header class="site-header">
-    <div class="header-inner">
-      <a class="brand-mark" href="/" aria-label="Go to home" data-i18n-aria-label="goHome">
-        <span class="brand-monogram">JH</span>
-        <span class="brand-copy"><span class="brand-name">Jibran Hussain</span><span class="brand-role" data-i18n="brandRole">Electrical &amp; Automation Engineering</span></span>
-      </a>
-      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation" data-i18n-aria-label="toggleNavigation"><span></span><span></span></button>
-      <nav class="primary-nav" id="primaryNav" aria-label="Primary navigation" data-i18n-aria-label="primaryNavigation"><a href="/" data-i18n="navHome">Home</a><a href="/about/" data-i18n="navAbout">About</a><a href="/projects/" aria-current="page" data-i18n="navProjects">Projects</a><a href="/contact/" data-i18n="navContact">Contact</a></nav>
-      <div class="header-controls"><button id="langToggle" class="control-button" type="button" aria-pressed="false">FI</button><button id="speakToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Read aloud" data-i18n-aria-label="readAloud"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Read</span></button><button id="pauseToggle" class="control-button control-button-icon" type="button" hidden aria-label="Pause reading" data-i18n-aria-label="pauseReading"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Pause</span></button><button id="readableToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Toggle dyslexic mode" data-i18n-aria-label="dyslexic"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Dyslexic</span></button><button id="themeToggle" class="control-button control-button-icon" type="button" aria-label="Toggle theme mode" data-i18n-aria-label="theme"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Theme</span></button></div>
-    </div>
-  </header>
-
+  <header class="site-header"><div class="header-inner"><a class="brand-mark" href="/" aria-label="Go to home" data-i18n-aria-label="goHome"><span class="brand-monogram">JH</span><span class="brand-copy"><span class="brand-name">Jibran Hussain</span><span class="brand-role" data-i18n="brandRole">Electrical &amp; Automation Engineering</span></span></a><button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation" data-i18n-aria-label="toggleNavigation"><span></span><span></span></button><nav class="primary-nav" id="primaryNav" aria-label="Primary navigation" data-i18n-aria-label="primaryNavigation"><a href="/" data-i18n="navHome">Home</a><a href="/about/" data-i18n="navAbout">About</a><a href="/projects/" aria-current="page" data-i18n="navProjects">Projects</a><a href="/contact/" data-i18n="navContact">Contact</a></nav><div class="header-controls"><button id="langToggle" class="control-button" type="button" aria-pressed="false">FI</button><button id="speakToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Read aloud" data-i18n-aria-label="readAloud"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Read</span></button><button id="pauseToggle" class="control-button control-button-icon" type="button" hidden aria-label="Pause reading" data-i18n-aria-label="pauseReading"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Pause</span></button><button id="readableToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Toggle dyslexic mode" data-i18n-aria-label="dyslexic"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Dyslexic</span></button><button id="themeToggle" class="control-button control-button-icon" type="button" aria-label="Toggle theme mode" data-i18n-aria-label="theme"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Theme</span></button></div></div></header>
   <main id="main" class="project-detail-shell excel-page" data-project-slug="excel-critical-point-calculator">
     <section class="page-shell detail-hero">
-      <div class="detail-copy reveal">
-        <p class="eyebrow" data-i18n="projectCaseStudy">Project case study</p>
-        <h1 data-project-title>Excel Critical Point Calculator</h1>
-        <p class="hero-lead">An Excel break-even calculation task converted into an interactive HTML calculator with editable inputs, profit table, and critical point output.</p>
-        <div class="detail-meta"><span class="status-badge">Built</span><span class="project-category">Spreadsheet calculation tools</span></div>
-        <div class="detail-actions"><a class="button button-secondary" href="/projects/" data-i18n="backToProjects">Back to Projects</a><a class="button button-primary" href="https://github.com/jibranthedecoder/excel-critical-point-calculator" target="_blank" rel="noopener">GitHub repository</a></div>
-        <div class="hero-evidence-package">
-          <p class="eyebrow">Evidence package</p>
-          <h2 class="section-title">Calculator files available on GitHub.</h2>
-          <p class="panel-copy">Open the source repository or use the embedded calculator directly on this page.</p>
-          <div class="project-links evidence-links"><a class="button button-primary" href="https://github.com/jibranthedecoder/excel-critical-point-calculator" target="_blank" rel="noopener">Repository</a><a class="button button-secondary" href="https://github.com/jibranthedecoder/excel-critical-point-calculator/blob/main/index.html" target="_blank" rel="noopener">HTML source</a><a class="button button-secondary" href="#calculator-preview">Live calculator</a></div>
-        </div>
-      </div>
-      <div class="detail-visual reveal">
-        <div class="diagram-stage">
-          <p class="aside-label">Calculator summary</p>
-          <div class="metric-strip"><span><strong>Excel</strong><small>source logic</small></span><span><strong>HTML</strong><small>conversion</small></span><span><strong>JS</strong><small>recalculation</small></span><span><strong>10</strong><small>critical units</small></span></div>
-          <p class="panel-copy">The calculator shows how spreadsheet formulas can be presented as a small browser-based tool instead of a static table.</p>
-        </div>
-      </div>
+      <div class="detail-copy reveal"><p class="eyebrow" data-i18n="projectCaseStudy">Project case study</p><h1>Excel Critical Point Calculator</h1><p class="hero-lead">An Excel break-even calculation task converted into an interactive calculator with editable inputs, a live profit table, and critical point output.</p><div class="detail-meta"><span class="status-badge">Built</span><span class="project-category">Spreadsheet calculation tools</span></div><div class="detail-actions"><a class="button button-secondary" href="/projects/" data-i18n="backToProjects">Back to Projects</a><a class="button button-primary" href="https://github.com/jibranthedecoder/excel-critical-point-calculator" target="_blank" rel="noopener">GitHub repository</a></div><div class="hero-evidence-package"><p class="eyebrow">Evidence package</p><h2 class="section-title">Calculator files available on GitHub.</h2><p class="panel-copy">Open the source repository or use the live calculator directly on this page.</p><div class="project-links evidence-links"><a class="button button-primary" href="https://github.com/jibranthedecoder/excel-critical-point-calculator" target="_blank" rel="noopener">Repository</a><a class="button button-secondary" href="https://github.com/jibranthedecoder/excel-critical-point-calculator/blob/main/index.html" target="_blank" rel="noopener">HTML source</a><a class="button button-secondary" href="#calculator-preview">Live calculator</a></div></div></div>
+      <div class="detail-visual reveal"><div class="diagram-stage"><p class="aside-label">Calculator summary</p><div class="metric-strip"><span><strong id="heroCriticalUnits">10</strong><small>critical units</small></span><span><strong id="heroMargin">190 €</strong><small>unit margin</small></span><span><strong>Excel</strong><small>source logic</small></span><span><strong>JS</strong><small>live calc</small></span></div><p class="panel-copy">Change the calculator inputs below and the critical point, profit table, and profit percentage update immediately.</p></div></div>
     </section>
-
-    <section class="section-shell detail-layout line-detail-layout">
-      <article class="detail-panel reveal"><p class="aside-label">Overview</p><p>The original Excel task calculated production amount, net sales, fixed costs, variable costs, total costs, profit, profit percentage, and the critical point.</p></article>
-      <article class="detail-panel reveal"><p class="aside-label">Engineering problem</p><p>A spreadsheet can calculate correctly but still be hard to present. The portfolio version makes the formula logic, assumptions, outputs, and break-even result easier to inspect.</p></article>
-      <article class="detail-panel reveal"><p class="aside-label">Technologies</p><ul class="detail-list"><li>Excel</li><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Break-even analysis</li><li>Responsive UI</li></ul></article>
-      <article class="detail-panel reveal"><p class="aside-label">Skills demonstrated</p><ul class="detail-list"><li>Spreadsheet logic</li><li>Formula translation</li><li>Interactive calculator design</li><li>Data presentation</li><li>Technical documentation</li></ul></article>
-    </section>
-
-    <section class="section-shell reveal" id="calculator-preview">
-      <div class="section-heading"><p class="eyebrow">Live calculator</p><h2 class="section-title">Embedded calculator preview.</h2><p class="panel-copy">The calculator below is loaded from the project repository through jsDelivr CDN.</p></div>
-      <div class="tool-frame-wrap"><iframe class="tool-frame" title="Excel Critical Point Calculator" src="https://cdn.jsdelivr.net/gh/jibranthedecoder/excel-critical-point-calculator@main/index.html" loading="lazy"></iframe></div>
-    </section>
+    <section class="section-shell detail-layout line-detail-layout"><article class="detail-panel reveal"><p class="aside-label">Overview</p><p>The original Excel task calculated production amount, net sales, fixed costs, variable costs, total costs, profit, profit percentage, and the critical point.</p></article><article class="detail-panel reveal"><p class="aside-label">Engineering problem</p><p>A spreadsheet can calculate correctly but still be hard to present. The portfolio version makes the formula logic, assumptions, outputs, and break-even result easier to inspect.</p></article><article class="detail-panel reveal"><p class="aside-label">Technologies</p><ul class="detail-list"><li>Excel</li><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Break-even analysis</li><li>Responsive UI</li></ul></article><article class="detail-panel reveal"><p class="aside-label">Skills demonstrated</p><ul class="detail-list"><li>Spreadsheet logic</li><li>Formula translation</li><li>Interactive calculator design</li><li>Data presentation</li><li>Technical documentation</li></ul></article></section>
+    <section class="section-shell reveal calculator-shell" id="calculator-preview"><div class="section-heading"><p class="eyebrow">Live calculator</p><h2 class="section-title">Interactive critical point calculator.</h2><p class="panel-copy">Edit any value. The table and break-even result update instantly.</p></div><div class="calculator-grid"><article class="calculator-card"><p class="eyebrow">Inputs</p><h3>Original spreadsheet values</h3><div class="calculator-inputs"><label>Start amount <span>units/month</span><input id="startAmount" type="number" value="8" min="0" step="1"></label><label>Step <span>units</span><input id="stepAmount" type="number" value="1" min="1" step="1"></label><label>Machine selling price <span>€/unit</span><input id="price" type="number" value="890" min="0" step="10"></label><label>Fixed costs <span>€/month</span><input id="fixedCost" type="number" value="1900" min="0" step="50"></label><label>Manufacturing and material costs <span>€/unit</span><input id="variableCost" type="number" value="700" min="0" step="10"></label></div><p class="calculator-note">Formula basis: sales = units × price, total costs = fixed costs + variable costs, profit = sales − total costs.</p></article><article class="calculator-card"><p class="eyebrow">Calculated output</p><h3>Profit table</h3><div class="calculator-kpis"><div class="calculator-kpi"><strong id="criticalUnits">10</strong><small>critical units</small></div><div class="calculator-kpi"><strong id="unitMargin">190 €</strong><small>unit margin</small></div><div class="calculator-kpi"><strong id="exactBreakEven">10.00</strong><small>exact break-even</small></div><div class="calculator-kpi"><strong id="firstProfit">11</strong><small>first profitable unit</small></div></div><div class="calculator-table-wrap"><table class="calculator-table"><thead><tr><th>Units / month</th><th>Net sales</th><th>Fixed costs</th><th>Variable costs</th><th>Total costs</th><th>Profit</th><th>Profit %</th></tr></thead><tbody id="resultRows"></tbody></table></div></article></div></section>
   </main>
-
   <footer class="site-footer"><div class="footer-inner"><div><p class="footer-title">Jibran Hussain</p><p class="footer-copy" data-i18n="footerCopy">Thanks for visiting my portfolio.</p></div><nav class="footer-nav" aria-label="Footer navigation" data-i18n-aria-label="footerNavigation"><a href="/" data-i18n="navHome">Home</a><a href="/about/" data-i18n="navAbout">About</a><a href="/projects/" aria-current="page" data-i18n="navProjects">Projects</a><a href="/contact/" data-i18n="navContact">Contact</a></nav><div class="footer-meta"><a href="https://github.com/jibranthedecoder" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener">LinkedIn</a><p>&copy; <span id="currentYear"></span> Jibran Hussain</p></div></div></footer>
+  <script>
+    (function(){const ids=['startAmount','stepAmount','price','fixedCost','variableCost'];const fmt=new Intl.NumberFormat('fi-FI',{maximumFractionDigits:0});const pct=new Intl.NumberFormat('fi-FI',{style:'percent',minimumFractionDigits:1,maximumFractionDigits:1});function v(id){return Number(document.getElementById(id)?.value||0)}function money(n){return `${fmt.format(n)} €`}function text(id,value){const el=document.getElementById(id);if(el)el.textContent=value}function calculate(){const start=v('startAmount');const step=Math.max(1,v('stepAmount'));const price=v('price');const fixed=v('fixedCost');const variable=v('variableCost');const margin=price-variable;const exact=margin>0?fixed/margin:Infinity;const firstProfit=Number.isFinite(exact)?Math.floor(exact)+1:0;const critical=Number.isFinite(exact)?Math.ceil(exact):0;text('unitMargin',money(margin));text('heroMargin',money(margin));text('exactBreakEven',Number.isFinite(exact)?exact.toFixed(2):'—');text('firstProfit',Number.isFinite(exact)?firstProfit:'—');text('criticalUnits',Number.isFinite(exact)?critical:'—');text('heroCriticalUnits',Number.isFinite(exact)?critical:'—');const rows=document.getElementById('resultRows');if(!rows)return;rows.innerHTML='';for(let i=0;i<12;i++){const units=start+i*step;const sales=units*price;const variableCosts=units*variable;const total=fixed+variableCosts;const profit=sales-total;const profitPercent=sales>0?profit/sales:0;const cls=profit<0?'profit-loss':profit===0?'profit-zero':'profit-gain';const tr=document.createElement('tr');if(units===critical)tr.classList.add('break-even-row');tr.innerHTML=`<td>${fmt.format(units)}</td><td>${money(sales)}</td><td>${money(fixed)}</td><td>${money(variableCosts)}</td><td>${money(total)}</td><td class="${cls}">${money(profit)}</td><td>${pct.format(profitPercent)}</td>`;rows.appendChild(tr)}}ids.forEach(id=>document.getElementById(id)?.addEventListener('input',calculate));calculate();}());
+  </script>
 </body>
 </html>
