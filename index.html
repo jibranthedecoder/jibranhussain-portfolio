@@ -39,7 +39,11 @@
   <link rel="canonical" href="https://www.jibranhussain.com/" />
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
   <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/assets/home-capability-overview.css?v=20260430" />
+  <script src="/project-data.js?v=home-capability-20260430" defer></script>
+  <script src="/assets/webots-project-data.js?v=home-capability-20260430" defer></script>
   <script src="/script.js" defer></script>
+  <script src="/assets/home-capability-overview.js?v=20260430" defer></script>
 </head>
 <body data-page="home">
   <a class="skip-link" href="#main" data-i18n="skipToMain">Skip to main content</a>
@@ -136,74 +140,42 @@
       </div>
     </section>
 
-    <section class="section-shell reveal">
+    <section class="section-shell reveal" id="technical-footprint">
       <div class="section-header-row">
         <div class="section-heading">
-          <p class="eyebrow" data-i18n="featuredProjectsEyebrow">Featured projects</p>
-          <h2 class="section-title" data-i18n="featuredProjectsTitle">Engineering work in progress.</h2>
+          <p class="eyebrow" data-home-capability-eyebrow>Technical footprint</p>
+          <h2 class="section-title">Portfolio capability overview.</h2>
         </div>
-        <div class="project-links">
-          <a class="button button-secondary" href="/projects/" data-i18n="allProjects">All Projects</a>
-          <a class="button button-tertiary" href="https://github.com/jibranthedecoder" target="_blank" rel="noopener">GitHub</a>
-        </div>
+        <a class="button button-secondary" href="/projects/" data-i18n="allProjects">All Projects</a>
       </div>
-      <div class="project-grid">
-        <article class="project-card">
-          <div class="project-card-top">
-            <span class="status-badge status-build" data-i18n="projectSmartConveyorStatus">IN PROGRESS</span>
-            <span class="project-category" data-i18n="projectConveyorCategory">MATERIAL HANDLING AUTOMATION</span>
+      <div class="capability-grid">
+        <article class="capability-card">
+          <div class="capability-card-header">
+            <h3 data-home-languages-title>Programming languages used across the portfolio.</h3>
+            <span class="capability-total" data-home-language-total>0</span>
           </div>
-          <h3 data-i18n="projectSmartConveyorTitle">Smart Conveyor System</h3>
-          <p class="project-summary" data-i18n="featuredConveyorSummary">A control logic project focused on sequence states, blocked-flow handling, jam recovery, and operator-readable diagnostics.</p>
-          <div class="project-links">
-            <a class="button button-primary" href="/projects/smart-conveyor/" data-i18n="viewProject">View Project</a>
-          </div>
+          <div class="capability-list" data-home-language-bars></div>
         </article>
-        <article class="project-card">
-          <div class="project-card-top">
-            <span class="status-badge status-build" data-i18n="projectMccStatus">BUILT</span>
-            <span class="project-category" data-i18n="projectMccCategory">ELECTRICAL POWER AND DRIVES</span>
+        <article class="capability-card">
+          <div class="capability-card-header">
+            <h3 data-home-systems-title>Systems and tools used across the portfolio.</h3>
+            <span class="capability-total" data-home-system-total>0</span>
           </div>
-          <h3 data-i18n="projectMccTitle">Motor Control Center Study</h3>
-          <p class="project-summary" data-i18n="featuredMccSummary">A practical MCC case study for start permissives, trip visibility, feedback checks, and maintenance-facing motor status.</p>
-          <div class="project-links">
-            <a class="button button-primary" href="/projects/motor-control-center/" data-i18n="viewProject">View Project</a>
-          </div>
+          <div class="capability-list" data-home-system-bars></div>
         </article>
       </div>
     </section>
-    <section class="section-shell reveal">
+
+    <section class="section-shell reveal" id="system-shortcuts">
       <div class="section-header-row">
         <div class="section-heading">
-          <p class="eyebrow" data-i18n="selectedWorkEyebrow">Selected work</p>
-          <h2 class="section-title" data-i18n="selectedWorkTitle">Projects I’m building.</h2>
+          <p class="eyebrow" data-home-shortcut-eyebrow>System shortcuts</p>
+          <h2 class="section-title" data-home-shortcut-title>Jump directly into a project system.</h2>
+          <p class="panel-copy" data-home-shortcut-copy>Fast links to the project areas recruiters usually want to scan first.</p>
         </div>
-        <a class="button button-secondary" href="/projects/" data-i18n="selectedWorkCta">All Projects</a>
+        <a class="button button-secondary" href="/projects/" data-i18n="allProjects">All Projects</a>
       </div>
-      <div class="project-grid">
-        <article class="project-card">
-          <div class="project-card-top">
-            <span class="status-badge status-build" data-i18n="projectActiveBuildStatus">ACTIVE BUILD</span>
-            <span class="project-category" data-i18n="projectConveyorCategory">MATERIAL HANDLING AUTOMATION</span>
-          </div>
-          <h3 data-i18n="projectSmartConveyorTitle">Smart Conveyor System</h3>
-          <p class="project-summary" data-i18n="selectedConveyorSummary">A control logic project built around sensors, sequence control, fault handling, and safe machine behavior.</p>
-          <div class="project-links">
-            <a class="button button-primary" href="/projects/smart-conveyor/" data-i18n="viewProject">View Project</a>
-          </div>
-        </article>
-        <article class="project-card">
-          <div class="project-card-top">
-            <span class="status-badge status-build" data-i18n="projectCaseStudyBuildStatus">CASE STUDY BUILD</span>
-            <span class="project-category" data-i18n="projectMccCategory">ELECTRICAL POWER AND DRIVES</span>
-          </div>
-          <h3 data-i18n="projectMotorControlTitle">Motor Control Study</h3>
-          <p class="project-summary" data-i18n="selectedMotorSummary">A practical project focused on starters, protection, signals, and how motors are controlled in real systems.</p>
-          <div class="project-links">
-            <a class="button button-primary" href="/projects/motor-control-center/" data-i18n="viewProject">View Project</a>
-          </div>
-        </article>
-      </div>
+      <div class="system-shortcut-grid" data-home-system-shortcuts></div>
     </section>
   </main>
 
