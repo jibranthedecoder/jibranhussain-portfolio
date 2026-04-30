@@ -8,7 +8,20 @@
     tia: 'siemens tia portal plc fbd automation',
     webots: 'webots robotics robot python simulation thymio epuck e puck maze line dead reckoning',
     robotics: 'webots robotics robot python simulation thymio epuck e puck maze line dead reckoning',
-    excel: 'excel spreadsheet reporting calculation data',
+    robot: 'webots robotics robot python simulation line following maze dead reckoning',
+    excel: 'excel spreadsheet worksheet calculation calculator data analysis csv charts report reporting',
+    spreadsheet: 'excel spreadsheet worksheet calculation calculator data analysis csv charts',
+    data: 'data analysis csv spreadsheet excel sorting ranking validation results',
+    election: 'election elections seat allocation dhondt d hondt vote votes candidate candidates party parties comparative figure ranking excel csv',
+    elections: 'election elections seat allocation dhondt d hondt vote votes candidate candidates party parties comparative figure ranking excel csv',
+    seat: 'seat allocation election dhondt d hondt comparative figure ranking selected elected',
+    allocation: 'seat allocation election dhondt d hondt comparative figure ranking selected elected',
+    dhondt: 'dhondt d hondt election seat allocation comparative figure party total candidate rank',
+    hondt: 'dhondt d hondt election seat allocation comparative figure party total candidate rank',
+    votes: 'vote votes election candidate party total ranking comparative figure',
+    candidate: 'candidate candidates election vote votes party ranking elected',
+    csv: 'csv data raw processed spreadsheet excel results',
+    calculator: 'calculator calculation excel spreadsheet break even critical point interactive',
     python: 'python webots robotics tools simulation',
     fbd: 'fbd plc logic interlocks permissives siemens tia automation',
     st: 'st structured text twincat beckhoff codesys openplc plc',
@@ -23,6 +36,8 @@
     'line-following-robot': 'https://github.com/jibranthedecoder/webots-line-following-robot',
     'dead-reckoning-navigation': 'https://github.com/jibranthedecoder/webots-dead-reckoning-navigation',
     'maze-solving-robot': 'https://github.com/jibranthedecoder/webots-maze-solving-robot',
+    'excel-critical-point-calculator': 'https://github.com/jibranthedecoder/excel-critical-point-calculator',
+    'excel-election-seat-allocation': 'https://github.com/jibranthedecoder/excel-election-seat-allocation',
   };
 
   let activeFilter = 'all';
@@ -32,6 +47,7 @@
       .toLowerCase()
       .normalize('NFKD')
       .replace(/[\u0300-\u036f]/g, '')
+      .replace(/d['’`´]?hondt/g, 'dhondt')
       .replace(/\+/g, ' plus ')
       .replace(/[^a-z0-9åäö]+/g, ' ')
       .replace(/\s+/g, ' ')
@@ -86,6 +102,8 @@
       project.overview,
       project.visual,
       project.why,
+      project.github,
+      ecosystem?.id,
       ecosystem?.title,
       ecosystem?.description,
       ...(project.technologies || []),
@@ -153,7 +171,7 @@
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
+      .replace(/\"/g, '&quot;')
       .replace(/'/g, '&#039;');
   }
 
@@ -258,6 +276,11 @@
       window.setTimeout(render, 0);
     });
 
+    input.addEventListener('search', () => {
+      updateUrlFromInput();
+      window.setTimeout(render, 0);
+    });
+
     document.querySelectorAll('.filter-chip').forEach((chip) => {
       chip.addEventListener('click', () => {
         activeFilter = chip.getAttribute('data-filter') || 'all';
@@ -272,6 +295,7 @@
     window.setTimeout(render, 0);
     window.setTimeout(render, 150);
     window.setTimeout(render, 600);
+    window.setTimeout(render, 1200);
   }
 
   schedule();
