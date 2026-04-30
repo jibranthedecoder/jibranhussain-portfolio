@@ -9,7 +9,7 @@
   <link rel="canonical" href="https://www.jibranhussain.com/projects/dead-reckoning-navigation/" />
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
   <link rel="stylesheet" href="/styles.css" />
-  <link rel="stylesheet" href="/assets/site-fixes.css?v=dead-reckoning-simplified-20260430" />
+  <link rel="stylesheet" href="/assets/site-fixes.css?v=dead-reckoning-video-anchor-20260430" />
   <style>
     .dead-reckoning-page .detail-visual,
     .dead-reckoning-page .line-following-visual,
@@ -79,9 +79,9 @@
     }
   </style>
   <script src="/project-data.js" defer></script>
-  <script src="/assets/webots-project-data.js?v=dead-reckoning-simplified-20260430" defer></script>
+  <script src="/assets/webots-project-data.js?v=dead-reckoning-video-anchor-20260430" defer></script>
   <script src="/script.js" defer></script>
-  <script src="/assets/dead-reckoning-detail.js?v=dead-reckoning-simplified-20260430" defer></script>
+  <script src="/assets/dead-reckoning-detail.js?v=dead-reckoning-video-anchor-20260430" defer></script>
 </head>
 <body data-page="project-detail">
   <a class="skip-link" href="#main" data-i18n="skipToMain">Skip to main content</a>
@@ -147,12 +147,12 @@
             <a class="button button-primary" data-dead-link="repo" href="https://github.com/jibranthedecoder/webots-dead-reckoning-navigation" target="_blank" rel="noopener">Repository</a>
             <a class="button button-secondary" data-dead-link="code" href="https://github.com/jibranthedecoder/webots-dead-reckoning-navigation/blob/main/dead_reckoning.py" target="_blank" rel="noopener">Python code</a>
             <a class="button button-secondary" data-dead-link="report" href="https://github.com/jibranthedecoder/webots-dead-reckoning-navigation/blob/main/Teht%C3%A4v%C3%A43.Jibran.pdf" target="_blank" rel="noopener">PDF report</a>
-            <a class="button button-secondary" data-dead-link="video" href="https://github.com/jibranthedecoder/webots-dead-reckoning-navigation/blob/main/dead_reckoning_simulation.mp4" target="_blank" rel="noopener">Simulation video</a>
+            <a class="button button-secondary" data-dead-link="video" href="#webots-simulation-window">Simulation video</a>
           </div>
         </div>
       </div>
       <div class="detail-visual reveal">
-        <div class="diagram-stage line-following-visual">
+        <div class="diagram-stage line-following-visual" id="webots-simulation-window">
           <p class="aside-label" data-dead-visual-label>Visual evidence</p>
           <figure class="webots-real-media-card webots-video-card">
             <video controls preload="metadata" playsinline aria-label="Webots e-puck dead reckoning navigation simulation video">
@@ -168,7 +168,7 @@
             <span><strong>Odom.</strong><small>control basis</small></span>
           </div>
           <p class="panel-copy" data-dead-visual-copy>Webots e-puck simulation using wheel odometry, target-point navigation, heading correction, and a semicircular return path.</p>
-          <a class="button button-secondary visual-video-link" href="https://github.com/jibranthedecoder/webots-dead-reckoning-navigation/blob/main/dead_reckoning_simulation.mp4" target="_blank" rel="noopener">Open simulation video</a>
+          <a class="button button-secondary visual-video-link" href="#webots-simulation-window">Show simulation window</a>
         </div>
       </div>
     </section>
