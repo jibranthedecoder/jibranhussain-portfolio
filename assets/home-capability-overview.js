@@ -1,6 +1,12 @@
 (function () {
   if (document.body?.dataset.page !== 'home') return;
 
+  const publicGithubLinks = {
+    'line-following-robot': 'https://github.com/jibranthedecoder/webots-line-following-robot',
+    'dead-reckoning-navigation': 'https://github.com/jibranthedecoder/webots-dead-reckoning-navigation',
+    'maze-solving-robot': 'https://github.com/jibranthedecoder/webots-maze-solving-robot',
+  };
+
   const languageGroups = [
     { key: 'FBD', query: 'FBD', terms: ['FBD', 'Function Block', 'PLC logic', 'Interlocks', 'Permissives', 'State logic', 'Sequencing', 'Safety awareness'] },
     { key: 'ST', query: 'ST Structured Text', terms: ['ST', 'Structured Text', 'TwinCAT', 'CODESYS', 'OpenPLC', 'PLC'] },
@@ -18,10 +24,10 @@
   const translations = {
     en: {
       languagesEyebrow: 'Technical footprint',
-      languagesTitle: 'Programming language share in portfolio projects.',
-      systemsTitle: 'System and tool share in portfolio projects.',
+      languagesTitle: 'Programming language share in published portfolio projects.',
+      systemsTitle: 'System and tool share in published portfolio projects.',
       projects: 'projects',
-      ofPortfolio: 'of portfolio',
+      ofPortfolio: 'of published work',
       shortcutEyebrow: 'System shortcuts',
       shortcutTitle: 'Jump directly into a project system.',
       shortcutCopy: 'Each card opens the project page with the search already filled for that system.',
@@ -29,10 +35,10 @@
     },
     fi: {
       languagesEyebrow: 'Tekninen jalanjälki',
-      languagesTitle: 'Ohjelmointikielten osuus portfolio-projekteissa.',
-      systemsTitle: 'Järjestelmien ja työkalujen osuus portfolio-projekteissa.',
+      languagesTitle: 'Ohjelmointikielten osuus julkaistuissa portfolio-projekteissa.',
+      systemsTitle: 'Järjestelmien ja työkalujen osuus julkaistuissa portfolio-projekteissa.',
       projects: 'projektia',
-      ofPortfolio: 'portfoliosta',
+      ofPortfolio: 'julkaistuista töistä',
       shortcutEyebrow: 'Järjestelmäpikavalinnat',
       shortcutTitle: 'Siirry suoraan projektijärjestelmään.',
       shortcutCopy: 'Kortti avaa projektisivun niin, että haku on valmiiksi täytetty kyseisellä järjestelmällä.',
@@ -49,7 +55,8 @@
   }
 
   function projects() {
-    return Array.isArray(window.PORTFOLIO_PROJECTS) ? window.PORTFOLIO_PROJECTS : [];
+    const all = Array.isArray(window.PORTFOLIO_PROJECTS) ? window.PORTFOLIO_PROJECTS : [];
+    return all.filter((project) => Boolean(project.github || publicGithubLinks[project.slug]));
   }
 
   function searchable(project) {
