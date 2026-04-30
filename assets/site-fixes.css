@@ -112,6 +112,106 @@ main {
   line-height: 1.35;
 }
 
+/* Line-following project visual evidence. */
+.line-following-visual {
+  display: grid;
+  gap: 1rem;
+}
+
+.webots-track-card {
+  position: relative;
+  min-height: 17rem;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.12), transparent 30%),
+    radial-gradient(circle at 75% 65%, rgba(16, 185, 129, 0.10), transparent 34%),
+    linear-gradient(135deg, rgba(15, 23, 42, 0.06), rgba(148, 163, 184, 0.08));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.track-line {
+  position: absolute;
+  inset: 15% 13%;
+  border: 14px solid rgba(15, 23, 42, 0.78);
+  border-left-width: 10px;
+  border-right-width: 18px;
+  border-radius: 42% 58% 48% 52% / 52% 44% 56% 48%;
+  transform: rotate(-5deg);
+  filter: blur(0.2px);
+}
+
+.robot-dot {
+  position: absolute;
+  left: 45%;
+  top: 58%;
+  display: grid;
+  place-items: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 999px;
+  background: rgba(248, 250, 252, 0.92);
+  border: 1px solid rgba(15, 23, 42, 0.18);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.22);
+  color: var(--text-primary, #0f172a);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.track-label {
+  position: absolute;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(248, 250, 252, 0.88);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  color: var(--text-secondary, #475569);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.track-start {
+  right: 20%;
+  bottom: 17%;
+}
+
+.track-finish {
+  left: 25%;
+  top: 17%;
+}
+
+.metric-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.metric-strip span {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+  padding: 0.85rem;
+  border: 1px solid rgba(148, 163, 184, 0.20);
+  border-radius: 18px;
+  background: rgba(148, 163, 184, 0.08);
+}
+
+.metric-strip strong {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  line-height: 1.1;
+}
+
+.metric-strip small {
+  color: var(--text-secondary, #64748b);
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
 /* Make readable/dyslexic mode visibly different and force the actual dyslexic font. */
 html.readable-mode,
 html.readable-mode body {
@@ -274,6 +374,14 @@ html.readable-mode .profile-card {
     border-radius: 16px;
   }
 
+  .metric-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .webots-track-card {
+    min-height: 14rem;
+  }
+
   body[data-page="projects"] .section-shell {
     padding: 1rem;
   }
@@ -362,6 +470,10 @@ html.readable-mode .profile-card {
     min-width: 2.45rem;
     height: 2.45rem;
     min-height: 2.45rem;
+  }
+
+  .metric-strip {
+    grid-template-columns: 1fr;
   }
 
   h1 {
