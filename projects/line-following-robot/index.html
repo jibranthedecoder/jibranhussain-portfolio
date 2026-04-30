@@ -25,10 +25,7 @@
           <span class="brand-role" data-i18n="brandRole">Electrical &amp; Automation Engineering</span>
         </span>
       </a>
-      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation" data-i18n-aria-label="toggleNavigation">
-        <span></span>
-        <span></span>
-      </button>
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation" data-i18n-aria-label="toggleNavigation"><span></span><span></span></button>
       <nav class="primary-nav" id="primaryNav" aria-label="Primary navigation" data-i18n-aria-label="primaryNavigation">
         <a href="/" data-i18n="navHome">Home</a>
         <a href="/about/" data-i18n="navAbout">About</a>
@@ -47,18 +44,12 @@
 
   <div id="privacyBanner" class="privacy-banner" aria-live="polite" hidden>
     <p>We store only minimal local preferences and may use privacy-friendly analytics to improve the experience.</p>
-    <div class="privacy-actions">
-      <button id="privacyDetails" class="button button-secondary" type="button">Details</button>
-      <button id="privacyAccept" class="button button-primary" type="button">Accept</button>
-    </div>
+    <div class="privacy-actions"><button id="privacyDetails" class="button button-secondary" type="button">Details</button><button id="privacyAccept" class="button button-primary" type="button">Accept</button></div>
   </div>
 
   <div id="privacyModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="privacyModalTitle" hidden>
     <div class="modal-content">
-      <div class="modal-header">
-        <h2 id="privacyModalTitle">Privacy policy</h2>
-        <button id="privacyClose" class="modal-close" type="button" aria-label="Close privacy details" data-i18n-aria-label="privacyClose">&times;</button>
-      </div>
+      <div class="modal-header"><h2 id="privacyModalTitle">Privacy policy</h2><button id="privacyClose" class="modal-close" type="button" aria-label="Close privacy details" data-i18n-aria-label="privacyClose">&times;</button></div>
       <div class="modal-body">
         <p>This site stores only essential local preferences, such as language and readable mode. No tracking cookies are used without permission.</p>
         <p>You can change preferences anytime from your browser. This experience is built to be privacy-friendly and non-intrusive.</p>
@@ -72,10 +63,7 @@
         <p class="eyebrow" data-i18n="projectCaseStudy">Project case study</p>
         <h1 data-project-title></h1>
         <p class="hero-lead" data-project-intro></p>
-        <div class="detail-meta">
-          <span class="status-badge" data-project-status></span>
-          <span class="project-category" data-project-category></span>
-        </div>
+        <div class="detail-meta"><span class="status-badge" data-project-status></span><span class="project-category" data-project-category></span></div>
         <div class="detail-actions">
           <a class="button button-secondary" href="/projects/" data-i18n="backToProjects">Back to Projects</a>
           <a class="button button-primary" data-project-github href="#" target="_blank" rel="noopener">GitHub</a>
@@ -85,10 +73,7 @@
         <div class="diagram-stage line-following-visual">
           <p class="aside-label">Visual evidence</p>
           <div class="webots-track-card" aria-label="Line following robot visual summary">
-            <div class="track-line"></div>
-            <div class="robot-dot">e-puck</div>
-            <div class="track-label track-start">Start</div>
-            <div class="track-label track-finish">Finish</div>
+            <div class="track-line"></div><div class="robot-dot">e-puck</div><div class="track-label track-start">Start</div><div class="track-label track-finish">Finish</div>
           </div>
           <div class="metric-strip">
             <span><strong>33.38 s</strong><small>lap time</small></span>
@@ -101,15 +86,24 @@
       </div>
     </section>
 
+    <section class="section-shell reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Evidence package</p>
+        <h2 class="section-title">Project files available on GitHub.</h2>
+        <p class="panel-copy">Open the controller code, report, simulation video, and result screenshot directly from the project repository.</p>
+      </div>
+      <div class="project-links evidence-links">
+        <a class="button button-primary" href="https://github.com/jibranthedecoder/webots-line-following-robot" target="_blank" rel="noopener">Repository</a>
+        <a class="button button-secondary" href="https://github.com/jibranthedecoder/webots-line-following-robot/blob/main/line_follow.py" target="_blank" rel="noopener">Python code</a>
+        <a class="button button-secondary" href="https://github.com/jibranthedecoder/webots-line-following-robot/blob/main/Robotics-viivanseuraaja.pdf" target="_blank" rel="noopener">PDF report</a>
+        <a class="button button-secondary" href="https://github.com/jibranthedecoder/webots-line-following-robot/blob/main/Task2_Vid.mp4" target="_blank" rel="noopener">Simulation video</a>
+        <a class="button button-secondary" href="https://github.com/jibranthedecoder/webots-line-following-robot/blob/main/best%20possible%20scenario.png" target="_blank" rel="noopener">Result screenshot</a>
+      </div>
+    </section>
+
     <section class="section-shell detail-layout">
-      <article class="detail-panel reveal">
-        <p class="aside-label" data-i18n="projectOverview">Overview</p>
-        <p data-project-summary></p>
-      </article>
-      <article class="detail-panel reveal">
-        <p class="aside-label" data-i18n="projectProblem">Engineering problem</p>
-        <p data-project-problem></p>
-      </article>
+      <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectOverview">Overview</p><p data-project-summary></p></article>
+      <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectProblem">Engineering problem</p><p data-project-problem></p></article>
       <div class="detail-grid">
         <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectTechnologies">Technologies</p><ul class="detail-list" data-project-technologies></ul></article>
         <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectSkills">Skills demonstrated</p><ul class="detail-list" data-project-skills></ul></article>
@@ -119,10 +113,7 @@
     </section>
 
     <section class="section-shell reveal">
-      <div class="section-heading">
-        <p class="eyebrow" data-i18n="projectOutcomes">Project outcomes</p>
-        <h2 class="section-title" data-i18n="projectOutcomesTitle">Evidence the case study is designed to show.</h2>
-      </div>
+      <div class="section-heading"><p class="eyebrow" data-i18n="projectOutcomes">Project outcomes</p><h2 class="section-title" data-i18n="projectOutcomesTitle">Evidence the case study is designed to show.</h2></div>
       <ul class="story-list" data-project-outcomes></ul>
     </section>
   </main>
@@ -130,9 +121,7 @@
   <footer class="site-footer">
     <div class="footer-inner">
       <div><p class="footer-title">Jibran Hussain</p><p class="footer-copy" data-i18n="footerCopy">Thanks for visiting my portfolio.</p></div>
-      <nav class="footer-nav" aria-label="Footer navigation" data-i18n-aria-label="footerNavigation">
-        <a href="/" data-i18n="navHome">Home</a><a href="/about/" data-i18n="navAbout">About</a><a href="/projects/" aria-current="page" data-i18n="navProjects">Projects</a><a href="/contact/" data-i18n="navContact">Contact</a>
-      </nav>
+      <nav class="footer-nav" aria-label="Footer navigation" data-i18n-aria-label="footerNavigation"><a href="/" data-i18n="navHome">Home</a><a href="/about/" data-i18n="navAbout">About</a><a href="/projects/" aria-current="page" data-i18n="navProjects">Projects</a><a href="/contact/" data-i18n="navContact">Contact</a></nav>
       <div class="footer-meta"><a href="https://github.com/jibranthedecoder" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener">LinkedIn</a><p>&copy; <span id="currentYear"></span> Jibran Hussain</p></div>
     </div>
   </footer>
