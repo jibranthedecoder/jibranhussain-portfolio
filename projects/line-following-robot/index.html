@@ -9,7 +9,7 @@
   <link rel="canonical" href="https://www.jibranhussain.com/projects/line-following-robot/" />
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
   <link rel="stylesheet" href="/styles.css" />
-  <link rel="stylesheet" href="/assets/site-fixes.css?v=line-following-20260430-2" />
+  <link rel="stylesheet" href="/assets/site-fixes.css?v=line-following-compact-webots-20260430" />
   <style>
     .line-following-page .detail-visual,
     .line-following-page .line-following-visual,
@@ -46,11 +46,42 @@
       max-width: 34rem !important;
       justify-self: center !important;
     }
+
+    .line-following-page .hero-evidence-package {
+      display: grid;
+      gap: 0.65rem;
+      max-width: 38rem;
+      margin-top: clamp(1.25rem, 3vw, 2rem);
+      padding: clamp(0.9rem, 2vw, 1.1rem);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: 20px;
+      background: rgba(148, 163, 184, 0.06);
+    }
+
+    .line-following-page .hero-evidence-package .section-title {
+      font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+      line-height: 1.15;
+      margin: 0;
+    }
+
+    .line-following-page .hero-evidence-package .panel-copy {
+      margin: 0;
+    }
+
+    .line-following-page .hero-evidence-package .evidence-links {
+      margin-top: 0.25rem;
+    }
+
+    @media (max-width: 900px) {
+      .line-following-page .hero-evidence-package {
+        max-width: 100%;
+      }
+    }
   </style>
   <script src="/project-data.js" defer></script>
-  <script src="/assets/webots-project-data.js?v=line-following-20260430-2" defer></script>
+  <script src="/assets/webots-project-data.js?v=line-following-compact-webots-20260430" defer></script>
   <script src="/script.js" defer></script>
-  <script src="/assets/line-following-detail.js?v=line-following-20260430-2" defer></script>
+  <script src="/assets/line-following-detail.js?v=line-following-compact-webots-20260430" defer></script>
 </head>
 <body data-page="project-detail">
   <a class="skip-link" href="#main" data-i18n="skipToMain">Skip to main content</a>
@@ -107,6 +138,19 @@
           <a class="button button-secondary" href="/projects/" data-i18n="backToProjects">Back to Projects</a>
           <a class="button button-primary" data-project-github href="https://github.com/jibranthedecoder/webots-line-following-robot" target="_blank" rel="noopener">GitHub repository</a>
         </div>
+
+        <div class="hero-evidence-package">
+          <p class="eyebrow" data-line-evidence-eyebrow>Evidence package</p>
+          <h2 class="section-title" data-line-evidence-title>Project files available on GitHub.</h2>
+          <p class="panel-copy" data-line-evidence-copy>Open the controller code, report, simulation video, and result screenshot directly from the project repository.</p>
+          <div class="project-links evidence-links">
+            <a class="button button-primary" data-line-link="repo" href="https://github.com/jibranthedecoder/webots-line-following-robot" target="_blank" rel="noopener">Repository</a>
+            <a class="button button-secondary" data-line-link="code" href="https://github.com/jibranthedecoder/webots-line-following-robot/blob/main/line_follow.py" target="_blank" rel="noopener">Python code</a>
+            <a class="button button-secondary" data-line-link="report" href="https://github.com/jibranthedecoder/webots-line-following-robot/blob/main/Robotics-viivanseuraaja.pdf" target="_blank" rel="noopener">PDF report</a>
+            <a class="button button-secondary" data-line-link="video" href="https://github.com/jibranthedecoder/webots-line-following-robot/blob/main/Task2_Vid.mp4" target="_blank" rel="noopener">Simulation video</a>
+            <a class="button button-secondary" data-line-link="screenshot" href="https://github.com/jibranthedecoder/webots-line-following-robot/blob/main/best%20possible%20scenario.png" target="_blank" rel="noopener">Result screenshot</a>
+          </div>
+        </div>
       </div>
       <div class="detail-visual reveal">
         <div class="diagram-stage line-following-visual">
@@ -130,28 +174,11 @@
       </div>
     </section>
 
-    <section class="section-shell reveal evidence-section">
-      <div class="section-heading">
-        <p class="eyebrow" data-line-evidence-eyebrow>Evidence package</p>
-        <h2 class="section-title" data-line-evidence-title>Project files available on GitHub.</h2>
-        <p class="panel-copy" data-line-evidence-copy>Open the controller code, report, simulation video, and result screenshot directly from the project repository.</p>
-      </div>
-      <div class="project-links evidence-links">
-        <a class="button button-primary" data-line-link="repo" href="https://github.com/jibranthedecoder/webots-line-following-robot" target="_blank" rel="noopener">Repository</a>
-        <a class="button button-secondary" data-line-link="code" href="https://github.com/jibranthedecoder/webots-line-following-robot/blob/main/line_follow.py" target="_blank" rel="noopener">Python code</a>
-        <a class="button button-secondary" data-line-link="report" href="https://github.com/jibranthedecoder/webots-line-following-robot/blob/main/Robotics-viivanseuraaja.pdf" target="_blank" rel="noopener">PDF report</a>
-        <a class="button button-secondary" data-line-link="video" href="https://github.com/jibranthedecoder/webots-line-following-robot/blob/main/Task2_Vid.mp4" target="_blank" rel="noopener">Simulation video</a>
-        <a class="button button-secondary" data-line-link="screenshot" href="https://github.com/jibranthedecoder/webots-line-following-robot/blob/main/best%20possible%20scenario.png" target="_blank" rel="noopener">Result screenshot</a>
-      </div>
-    </section>
-
     <section class="section-shell detail-layout line-detail-layout">
       <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectOverview">Overview</p><p data-project-summary></p></article>
       <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectProblem">Engineering problem</p><p data-project-problem></p></article>
       <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectTechnologies">Technologies</p><ul class="detail-list" data-project-technologies></ul></article>
       <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectSkills">Skills demonstrated</p><ul class="detail-list" data-project-skills></ul></article>
-      <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectWhy">What this proves</p><p data-project-why></p></article>
-      <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectNextSteps">Next steps</p><ul class="detail-list" data-project-next-steps></ul></article>
     </section>
 
     <section class="section-shell reveal">
