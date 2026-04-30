@@ -42,164 +42,27 @@
   <link rel="stylesheet" href="/assets/home-capability-overview.css?v=20260430" />
   <script src="/project-data.js?v=home-capability-20260430" defer></script>
   <script src="/assets/webots-project-data.js?v=home-capability-20260430" defer></script>
+  <script src="/assets/excel-project-data.js?v=home-capability-20260430" defer></script>
   <script src="/script.js" defer></script>
   <script src="/assets/home-capability-overview.js?v=20260430" defer></script>
 </head>
 <body data-page="home">
   <a class="skip-link" href="#main" data-i18n="skipToMain">Skip to main content</a>
-
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand-mark" href="/" aria-label="Go to home" data-i18n-aria-label="goHome">
-        <span class="brand-monogram">JH</span>
-        <span class="brand-copy">
-          <span class="brand-name">Jibran Hussain</span>
-          <span class="brand-role" data-i18n="brandRole">Electrical &amp; Automation Engineering</span>
-        </span>
-      </a>
-
-      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation" data-i18n-aria-label="toggleNavigation">
-        <span></span>
-        <span></span>
-      </button>
-
-      <nav class="primary-nav" id="primaryNav" aria-label="Primary navigation" data-i18n-aria-label="primaryNavigation">
-        <a href="/" aria-current="page" data-i18n="navHome">Home</a>
-        <a href="/about/" data-i18n="navAbout">About</a>
-        <a href="/projects/" data-i18n="navProjects">Projects</a>
-        <a href="/contact/" data-i18n="navContact">Contact</a>
-      </nav>
-
-      <div class="header-controls">
-        <button id="langToggle" class="control-button" type="button" aria-pressed="false">FI</button>
-        <button id="speakToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Read aloud" data-i18n-aria-label="readAloud">
-          <span class="control-icon" aria-hidden="true"></span>
-          <span class="sr-only control-button-text">Read</span>
-        </button>
-        <button id="pauseToggle" class="control-button control-button-icon" type="button" hidden aria-label="Pause reading" data-i18n-aria-label="pauseReading">
-          <span class="control-icon" aria-hidden="true"></span>
-          <span class="sr-only control-button-text">Pause</span>
-        </button>
-        <button id="readableToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Toggle dyslexic mode" data-i18n-aria-label="dyslexic">
-          <span class="control-icon" aria-hidden="true"></span>
-          <span class="sr-only control-button-text">Dyslexic</span>
-        </button>
-        <button id="themeToggle" class="control-button control-button-icon" type="button" aria-label="Toggle theme mode" data-i18n-aria-label="theme">
-          <span class="control-icon" aria-hidden="true"></span>
-          <span class="sr-only control-button-text">Theme</span>
-        </button>
-      </div>
+      <a class="brand-mark" href="/" aria-label="Go to home" data-i18n-aria-label="goHome"><span class="brand-monogram">JH</span><span class="brand-copy"><span class="brand-name">Jibran Hussain</span><span class="brand-role" data-i18n="brandRole">Electrical &amp; Automation Engineering</span></span></a>
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation" data-i18n-aria-label="toggleNavigation"><span></span><span></span></button>
+      <nav class="primary-nav" id="primaryNav" aria-label="Primary navigation" data-i18n-aria-label="primaryNavigation"><a href="/" aria-current="page" data-i18n="navHome">Home</a><a href="/about/" data-i18n="navAbout">About</a><a href="/projects/" data-i18n="navProjects">Projects</a><a href="/contact/" data-i18n="navContact">Contact</a></nav>
+      <div class="header-controls"><button id="langToggle" class="control-button" type="button" aria-pressed="false">FI</button><button id="speakToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Read aloud" data-i18n-aria-label="readAloud"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Read</span></button><button id="pauseToggle" class="control-button control-button-icon" type="button" hidden aria-label="Pause reading" data-i18n-aria-label="pauseReading"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Pause</span></button><button id="readableToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Toggle dyslexic mode" data-i18n-aria-label="dyslexic"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Dyslexic</span></button><button id="themeToggle" class="control-button control-button-icon" type="button" aria-label="Toggle theme mode" data-i18n-aria-label="theme"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Theme</span></button></div>
     </div>
   </header>
-
-  <div id="privacyBanner" class="privacy-banner" aria-live="polite" hidden>
-    <p>We store only minimal local preferences and may use privacy-friendly analytics to improve the experience.</p>
-    <div class="privacy-actions">
-      <button id="privacyDetails" class="button button-secondary" type="button">Details</button>
-      <button id="privacyAccept" class="button button-primary" type="button">Accept</button>
-    </div>
-  </div>
-
-  <div id="privacyModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="privacyModalTitle" hidden>
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 id="privacyModalTitle">Privacy policy</h2>
-        <button id="privacyClose" class="modal-close" type="button" aria-label="Close privacy details" data-i18n-aria-label="privacyClose">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p>This site stores only essential local preferences, such as language and readable mode. No tracking cookies are used without permission.</p>
-        <p>You can change preferences anytime from your browser. This experience is built to be privacy-friendly and non-intrusive.</p>
-      </div>
-    </div>
-  </div>
-
+  <div id="privacyBanner" class="privacy-banner" aria-live="polite" hidden><p>We store only minimal local preferences and may use privacy-friendly analytics to improve the experience.</p><div class="privacy-actions"><button id="privacyDetails" class="button button-secondary" type="button">Details</button><button id="privacyAccept" class="button button-primary" type="button">Accept</button></div></div>
+  <div id="privacyModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="privacyModalTitle" hidden><div class="modal-content"><div class="modal-header"><h2 id="privacyModalTitle">Privacy policy</h2><button id="privacyClose" class="modal-close" type="button" aria-label="Close privacy details" data-i18n-aria-label="privacyClose">&times;</button></div><div class="modal-body"><p>This site stores only essential local preferences, such as language and readable mode. No tracking cookies are used without permission.</p><p>You can change preferences anytime from your browser. This experience is built to be privacy-friendly and non-intrusive.</p></div></div></div>
   <main id="main">
-    <section id="home" class="page-shell hero-layout">
-      <div class="hero-copy">
-        <p class="eyebrow" data-i18n="homeEyebrow">Portfolio</p>
-        <h1 data-i18n="homeTitle">Jibran Hussain</h1>
-        <p class="micro-label" data-i18n="homeTagline">Learning, building, and growing in engineering.</p>
-        <p class="hero-lead" data-i18n="homeLead">
-          I started from practical work and moved toward engineering studies because I wanted to understand systems more deeply. Today I study Electrical &amp; Automation Engineering and keep building skills for the future.
-        </p>
-        <p class="micro-label" data-i18n="updatedApril2026">Updated April 2026</p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="/about/" data-i18n="homeAboutCta">About Me</a>
-          <a class="button button-secondary" href="/projects/" data-i18n="homeProjectsCta">Projects</a>
-          <a class="button button-secondary" href="/cv/" data-i18n="viewCv">View CV</a>
-          <a class="button button-tertiary" href="/contact/" data-i18n="homeContactCta">Contact</a>
-        </div>
-      </div>
-
-      <div class="hero-panel">
-        <article class="hero-portrait-card">
-          <div class="hero-portrait-frame">
-            <img src="/assets/profile.png" alt="Portrait of Jibran Hussain" loading="eager" fetchpriority="high" width="1024" height="1024" />
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section-shell reveal" id="technical-footprint">
-      <div class="section-header-row">
-        <div class="section-heading">
-          <p class="eyebrow" data-home-capability-eyebrow>Technical footprint</p>
-          <h2 class="section-title">Portfolio capability overview.</h2>
-        </div>
-        <a class="button button-secondary" href="/projects/" data-i18n="allProjects">All Projects</a>
-      </div>
-      <div class="capability-grid">
-        <article class="capability-card">
-          <div class="capability-card-header">
-            <h3 data-home-languages-title>Programming languages used across the portfolio.</h3>
-            <span class="capability-total" data-home-language-total>0</span>
-          </div>
-          <div class="capability-list" data-home-language-bars></div>
-        </article>
-        <article class="capability-card">
-          <div class="capability-card-header">
-            <h3 data-home-systems-title>Systems and tools used across the portfolio.</h3>
-            <span class="capability-total" data-home-system-total>0</span>
-          </div>
-          <div class="capability-list" data-home-system-bars></div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section-shell reveal" id="system-shortcuts">
-      <div class="section-header-row">
-        <div class="section-heading">
-          <p class="eyebrow" data-home-shortcut-eyebrow>System shortcuts</p>
-          <h2 class="section-title" data-home-shortcut-title>Jump directly into a project system.</h2>
-          <p class="panel-copy" data-home-shortcut-copy>Fast links to the project areas recruiters usually want to scan first.</p>
-        </div>
-        <a class="button button-secondary" href="/projects/" data-i18n="allProjects">All Projects</a>
-      </div>
-      <div class="system-shortcut-grid" data-home-system-shortcuts></div>
-    </section>
+    <section id="home" class="page-shell hero-layout"><div class="hero-copy"><p class="eyebrow" data-i18n="homeEyebrow">Portfolio</p><h1 data-i18n="homeTitle">Jibran Hussain</h1><p class="micro-label" data-i18n="homeTagline">Learning, building, and growing in engineering.</p><p class="hero-lead" data-i18n="homeLead">I started from practical work and moved toward engineering studies because I wanted to understand systems more deeply. Today I study Electrical &amp; Automation Engineering and keep building skills for the future.</p><p class="micro-label" data-i18n="updatedApril2026">Updated April 2026</p><div class="hero-actions"><a class="button button-primary" href="/about/" data-i18n="homeAboutCta">About Me</a><a class="button button-secondary" href="/projects/" data-i18n="homeProjectsCta">Projects</a><a class="button button-secondary" href="/cv/" data-i18n="viewCv">View CV</a><a class="button button-tertiary" href="/contact/" data-i18n="homeContactCta">Contact</a></div></div><div class="hero-panel"><article class="hero-portrait-card"><div class="hero-portrait-frame"><img src="/assets/profile.png" alt="Portrait of Jibran Hussain" loading="eager" fetchpriority="high" width="1024" height="1024" /></div></article></div></section>
+    <section class="section-shell reveal" id="technical-footprint"><div class="section-header-row"><div class="section-heading"><p class="eyebrow" data-home-capability-eyebrow>Technical footprint</p><h2 class="section-title">Portfolio capability overview.</h2></div><a class="button button-secondary" href="/projects/" data-i18n="allProjects">All Projects</a></div><div class="capability-grid"><article class="capability-card"><div class="capability-card-header"><h3 data-home-languages-title>Programming languages used across the portfolio.</h3><span class="capability-total" data-home-language-total>0</span></div><div class="capability-list" data-home-language-bars></div></article><article class="capability-card"><div class="capability-card-header"><h3 data-home-systems-title>Systems and tools used across the portfolio.</h3><span class="capability-total" data-home-system-total>0</span></div><div class="capability-list" data-home-system-bars></div></article></div></section>
+    <section class="section-shell reveal" id="system-shortcuts"><div class="section-header-row"><div class="section-heading"><p class="eyebrow" data-home-shortcut-eyebrow>System shortcuts</p><h2 class="section-title" data-home-shortcut-title>Jump directly into a project system.</h2><p class="panel-copy" data-home-shortcut-copy>Fast links to the project areas recruiters usually want to scan first.</p></div><a class="button button-secondary" href="/projects/" data-i18n="allProjects">All Projects</a></div><div class="system-shortcut-grid" data-home-system-shortcuts></div></section>
   </main>
-
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div>
-        <p class="footer-title">Jibran Hussain</p>
-        <p class="footer-copy" data-i18n="footerCopy">Thanks for visiting my portfolio.</p>
-        <p class="footer-copy"><span data-i18n="footerOpportunity">Open to internships, junior engineering roles, and technical opportunities.</span> <a href="/contact/" data-i18n="footerContactMe">Contact me</a></p>
-      </div>
-
-      <nav class="footer-nav" aria-label="Footer navigation" data-i18n-aria-label="footerNavigation">
-        <a href="/" data-i18n="navHome">Home</a>
-        <a href="/about/" data-i18n="navAbout">About</a>
-        <a href="/projects/" data-i18n="navProjects">Projects</a>
-        <a href="/contact/" data-i18n="navContact">Contact</a>
-      </nav>
-
-      <div class="footer-meta">
-        <a href="https://github.com/jibranthedecoder" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener">LinkedIn</a>
-        <p>&copy; <span id="currentYear"></span> Jibran Hussain</p>
-      </div>
-    </div>
-  </footer>
+  <footer class="site-footer"><div class="footer-inner"><div><p class="footer-title">Jibran Hussain</p><p class="footer-copy" data-i18n="footerCopy">Thanks for visiting my portfolio.</p><p class="footer-copy"><span data-i18n="footerOpportunity">Open to internships, junior engineering roles, and technical opportunities.</span> <a href="/contact/" data-i18n="footerContactMe">Contact me</a></p></div><nav class="footer-nav" aria-label="Footer navigation" data-i18n-aria-label="footerNavigation"><a href="/" data-i18n="navHome">Home</a><a href="/about/" data-i18n="navAbout">About</a><a href="/projects/" data-i18n="navProjects">Projects</a><a href="/contact/" data-i18n="navContact">Contact</a></nav><div class="footer-meta"><a href="https://github.com/jibranthedecoder" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener">LinkedIn</a><p>&copy; <span id="currentYear"></span> Jibran Hussain</p></div></div></footer>
 </body>
 </html>
