@@ -1,0 +1,71 @@
+.section-header-row {
+  align-items: flex-start !important;
+  margin-bottom: clamp(0.9rem, 2vw, 1.2rem) !important;
+}
+
+.section-heading {
+  display: grid !important;
+  gap: clamp(0.42rem, 1vw, 0.62rem) !important;
+  align-content: start !important;
+}
+
+.section-heading .eyebrow,
+.section-heading .micro-label,
+.section-heading .aside-label {
+  margin: 0 !important;
+}
+
+.section-heading .section-title,
+.section-heading h1,
+.section-heading h2,
+.section-heading h3 {
+  margin: 0 !important;
+  line-height: 1.08 !important;
+}
+
+.section-heading p:not(.eyebrow):not(.micro-label):not(.aside-label) {
+  margin: 0.15rem 0 0 !important;
+}
+
+.section-shell > .section-header-row + .project-card,
+.section-shell > .section-header-row + .project-grid,
+.section-shell > .section-header-row + .timeline,
+.section-shell > .section-header-row + .pill-list,
+.section-shell > .section-header-row + .detail-grid,
+.section-shell > .section-header-row + .overview-grid {
+  margin-top: 0 !important;
+}
+
+body[data-page="about"] .section-shell {
+  display: grid !important;
+  gap: clamp(0.9rem, 2vw, 1.2rem) !important;
+  align-content: start !important;
+}
+
+body[data-page="about"] .section-header-row {
+  margin-bottom: 0 !important;
+}
+
+body[data-page="about"] .section-header-row + .project-card,
+body[data-page="about"] .section-header-row + .project-grid,
+body[data-page="about"] .section-header-row + .timeline,
+body[data-page="about"] .section-header-row + .pill-list {
+  margin-top: 0 !important;
+}
+
+body[data-page="about"] .project-card,
+body[data-page="about"] .timeline,
+body[data-page="about"] .pill-list {
+  align-self: start !important;
+}
+
+body[data-page="about"] .project-card h3 {
+  line-height: 1.18 !important;
+  margin: 0 !important;
+}
+
+body[data-page="about"] .project-summary,
+body[data-page="about"] .project-problem,
+body[data-page="about"] .panel-copy {
+  margin-top: 0 !important;
+}
