@@ -9,11 +9,48 @@
   <link rel="canonical" href="https://www.jibranhussain.com/projects/line-following-robot/" />
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
   <link rel="stylesheet" href="/styles.css" />
-  <link rel="stylesheet" href="/assets/site-fixes.css" />
+  <link rel="stylesheet" href="/assets/site-fixes.css?v=line-following-20260430-2" />
+  <style>
+    .line-following-page .detail-visual,
+    .line-following-page .line-following-visual,
+    .line-following-page .webots-video-card {
+      min-width: 0 !important;
+      max-width: 100% !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    .line-following-page .webots-video-card {
+      width: min(100%, 34rem) !important;
+      margin-inline: auto !important;
+      padding: 0.6rem !important;
+      border-radius: 22px !important;
+    }
+
+    .line-following-page .webots-video-card video {
+      display: block !important;
+      width: 100% !important;
+      max-width: 31rem !important;
+      height: auto !important;
+      max-height: 17rem !important;
+      margin-inline: auto !important;
+      object-fit: contain !important;
+    }
+
+    .line-following-page .metric-strip {
+      max-width: 34rem !important;
+      margin-inline: auto !important;
+    }
+
+    .line-following-page .visual-video-link {
+      max-width: 34rem !important;
+      justify-self: center !important;
+    }
+  </style>
   <script src="/project-data.js" defer></script>
-  <script src="/assets/webots-project-data.js" defer></script>
+  <script src="/assets/webots-project-data.js?v=line-following-20260430-2" defer></script>
   <script src="/script.js" defer></script>
-  <script src="/assets/line-following-detail.js" defer></script>
+  <script src="/assets/line-following-detail.js?v=line-following-20260430-2" defer></script>
 </head>
 <body data-page="project-detail">
   <a class="skip-link" href="#main" data-i18n="skipToMain">Skip to main content</a>
@@ -75,13 +112,7 @@
         <div class="diagram-stage line-following-visual">
           <p class="aside-label" data-line-visual-label>Visual evidence</p>
           <figure class="webots-real-media-card webots-video-card">
-            <video
-              controls
-              preload="metadata"
-              playsinline
-              poster="https://raw.githubusercontent.com/jibranthedecoder/webots-line-following-robot/main/best%20possible%20scenario.png"
-              aria-label="Webots e-puck line following robot simulation video"
-            >
+            <video controls preload="metadata" playsinline poster="https://raw.githubusercontent.com/jibranthedecoder/webots-line-following-robot/main/best%20possible%20scenario.png" aria-label="Webots e-puck line following robot simulation video">
               <source src="https://raw.githubusercontent.com/jibranthedecoder/webots-line-following-robot/main/Task2_Vid.mp4" type="video/mp4" />
               Your browser does not support embedded video. Open the simulation video from the evidence links.
             </video>
