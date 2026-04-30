@@ -1,30 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Excel Stopping Distance Curve Fit | Projects</title>
-<link rel="stylesheet" href="/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Excel Stopping Distance Curve Fit | Projects | Jibran Hussain</title>
+  <meta name="description" content="Interactive Excel-based stopping distance analysis with road-surface filtering, polynomial curve fitting, and extrapolation." />
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .stopping-page{padding:clamp(1.25rem,4vw,3rem);max-width:1180px;margin:auto}.tool-card{background:var(--surface,#fff);border:1px solid rgba(148,163,184,.24);border-radius:24px;padding:clamp(1rem,3vw,1.5rem);box-shadow:0 18px 45px rgba(15,23,42,.08)}.tool-grid{display:grid;grid-template-columns:320px 1fr;gap:1rem;align-items:start}.inputs{display:grid;gap:.8rem}.inputs label{display:grid;gap:.35rem;font-weight:800}.inputs select,.inputs input{min-height:3rem;padding:.75rem;border:1px solid rgba(148,163,184,.35);border-radius:14px;font:inherit}.result{padding:1rem;border-radius:18px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.18)}.result strong{display:block;font-size:2rem}.chart{width:100%;height:auto;border:1px solid rgba(148,163,184,.25);border-radius:18px;background:#fff}.data-table-wrap{overflow:auto;margin-top:1rem;border:1px solid rgba(148,163,184,.22);border-radius:18px}.data-table{width:100%;border-collapse:collapse;min-width:620px}.data-table th,.data-table td{padding:.75rem;border-bottom:1px solid rgba(148,163,184,.18);text-align:right}.data-table th:first-child,.data-table td:first-child{text-align:left}.data-table th{font-size:.75rem;text-transform:uppercase;color:var(--text-secondary,#64748b)}.actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.25rem}@media(max-width:860px){.tool-grid{grid-template-columns:1fr}}
+  </style>
 </head>
-<body>
-<main style="padding:40px; max-width:1000px; margin:auto;">
-<h1>Excel Stopping Distance Curve Fit</h1>
-<p>
-Interactive analysis of vehicle stopping distances using measurement data, polynomial curve fitting, and extrapolation.
-</p>
+<body data-page="project-detail">
+  <main class="stopping-page">
+    <p class="eyebrow">Project case study</p>
+    <h1>Excel Stopping Distance Curve Fit</h1>
+    <p class="hero-lead">Interactive Excel-based measurement analysis for vehicle stopping distances. The tool filters road-surface data, fits a polynomial curve, and estimates stopping distance at custom speeds.</p>
+    <div class="actions"><a class="button button-secondary" href="/projects/">Back to Projects</a><a class="button button-primary" href="https://github.com/jibranthedecoder/excel-stopping-distance-curve-fit" target="_blank" rel="noopener">GitHub repository</a></div>
 
-<iframe 
-src="https://jibranthedecoder.github.io/excel-stopping-distance-curve-fit/" 
-width="100%" 
-height="600" 
-style="border:none;">
-</iframe>
+    <section class="tool-card" style="margin-top:2rem">
+      <div class="tool-grid">
+        <aside class="inputs">
+          <h2>Interactive analysis</h2>
+          <p class="panel-copy">The primary assignment case is wet road conditions. Other surfaces are included as an interactive extension.</p>
+          <label>Road surface
+            <select id="surface"><option value="Wet" selected>Wet / Märkä</option><option value="Dry">Dry / Kuiva</option><option value="Snowy">Snowy / Luminen</option><option value="Icy">Icy / Jäinen</option></select>
+          </label>
+          <label>Prediction speed (km/h)
+            <input id="speed" type="number" value="150" min="1" step="1" />
+          </label>
+          <div class="result"><span class="panel-copy">Estimated stopping distance</span><strong id="prediction">—</strong><span id="equation" class="panel-copy"></span></div>
+        </aside>
+        <section>
+          <canvas id="chart" class="chart" width="900" height="460"></canvas>
+          <div class="data-table-wrap"><table class="data-table"><thead><tr><th>Speed</th><th>Reaction</th><th>Braking</th><th>Stopping</th></tr></thead><tbody id="rows"></tbody></table></div>
+        </section>
+      </div>
+    </section>
 
-<p>
-<a href="https://github.com/jibranthedecoder/excel-stopping-distance-curve-fit" target="_blank">
-View source on GitHub
-</a>
-</p>
-</main>
+    <section class="tool-card" style="margin-top:1rem">
+      <h2>Method</h2>
+      <p>Stopping distance is calculated as reaction distance plus braking distance. A second-degree polynomial is fitted to the selected road surface, then used for extrapolation. The 150 km/h result is outside the original 30–120 km/h measurement range, so it should be treated as an estimate.</p>
+    </section>
+  </main>
+<script>
+const raw=[['Dry',30,8,4],['Wet',30,8,6],['Snowy',30,8,12],['Icy',30,8,23],['Dry',40,11,7],['Wet',40,11,10],['Snowy',40,11,21],['Icy',40,11,41],['Dry',50,14,11],['Wet',50,14,16],['Snowy',50,14,32],['Icy',50,14,64],['Dry',60,17,15],['Wet',60,17,23],['Snowy',60,17,46],['Icy',60,17,93],['Dry',80,22,27],['Wet',80,22,41],['Snowy',80,22,82],['Icy',80,22,165],['Dry',100,28,43],['Wet',100,28,64],['Snowy',100,28,129],['Icy',100,28,257],['Dry',120,33,62],['Wet',120,33,93],['Snowy',120,33,185],['Icy',120,33,370]].map(([surface,speed,reaction,braking])=>({surface,speed,reaction,braking,stopping:reaction+braking}));
+function fit(points){const s=points.reduce((a,p)=>{const x=p.speed,y=p.stopping;a.n++;a.x+=x;a.x2+=x*x;a.x3+=x*x*x;a.x4+=x*x*x*x;a.y+=y;a.xy+=x*y;a.x2y+=x*x*y;return a},{n:0,x:0,x2:0,x3:0,x4:0,y:0,xy:0,x2y:0});let A=[[s.x4,s.x3,s.x2,s.x2y],[s.x3,s.x2,s.x,s.xy],[s.x2,s.x,s.n,s.y]];for(let i=0;i<3;i++){let m=i;for(let k=i+1;k<3;k++)if(Math.abs(A[k][i])>Math.abs(A[m][i]))m=k;[A[i],A[m]]=[A[m],A[i]];let p=A[i][i];for(let j=i;j<4;j++)A[i][j]/=p;for(let k=0;k<3;k++){if(k===i)continue;let f=A[k][i];for(let j=i;j<4;j++)A[k][j]-=f*A[i][j];}}return{a:A[0][3],b:A[1][3],c:A[2][3]}}
+function pred(c,x){return c.a*x*x+c.b*x+c.c}
+function draw(points,c,px){const canvas=document.getElementById('chart'),ctx=canvas.getContext('2d'),pad=56;ctx.clearRect(0,0,canvas.width,canvas.height);const maxX=Math.max(160,px),maxY=Math.max(...points.map(p=>p.stopping),pred(c,maxX))*1.15,sx=x=>pad+(x/maxX)*(canvas.width-pad*1.5),sy=y=>canvas.height-pad-(y/maxY)*(canvas.height-pad*1.55);ctx.font='13px Arial';ctx.strokeStyle='#e5e7eb';ctx.fillStyle='#64748b';for(let i=0;i<=5;i++){let y=maxY/5*i;ctx.beginPath();ctx.moveTo(pad,sy(y));ctx.lineTo(canvas.width-pad/2,sy(y));ctx.stroke();ctx.fillText(Math.round(y),12,sy(y)+4)}for(let x=0;x<=maxX;x+=30){ctx.beginPath();ctx.moveTo(sx(x),canvas.height-pad);ctx.lineTo(sx(x),canvas.height-pad+6);ctx.stroke();ctx.fillText(x,sx(x)-8,canvas.height-22)}ctx.strokeStyle='#111827';ctx.beginPath();ctx.moveTo(pad,25);ctx.lineTo(pad,canvas.height-pad);ctx.lineTo(canvas.width-pad/2,canvas.height-pad);ctx.stroke();ctx.fillStyle='#111827';ctx.fillText('Stopping distance (m)',12,18);ctx.fillText('Speed (km/h)',canvas.width-140,canvas.height-22);ctx.strokeStyle='#2563eb';ctx.lineWidth=3;ctx.beginPath();for(let x=0;x<=maxX;x+=2){let y=pred(c,x);x===0?ctx.moveTo(sx(x),sy(y)):ctx.lineTo(sx(x),sy(y))}ctx.stroke();ctx.fillStyle='#dc2626';points.forEach(p=>{ctx.beginPath();ctx.arc(sx(p.speed),sy(p.stopping),5,0,Math.PI*2);ctx.fill()});let py=pred(c,px);ctx.fillStyle='#16a34a';ctx.beginPath();ctx.arc(sx(px),sy(py),6,0,Math.PI*2);ctx.fill();ctx.fillText(`${Math.round(py)} m at ${px} km/h`,sx(px)-95,sy(py)-12)}
+function render(){const surface=document.getElementById('surface').value,speed=Number(document.getElementById('speed').value||150),points=raw.filter(r=>r.surface===surface),c=fit(points),y=pred(c,speed);document.getElementById('prediction').textContent=y.toFixed(1)+' m';document.getElementById('equation').textContent=`y = ${c.a.toFixed(5)}x² + ${c.b.toFixed(5)}x + ${c.c.toFixed(2)}`;document.getElementById('rows').innerHTML=points.map(r=>`<tr><td>${r.speed} km/h</td><td>${r.reaction} m</td><td>${r.braking} m</td><td>${r.stopping} m</td></tr>`).join('');draw(points,c,speed)}
+document.getElementById('surface').addEventListener('change',render);document.getElementById('speed').addEventListener('input',render);render();
+</script>
 </body>
 </html>
