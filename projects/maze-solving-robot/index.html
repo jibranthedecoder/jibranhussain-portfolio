@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Maze Solving Robot | Projects | Jibran Hussain</title>
+  <meta name="description" content="Maze Solving Robot — a Webots simulation using distance sensors, PID wall following, encoder turns, and state-machine navigation." />
+  <meta name="theme-color" content="#0b1016" />
+  <link rel="canonical" href="https://www.jibranhussain.com/projects/maze-solving-robot/" />
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/assets/site-fixes.css?v=maze-solving-20260430" />
+  <style>
+    .maze-solving-page .detail-visual,
+    .maze-solving-page .line-following-visual,
+    .maze-solving-page .webots-video-card {
+      min-width: 0 !important;
+      max-width: 100% !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    .maze-solving-page .webots-video-card {
+      width: min(100%, 34rem) !important;
+      margin-inline: auto !important;
+      padding: 0.6rem !important;
+      border-radius: 22px !important;
+    }
+
+    .maze-solving-page .webots-video-card video {
+      display: block !important;
+      width: 100% !important;
+      max-width: 31rem !important;
+      height: auto !important;
+      max-height: 17rem !important;
+      margin-inline: auto !important;
+      object-fit: contain !important;
+    }
+
+    .maze-solving-page .metric-strip {
+      max-width: 34rem !important;
+      margin-inline: auto !important;
+    }
+
+    .maze-solving-page .visual-video-link {
+      max-width: 34rem !important;
+      justify-self: center !important;
+    }
+
+    .maze-solving-page .hero-evidence-package {
+      display: grid;
+      gap: 0.65rem;
+      max-width: 38rem;
+      margin-top: clamp(1.25rem, 3vw, 2rem);
+      padding: clamp(0.9rem, 2vw, 1.1rem);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: 20px;
+      background: rgba(148, 163, 184, 0.06);
+    }
+
+    .maze-solving-page .hero-evidence-package .section-title {
+      font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+      line-height: 1.15;
+      margin: 0;
+    }
+
+    .maze-solving-page .hero-evidence-package .panel-copy {
+      margin: 0;
+    }
+
+    .maze-solving-page .hero-evidence-package .evidence-links {
+      margin-top: 0.25rem;
+    }
+
+    @media (max-width: 900px) {
+      .maze-solving-page .hero-evidence-package {
+        max-width: 100%;
+      }
+    }
+  </style>
+  <script src="/project-data.js" defer></script>
+  <script src="/assets/webots-project-data.js?v=maze-solving-20260430" defer></script>
+  <script src="/script.js" defer></script>
+  <script src="/assets/maze-solving-detail.js?v=maze-solving-20260430" defer></script>
+</head>
+<body data-page="project-detail">
+  <a class="skip-link" href="#main" data-i18n="skipToMain">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand-mark" href="/" aria-label="Go to home" data-i18n-aria-label="goHome">
+        <span class="brand-monogram">JH</span>
+        <span class="brand-copy">
+          <span class="brand-name">Jibran Hussain</span>
+          <span class="brand-role" data-i18n="brandRole">Electrical &amp; Automation Engineering</span>
+        </span>
+      </a>
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation" data-i18n-aria-label="toggleNavigation"><span></span><span></span></button>
+      <nav class="primary-nav" id="primaryNav" aria-label="Primary navigation" data-i18n-aria-label="primaryNavigation">
+        <a href="/" data-i18n="navHome">Home</a>
+        <a href="/about/" data-i18n="navAbout">About</a>
+        <a href="/projects/" aria-current="page" data-i18n="navProjects">Projects</a>
+        <a href="/contact/" data-i18n="navContact">Contact</a>
+      </nav>
+      <div class="header-controls">
+        <button id="langToggle" class="control-button" type="button" aria-pressed="false">FI</button>
+        <button id="speakToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Read aloud" data-i18n-aria-label="readAloud"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Read</span></button>
+        <button id="pauseToggle" class="control-button control-button-icon" type="button" hidden aria-label="Pause reading" data-i18n-aria-label="pauseReading"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Pause</span></button>
+        <button id="readableToggle" class="control-button control-button-icon" type="button" aria-pressed="false" aria-label="Toggle dyslexic mode" data-i18n-aria-label="dyslexic"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Dyslexic</span></button>
+        <button id="themeToggle" class="control-button control-button-icon" type="button" aria-label="Toggle theme mode" data-i18n-aria-label="theme"><span class="control-icon" aria-hidden="true"></span><span class="sr-only control-button-text">Theme</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="project-detail-shell line-following-page maze-solving-page" data-project-slug="maze-solving-robot">
+    <section class="page-shell detail-hero line-hero">
+      <div class="detail-copy reveal">
+        <p class="eyebrow" data-i18n="projectCaseStudy">Project case study</p>
+        <h1 data-project-title></h1>
+        <p class="hero-lead" data-project-intro></p>
+        <div class="detail-meta"><span class="status-badge" data-project-status></span><span class="project-category" data-project-category></span></div>
+        <div class="detail-actions">
+          <a class="button button-secondary" href="/projects/" data-i18n="backToProjects">Back to Projects</a>
+          <a class="button button-primary" data-project-github href="https://github.com/jibranthedecoder/webots-maze-solving-robot" target="_blank" rel="noopener">GitHub repository</a>
+        </div>
+
+        <div class="hero-evidence-package">
+          <p class="eyebrow" data-maze-evidence-eyebrow>Evidence package</p>
+          <h2 class="section-title" data-maze-evidence-title>Project files available on GitHub.</h2>
+          <p class="panel-copy" data-maze-evidence-copy>Open the controller code and simulation evidence directly from the project repository.</p>
+          <div class="project-links evidence-links">
+            <a class="button button-primary" data-maze-link="repo" href="https://github.com/jibranthedecoder/webots-maze-solving-robot" target="_blank" rel="noopener">Repository</a>
+            <a class="button button-secondary" data-maze-link="code" href="https://github.com/jibranthedecoder/webots-maze-solving-robot/blob/main/maze_solver.py" target="_blank" rel="noopener">Python code</a>
+            <a class="button button-secondary" data-maze-link="original" href="https://github.com/jibranthedecoder/webots-maze-solving-robot/blob/main/my_controller.py" target="_blank" rel="noopener">Original controller</a>
+            <a class="button button-secondary" data-maze-link="video" href="#webots-simulation-window">Simulation video</a>
+          </div>
+        </div>
+      </div>
+      <div class="detail-visual reveal">
+        <div class="diagram-stage line-following-visual" id="webots-simulation-window">
+          <p class="aside-label" data-maze-visual-label>Visual evidence</p>
+          <figure class="webots-real-media-card webots-video-card">
+            <video controls preload="metadata" playsinline aria-label="Webots maze solving robot simulation video">
+              <source src="https://raw.githubusercontent.com/jibranthedecoder/webots-maze-solving-robot/main/maze_simulation.mp4" type="video/mp4" />
+              Your browser does not support embedded video. Open the simulation video from the evidence links.
+            </video>
+            <figcaption>Webots simulation video: maze robot navigating with distance sensors, PID wall following, and state-machine decisions.</figcaption>
+          </figure>
+          <div class="metric-strip">
+            <span><strong>3</strong><small>sensors</small></span>
+            <span><strong>PID</strong><small>wall follow</small></span>
+            <span><strong>4</strong><small>states</small></span>
+            <span><strong>Enc.</strong><small>turns</small></span>
+          </div>
+          <p class="panel-copy" data-maze-visual-copy>Webots maze simulation using three distance sensors, PID wall following, encoder-based turns, and state-machine navigation.</p>
+          <a class="button button-secondary visual-video-link" href="#webots-simulation-window">Show simulation window</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-shell detail-layout line-detail-layout">
+      <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectOverview">Overview</p><p data-project-summary></p></article>
+      <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectProblem">Engineering problem</p><p data-project-problem></p></article>
+      <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectTechnologies">Technologies</p><ul class="detail-list" data-project-technologies></ul></article>
+      <article class="detail-panel reveal"><p class="aside-label" data-i18n="projectSkills">Skills demonstrated</p><ul class="detail-list" data-project-skills></ul></article>
+    </section>
+
+    <section class="section-shell reveal">
+      <div class="section-heading"><p class="eyebrow" data-i18n="projectOutcomes">Project outcomes</p><h2 class="section-title" data-i18n="projectOutcomesTitle">Evidence the case study is designed to show.</h2></div>
+      <ul class="story-list" data-project-outcomes></ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div><p class="footer-title">Jibran Hussain</p><p class="footer-copy" data-i18n="footerCopy">Thanks for visiting my portfolio.</p></div>
+      <nav class="footer-nav" aria-label="Footer navigation" data-i18n-aria-label="footerNavigation"><a href="/" data-i18n="navHome">Home</a><a href="/about/" data-i18n="navAbout">About</a><a href="/projects/" aria-current="page" data-i18n="navProjects">Projects</a><a href="/contact/" data-i18n="navContact">Contact</a></nav>
+      <div class="footer-meta"><a href="https://github.com/jibranthedecoder" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener">LinkedIn</a><p>&copy; <span id="currentYear"></span> Jibran Hussain</p></div>
+    </div>
+  </footer>
+</body>
+</html>
