@@ -74,13 +74,18 @@
       <div class="detail-visual reveal">
         <div class="diagram-stage line-following-visual">
           <p class="aside-label" data-line-visual-label>Visual evidence</p>
-          <figure class="webots-real-media-card">
-            <img
-              src="https://raw.githubusercontent.com/jibranthedecoder/webots-line-following-robot/main/best%20possible%20scenario.png"
-              alt="Webots e-puck line following simulation with final result screenshot"
-              loading="lazy"
-            />
-            <figcaption>Webots simulation screenshot: e-puck robot, line track, controller code, and final measured result.</figcaption>
+          <figure class="webots-real-media-card webots-video-card">
+            <video
+              controls
+              preload="metadata"
+              playsinline
+              poster="https://raw.githubusercontent.com/jibranthedecoder/webots-line-following-robot/main/best%20possible%20scenario.png"
+              aria-label="Webots e-puck line following robot simulation video"
+            >
+              <source src="https://raw.githubusercontent.com/jibranthedecoder/webots-line-following-robot/main/Task2_Vid.mp4" type="video/mp4" />
+              Your browser does not support embedded video. Open the simulation video from the evidence links.
+            </video>
+            <figcaption>Webots simulation video: e-puck robot following the line with the tuned PD controller.</figcaption>
           </figure>
           <div class="metric-strip">
             <span><strong>33.38 s</strong><small>lap time</small></span>
