@@ -1,6 +1,7 @@
 (function () {
   const githubLinksBySlug = {
     'line-following-robot': 'https://github.com/jibranthedecoder/webots-line-following-robot',
+    'dead-reckoning-navigation': 'https://github.com/jibranthedecoder/webots-dead-reckoning-navigation',
   };
 
   function slugFromCard(card) {
