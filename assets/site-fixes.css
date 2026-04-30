@@ -111,7 +111,6 @@ main {
   line-height: 1.35;
 }
 
-/* Detail page rhythm fix. */
 body[data-page="project-detail"] .project-detail-shell {
   display: grid;
   gap: clamp(1rem, 2vw, 1.35rem);
@@ -160,7 +159,6 @@ body[data-page="project-detail"] .story-list {
   gap: 0.75rem;
 }
 
-/* Line Following Robot model page. */
 .line-following-page {
   --line-card-gap: clamp(0.95rem, 2vw, 1.15rem);
 }
@@ -228,7 +226,6 @@ body[data-page="project-detail"] .story-list {
   white-space: nowrap;
 }
 
-/* Line-following project visual evidence. */
 .line-following-visual {
   display: grid;
   gap: 0.85rem;
@@ -242,7 +239,8 @@ body[data-page="project-detail"] .story-list {
   margin: 0;
 }
 
-.webots-real-media-card img {
+.webots-real-media-card img,
+.webots-real-media-card video {
   display: block;
   width: 100%;
   max-height: clamp(15rem, 32vw, 24rem);
@@ -251,7 +249,11 @@ body[data-page="project-detail"] .story-list {
   border: 1px solid rgba(148, 163, 184, 0.24);
   border-radius: 22px;
   box-shadow: 0 18px 45px rgba(15, 23, 42, 0.14);
-  background: rgba(148, 163, 184, 0.08);
+  background: rgba(15, 23, 42, 0.92);
+}
+
+.webots-video-card video {
+  aspect-ratio: 16 / 9;
 }
 
 .webots-real-media-card figcaption {
@@ -263,72 +265,6 @@ body[data-page="project-detail"] .story-list {
 .visual-video-link {
   justify-self: start;
   width: auto;
-}
-
-.webots-track-card {
-  position: relative;
-  min-height: clamp(13rem, 28vw, 17rem);
-  overflow: hidden;
-  border: 1px solid rgba(148, 163, 184, 0.22);
-  border-radius: 24px;
-  background:
-    radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.12), transparent 30%),
-    radial-gradient(circle at 75% 65%, rgba(16, 185, 129, 0.10), transparent 34%),
-    linear-gradient(135deg, rgba(15, 23, 42, 0.06), rgba(148, 163, 184, 0.08));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-.track-line {
-  position: absolute;
-  inset: 15% 13%;
-  border: clamp(8px, 2vw, 14px) solid rgba(15, 23, 42, 0.78);
-  border-left-width: clamp(7px, 1.5vw, 10px);
-  border-right-width: clamp(10px, 2.5vw, 18px);
-  border-radius: 42% 58% 48% 52% / 52% 44% 56% 48%;
-  transform: rotate(-5deg);
-  filter: blur(0.2px);
-}
-
-.robot-dot {
-  position: absolute;
-  left: 44%;
-  top: 56%;
-  display: grid;
-  place-items: center;
-  width: clamp(3.4rem, 8vw, 4.5rem);
-  height: clamp(3.4rem, 8vw, 4.5rem);
-  border-radius: 999px;
-  background: rgba(248, 250, 252, 0.92);
-  border: 1px solid rgba(15, 23, 42, 0.18);
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.22);
-  color: var(--text-primary, #0f172a);
-  font-size: clamp(0.58rem, 1.5vw, 0.72rem);
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.track-label {
-  position: absolute;
-  padding: 0.35rem 0.7rem;
-  border-radius: 999px;
-  background: rgba(248, 250, 252, 0.88);
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  color: var(--text-secondary, #475569);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.track-start {
-  right: 14%;
-  bottom: 14%;
-}
-
-.track-finish {
-  left: 17%;
-  top: 14%;
 }
 
 .metric-strip {
@@ -359,7 +295,6 @@ body[data-page="project-detail"] .story-list {
   text-transform: uppercase;
 }
 
-/* Make readable/dyslexic mode visibly different and force the actual dyslexic font. */
 html.readable-mode,
 html.readable-mode body {
   letter-spacing: 0.012em;
@@ -557,12 +492,8 @@ html.readable-mode .profile-card {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .webots-track-card {
-    min-height: 12.5rem;
-    border-radius: 18px;
-  }
-
-  .webots-real-media-card img {
+  .webots-real-media-card img,
+  .webots-real-media-card video {
     max-height: 16rem;
     border-radius: 18px;
   }
@@ -659,11 +590,6 @@ html.readable-mode .profile-card {
 
   .metric-strip {
     grid-template-columns: 1fr;
-  }
-
-  .track-label {
-    font-size: 0.62rem;
-    padding: 0.28rem 0.55rem;
   }
 
   h1 {
