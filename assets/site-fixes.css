@@ -168,6 +168,30 @@ body[data-page="project-detail"] .story-list {
   box-sizing: border-box;
 }
 
+.line-following-page .line-hero {
+  min-height: 0 !important;
+  padding-block: clamp(1.75rem, 3vw, 2.4rem) !important;
+}
+
+.line-following-page .line-hero .detail-copy {
+  display: grid;
+  align-content: start;
+  gap: 0.9rem;
+  padding-block: 0 !important;
+}
+
+.line-following-page .line-hero .detail-copy > * {
+  margin-bottom: 0;
+}
+
+.line-following-page .line-hero .detail-actions {
+  margin-top: 0.25rem;
+}
+
+.line-following-page .line-hero .detail-visual {
+  align-self: start;
+}
+
 .line-following-page .line-detail-layout {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -472,6 +496,10 @@ html.readable-mode .profile-card {
   body[data-page="project-detail"] .detail-grid,
   .line-following-page .line-detail-layout {
     grid-template-columns: 1fr !important;
+  }
+
+  .line-following-page .line-hero .detail-copy {
+    gap: 0.8rem;
   }
 
   .page-lottie-wrap {
