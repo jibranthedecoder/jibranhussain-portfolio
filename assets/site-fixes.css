@@ -134,10 +134,7 @@ body[data-page="project-detail"] .detail-panel {
   min-width: 0;
 }
 
-body[data-page="project-detail"] .detail-copy {
-  align-self: start;
-}
-
+body[data-page="project-detail"] .detail-copy,
 body[data-page="project-detail"] .detail-visual {
   align-self: start;
 }
@@ -161,6 +158,74 @@ body[data-page="project-detail"] .detail-panel {
 body[data-page="project-detail"] .story-list {
   display: grid;
   gap: 0.75rem;
+}
+
+/* Line Following Robot model page. */
+.line-following-page {
+  --line-card-gap: clamp(0.95rem, 2vw, 1.15rem);
+}
+
+.line-following-page .section-shell,
+.line-following-page .page-shell {
+  box-sizing: border-box;
+}
+
+.line-following-page .line-detail-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--line-card-gap);
+  align-items: stretch;
+}
+
+.line-following-page .line-detail-layout > .detail-panel:nth-child(1),
+.line-following-page .line-detail-layout > .detail-panel:nth-child(2) {
+  min-height: 13.5rem;
+}
+
+.line-following-page .line-detail-layout > .detail-panel:nth-child(n + 3) {
+  min-height: 11rem;
+}
+
+.line-following-page .detail-panel p:last-child,
+.line-following-page .detail-panel ul:last-child {
+  margin-bottom: 0;
+}
+
+.line-following-page .detail-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.line-following-page .detail-list li {
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.42rem 0.65rem;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.07);
+  line-height: 1.25;
+}
+
+.line-following-page .evidence-section {
+  display: grid;
+  gap: 1rem;
+}
+
+.line-following-page .evidence-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0;
+  align-items: center;
+}
+
+.line-following-page .evidence-links .button {
+  width: auto;
+  white-space: nowrap;
 }
 
 /* Line-following project visual evidence. */
@@ -321,7 +386,6 @@ html.readable-mode .profile-card {
   gap: 0.9rem;
 }
 
-/* Projects page: ecosystem sections should stack vertically, not fight the card grid. */
 #projectsGrid.project-grid {
   grid-template-columns: 1fr;
   align-items: start;
@@ -359,7 +423,6 @@ html.readable-mode .profile-card {
   margin-top: auto;
 }
 
-/* Contact polish */
 .contact-form-shell {
   align-self: start;
 }
@@ -372,7 +435,6 @@ html.readable-mode .profile-card {
   margin: 0;
 }
 
-/* Footer polish */
 .footer-inner {
   gap: 1rem;
 }
@@ -408,7 +470,8 @@ html.readable-mode .profile-card {
   }
 
   body[data-page="project-detail"] .detail-hero,
-  body[data-page="project-detail"] .detail-grid {
+  body[data-page="project-detail"] .detail-grid,
+  .line-following-page .line-detail-layout {
     grid-template-columns: 1fr !important;
   }
 
@@ -451,8 +514,13 @@ html.readable-mode .profile-card {
     gap: 0.65rem;
   }
 
-  body[data-page="project-detail"] .detail-actions .button {
+  body[data-page="project-detail"] .detail-actions .button,
+  .line-following-page .evidence-links .button {
     width: 100%;
+  }
+
+  .line-following-page .line-detail-layout > .detail-panel {
+    min-height: 0 !important;
   }
 
   .metric-strip {
