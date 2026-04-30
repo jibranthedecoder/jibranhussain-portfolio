@@ -48,6 +48,26 @@
         "Created cleaned candidate data and processed result CSV files.",
         "Built an interactive explorer with search, party filtering, elected-only view, and sortable result logic."
       ]
+    },
+    {
+      slug: "excel-stopping-distance-curve-fit",
+      title: "Excel Stopping Distance Curve Fit",
+      category: "Spreadsheet data analysis",
+      ecosystem: "excel-tools",
+      status: "build",
+      statusLabel: "Built",
+      github: "https://github.com/jibranthedecoder/excel-stopping-distance-curve-fit",
+      summary: "An Excel measurement-analysis project converted into an interactive stopping-distance explorer with road-surface filtering, polynomial curve fitting, and 150 km/h extrapolation.",
+      intro: "A spreadsheet-to-web project that turns vehicle stopping-distance measurements into an interactive curve-fitting and extrapolation tool.",
+      problem: "Stopping distance grows nonlinearly with speed, and the original spreadsheet analysis needed a clearer way to show measured points, fitted curves, and extrapolated results such as 150 km/h wet-road stopping distance.",
+      overview: "The project uses reaction-distance and braking-distance measurements for dry, wet, snowy, and icy road surfaces. The web version calculates stopping distance, fits a second-degree polynomial curve to the selected surface, draws the measurement points, and estimates stopping distance at a custom speed.",
+      technologies: ["Excel", "HTML", "CSS", "JavaScript", "Canvas", "Polynomial curve fitting", "Data visualization"],
+      skills: ["Measurement analysis", "Curve fitting", "Extrapolation", "Spreadsheet logic", "Interactive visualization", "Technical documentation"],
+      outcomes: [
+        "Converted an Excel measurement-analysis worksheet into an interactive browser tool.",
+        "Added road-surface filtering for dry, wet, snowy, and icy conditions.",
+        "Implemented polynomial curve fitting and custom-speed stopping-distance prediction."
+      ]
     }
   ];
 
