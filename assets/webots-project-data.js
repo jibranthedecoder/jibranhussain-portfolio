@@ -23,19 +23,25 @@
       "Documented the trade-off between faster movement and stable line-following behavior."
     ],
     nextSteps: [
-      "Add annotated screenshots from the Webots simulation.",
-      "Publish the controller code and report as project evidence.",
-      "Compare the PD controller with a simpler P-only controller in the project notes."
+      "Keep the GitHub evidence package up to date.",
+      "Add a short comparison between the final PD controller and a simpler P-only controller.",
+      "Use this page structure as the template for the next Webots projects."
     ]
   };
 
-  const alreadyExists = window.PORTFOLIO_PROJECTS.some((project) => project.slug === lineFollowingProject.slug);
-  if (!alreadyExists) {
-    const webotsIndex = window.PORTFOLIO_PROJECTS.findIndex((project) => project.ecosystem === "webots-robotics");
-    if (webotsIndex >= 0) {
-      window.PORTFOLIO_PROJECTS.splice(webotsIndex, 0, lineFollowingProject);
-    } else {
-      window.PORTFOLIO_PROJECTS.push(lineFollowingProject);
-    }
+  const existingIndex = window.PORTFOLIO_PROJECTS.findIndex((project) => project.slug === lineFollowingProject.slug);
+  if (existingIndex >= 0) {
+    window.PORTFOLIO_PROJECTS[existingIndex] = {
+      ...window.PORTFOLIO_PROJECTS[existingIndex],
+      ...lineFollowingProject,
+    };
+    return;
+  }
+
+  const webotsIndex = window.PORTFOLIO_PROJECTS.findIndex((project) => project.ecosystem === "webots-robotics");
+  if (webotsIndex >= 0) {
+    window.PORTFOLIO_PROJECTS.splice(webotsIndex, 0, lineFollowingProject);
+  } else {
+    window.PORTFOLIO_PROJECTS.push(lineFollowingProject);
   }
 }());
