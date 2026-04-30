@@ -51,8 +51,16 @@
     return params.get('q') || params.get('search') || params.get('ecosystem') || '';
   }
 
-  function projects() {
+  function allProjects() {
     return Array.isArray(window.PORTFOLIO_PROJECTS) ? window.PORTFOLIO_PROJECTS : [];
+  }
+
+  function projectHasPublicEvidence(project) {
+    return Boolean(project && (project.github || githubLinksBySlug[project.slug]));
+  }
+
+  function projects() {
+    return allProjects().filter(projectHasPublicEvidence);
   }
 
   function ecosystems() {
@@ -184,6 +192,11 @@
     `;
   }
 
+  function emptyText(query) {
+    if (query) return isFinnish() ? 'Hakua vastaavia julkaistuja projekteja ei löytynyt.' : 'No published projects match this search.';
+    return isFinnish() ? 'Julkaistuja projekteja lisätään pian.' : 'Published projects will be added soon.';
+  }
+
   function render() {
     const grid = document.getElementById('projectsGrid');
     const input = document.getElementById('projectSearch');
@@ -209,7 +222,10 @@
       </section>
     `).join('');
 
-    if (empty) empty.hidden = filtered.length > 0;
+    if (empty) {
+      empty.textContent = emptyText(query);
+      empty.hidden = filtered.length > 0;
+    }
   }
 
   function updateUrlFromInput() {
