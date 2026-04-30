@@ -8,6 +8,7 @@
     ecosystem: "webots-robotics",
     status: "build",
     statusLabel: "Built",
+    github: "https://github.com/jibranthedecoder/webots-line-following-robot",
     summary: "A Webots e-puck robot simulation where a PD controller was tuned to follow a line quickly and stably using three ground sensors.",
     intro: "A robotics simulation project focused on sensor feedback, PD control, speed tuning, and measured performance.",
     problem: "A line-following robot must react quickly to the track while staying stable. Too little correction makes the robot slow, while too much speed or gain causes oscillation, motor saturation, or unstable behavior.",
