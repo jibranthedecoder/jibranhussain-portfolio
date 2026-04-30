@@ -1,0 +1,51 @@
+body[data-page="projects"] .project-card {
+  gap: 0.85rem;
+}
+
+body[data-page="projects"] .project-card .project-summary,
+body[data-page="projects"] .project-card p:not(.eyebrow):not(.project-category) {
+  margin-bottom: 0;
+}
+
+body[data-page="projects"] .project-card-actions-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: center;
+  margin: 0.15rem 0 0.35rem !important;
+}
+
+body[data-page="projects"] .project-card-actions-top .button,
+body[data-page="projects"] .project-card-actions-top a,
+body[data-page="projects"] .project-card-actions-top button {
+  width: auto !important;
+  min-height: 2.65rem;
+  white-space: nowrap;
+}
+
+body[data-page="projects"] .project-toggle,
+body[data-page="projects"] .project-problem[hidden],
+body[data-page="projects"] .project-details[hidden],
+body[data-page="projects"] .project-expanded[hidden],
+body[data-page="projects"] .project-more[hidden],
+body[data-page="projects"] .project-extra[hidden] {
+  display: none !important;
+}
+
+body[data-page="projects"] .project-github-link[href=""],
+body[data-page="projects"] .project-github-link:not([href]) {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  body[data-page="projects"] .project-card-actions-top {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  body[data-page="projects"] .project-card-actions-top .button,
+  body[data-page="projects"] .project-card-actions-top a,
+  body[data-page="projects"] .project-card-actions-top button {
+    width: 100% !important;
+  }
+}
