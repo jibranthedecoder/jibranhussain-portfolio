@@ -4,10 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>About | Jibran Hussain</title>
-  <meta
-    name="description"
-    content="About Jibran Hussain, an Electrical and Automation Engineering student in Finland with a maintenance background and a focused direction in controls and industrial systems."
-  />
+  <meta name="description" content="About Jibran Hussain, an Electrical and Automation Engineering student in Finland with a maintenance background and a focused direction in controls and industrial systems." />
   <meta property="og:title" content="About | Jibran Hussain" />
   <meta property="og:description" content="About Jibran Hussain, an Electrical and Automation Engineering student in Finland with a maintenance background and a focused direction in controls and industrial systems." />
   <meta property="og:image" content="https://www.jibranhussain.com/assets/profile.png" />
@@ -23,7 +20,7 @@
   <link rel="stylesheet" href="/styles.css" />
   <link rel="stylesheet" href="/assets/site-fixes.css?v=about-spacing-20260430" />
   <link rel="stylesheet" href="/assets/section-spacing-fixes.css?v=about-spacing-20260430" />
-  <script src="/script.js" defer></script>
+  <script src="/assets/site-core.js?v=20260513" defer></script>
 </head>
 <body data-page="about">
   <a class="skip-link" href="#main" data-i18n="skipToMain">Skip to main content</a>
@@ -73,43 +70,37 @@
   </header>
 
   <div id="privacyBanner" class="privacy-banner" aria-live="polite" hidden>
-    <p>We store only minimal local preferences and may use privacy-friendly analytics to improve the experience.</p>
+    <p data-i18n="privacyBanner">We store only minimal local preferences and may use privacy-friendly analytics to improve the experience.</p>
     <div class="privacy-actions">
-      <button id="privacyDetails" class="button button-secondary" type="button">Details</button>
-      <button id="privacyAccept" class="button button-primary" type="button">Accept</button>
+      <button id="privacyDetails" class="button button-secondary" type="button" data-i18n="privacyDetails">Details</button>
+      <button id="privacyAccept" class="button button-primary" type="button" data-i18n="privacyAccept">Accept</button>
     </div>
   </div>
 
   <div id="privacyModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="privacyModalTitle" hidden>
     <div class="modal-content">
       <div class="modal-header">
-        <h2 id="privacyModalTitle">Privacy policy</h2>
+        <h2 id="privacyModalTitle" data-i18n="privacyTitle">Privacy policy</h2>
         <button id="privacyClose" class="modal-close" type="button" aria-label="Close privacy details" data-i18n-aria-label="privacyClose">&times;</button>
       </div>
       <div class="modal-body">
-        <p>This site stores only essential local preferences, such as language and readable mode. No tracking cookies are used without permission.</p>
-        <p>You can change preferences anytime from your browser. This experience is built to be privacy-friendly and non-intrusive.</p>
+        <p data-i18n="privacyBodyOne">This site stores only essential local preferences, such as language and readable mode. No tracking cookies are used without permission.</p>
+        <p data-i18n="privacyBodyTwo">You can change preferences anytime from your browser. This experience is built to be privacy-friendly and non-intrusive.</p>
       </div>
     </div>
   </div>
 
   <main id="main">
-    <section class="page-shell page-intro has-lottie">
+    <section class="page-shell page-intro">
       <div class="page-intro-copy reveal">
         <p class="eyebrow" data-i18n="aboutEyebrow">About</p>
         <h1 data-i18n="aboutTitle">I like understanding how things work.</h1>
-        <p class="hero-lead" data-i18n="aboutLead">
-          My background is in maintenance, where I learned that small details matter and problems rarely fix themselves. Now I study Electrical &amp; Automation Engineering in Finland and want to build a stronger future in technical work.
-        </p>
+        <p class="hero-lead" data-i18n="aboutLead">My background is in maintenance, where I learned that small details matter and problems rarely fix themselves. Now I study Electrical &amp; Automation Engineering in Finland and want to build a stronger future in technical work.</p>
         <div class="hero-actions">
           <a class="button button-primary" href="/cv/" data-i18n="viewCv">View CV</a>
           <span class="micro-label" data-i18n="updatedApril2026">Updated April 2026</span>
         </div>
       </div>
-      <div class="page-lottie-wrap reveal"
-           id="aboutLottie"
-           aria-hidden="true"
-           role="presentation"></div>
     </section>
 
     <section class="section-shell split-layout">
@@ -118,223 +109,20 @@
         <h2 class="section-title" data-i18n="backgroundTitle">Who I am.</h2>
         <p data-i18n="backgroundLead">I’m calm by nature and I like useful work. I prefer learning real skills, solving actual problems, and getting better step by step instead of talking big.</p>
       </div>
-
       <div class="plain-stack reveal">
-        <div class="plain-block">
-          <p class="micro-label" data-i18n="backgroundCardLabel">Background</p>
-          <p class="panel-copy" data-i18n="backgroundCardCopy">Started from hands-on work, tools, faults, repairs, and everyday responsibility.</p>
-        </div>
-        <div class="plain-block">
-          <p class="micro-label" data-i18n="focusCardLabel">Focus</p>
-          <p class="panel-copy" data-i18n="focusCardCopy">Automation, electrical systems, control logic, and becoming better every year.</p>
-        </div>
-        <div class="plain-block">
-          <p class="micro-label" data-i18n="workStyleCardLabel">Work style</p>
-          <p class="panel-copy" data-i18n="workStyleCardCopy">Show up, think clearly, do the job properly, keep learning.</p>
-        </div>
+        <div class="plain-block"><p class="micro-label" data-i18n="backgroundCardLabel">Background</p><p class="panel-copy" data-i18n="backgroundCardCopy">Started from hands-on work, tools, faults, repairs, and everyday responsibility.</p></div>
+        <div class="plain-block"><p class="micro-label" data-i18n="focusCardLabel">Focus</p><p class="panel-copy" data-i18n="focusCardCopy">Automation, electrical systems, control logic, and becoming better every year.</p></div>
+        <div class="plain-block"><p class="micro-label" data-i18n="workStyleCardLabel">Work style</p><p class="panel-copy" data-i18n="workStyleCardCopy">Show up, think clearly, do the job properly, keep learning.</p></div>
       </div>
     </section>
 
-    <section class="section-shell reveal">
-      <div class="section-header-row">
-        <div class="section-heading">
-          <p class="eyebrow" data-i18n="skillsEyebrow">Skills</p>
-          <h2 class="section-title" data-i18n="skillsTitle">Things I’m good at.</h2>
-        </div>
-      </div>
-      <div class="project-grid">
-        <article class="project-card">
-          <h3 data-i18n="coreStrengthsTitle">Core strengths</h3>
-          <ul class="pill-list">
-            <li data-i18n="skillFindingFaults">Finding faults</li>
-            <li data-i18n="skillMaintenanceTasks">Maintenance tasks</li>
-            <li data-i18n="skillPlcBasics">PLC basics</li>
-            <li data-i18n="skillElectricalWork">Electrical work</li>
-          </ul>
-        </article>
-        <article class="project-card">
-          <h3 data-i18n="workApproachTitle">Work approach</h3>
-          <ul class="pill-list">
-            <li data-i18n="approachReliable">Reliable attitude</li>
-            <li data-i18n="approachCommunication">Clear communication</li>
-            <li data-i18n="approachSafety">Safety first</li>
-            <li data-i18n="approachLearning">Willing to learn</li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
-    <section class="section-shell reveal">
-      <div class="section-header-row">
-        <div class="section-heading">
-          <p class="eyebrow" data-i18n="programmingEyebrow">Programming</p>
-          <h2 class="section-title" data-i18n="programmingTitle">Tools I use and study.</h2>
-        </div>
-      </div>
-      <article class="project-card">
-        <ul class="pill-list">
-          <li>Structured Text</li>
-          <li>FBD</li>
-          <li>Python</li>
-          <li data-i18n="cppBasics">C++ basics</li>
-          <li>MATLAB</li>
-          <li>Excel</li>
-        </ul>
-      </article>
-    </section>
-
-    <section class="section-shell reveal">
-      <div class="section-header-row">
-        <div class="section-heading">
-          <p class="eyebrow" data-i18n="experienceEyebrow">Experience</p>
-          <h2 class="section-title" data-i18n="experienceTitle">Hands-on roles and practical training.</h2>
-        </div>
-      </div>
-      <div class="timeline">
-        <article class="timeline-item">
-          <p><strong data-i18n="experienceMaintenanceRole">Maintenance Technician, ARE Oy</strong></p>
-          <p>2023-2025</p>
-          <p data-i18n="experienceMaintenanceCopy">Supported preventive maintenance, troubleshooting, and inspections on electrical and automation equipment.</p>
-        </article>
-        <article class="timeline-item">
-          <p><strong data-i18n="experienceInternRole">Intern, ARE Oy</strong></p>
-          <p>2023</p>
-          <p data-i18n="experienceInternCopy">Assisted maintenance operations and gained exposure to industrial electrical systems, control panels, and automation diagnostics.</p>
-        </article>
-        <article class="timeline-item">
-          <p><strong data-i18n="experienceStudentRole">Student roles</strong></p>
-          <p>2020-2023</p>
-          <p data-i18n="experienceStudentCopy">Worked in construction and maintenance teams while learning disciplined routines, teamwork, and technical responsibility.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section-shell reveal">
-      <div class="section-header-row">
-        <div class="section-heading">
-          <p class="eyebrow" data-i18n="educationEyebrow">Education</p>
-          <h2 class="section-title" data-i18n="educationTitle">Formal training in automation and electrical systems.</h2>
-        </div>
-      </div>
-      <article class="project-card">
-        <h3 data-i18n="educationDegree">Bachelor's Degree Programme in Electrical and Automation Engineering</h3>
-        <p class="project-summary" data-i18n="educationSchool">HAMK University of Applied Sciences, 2025-2027 expected.</p>
-        <div class="project-problem">
-          <p class="panel-copy" data-i18n="educationCopy">Focused on electrical systems, automation, PLC programming, measurements, and technical development for practical engineering workflows.</p>
-        </div>
-      </article>
-    </section>
-
-    <section class="section-shell reveal">
-      <div class="section-header-row">
-        <div class="section-heading">
-          <p class="eyebrow" data-i18n="toolsEyebrow">Tools &amp; Tech</p>
-          <h2 class="section-title" data-i18n="toolsTitle">Software and systems I use.</h2>
-        </div>
-      </div>
-      <ul class="pill-list">
-        <li>TwinCAT Beckhoff</li>
-        <li>Siemens TIA Portal</li>
-        <li>CODESYS</li>
-        <li>AutoCAD</li>
-        <li>GitHub</li>
-        <li>VS Code</li>
-        <li data-i18n="hvacSystems">HVAC systems</li>
-      </ul>
-    </section>
+    <section class="section-shell reveal"><div class="section-header-row"><div class="section-heading"><p class="eyebrow" data-i18n="skillsEyebrow">Skills</p><h2 class="section-title" data-i18n="skillsTitle">Things I’m good at.</h2></div></div><div class="project-grid"><article class="project-card"><h3 data-i18n="coreStrengthsTitle">Core strengths</h3><ul class="pill-list"><li data-i18n="skillFindingFaults">Finding faults</li><li data-i18n="skillMaintenanceTasks">Maintenance tasks</li><li data-i18n="skillPlcBasics">PLC basics</li><li data-i18n="skillElectricalWork">Electrical work</li></ul></article><article class="project-card"><h3 data-i18n="workApproachTitle">Work approach</h3><ul class="pill-list"><li data-i18n="approachReliable">Reliable attitude</li><li data-i18n="approachCommunication">Clear communication</li><li data-i18n="approachSafety">Safety first</li><li data-i18n="approachLearning">Willing to learn</li></ul></article></div></section>
+    <section class="section-shell reveal"><div class="section-header-row"><div class="section-heading"><p class="eyebrow" data-i18n="programmingEyebrow">Programming</p><h2 class="section-title" data-i18n="programmingTitle">Tools I use and study.</h2></div></div><article class="project-card"><ul class="pill-list"><li>Structured Text</li><li>FBD</li><li>Python</li><li data-i18n="cppBasics">C++ basics</li><li>MATLAB</li><li>Excel</li></ul></article></section>
+    <section class="section-shell reveal"><div class="section-header-row"><div class="section-heading"><p class="eyebrow" data-i18n="experienceEyebrow">Experience</p><h2 class="section-title" data-i18n="experienceTitle">Hands-on roles and practical training.</h2></div></div><div class="timeline"><article class="timeline-item"><p><strong data-i18n="experienceMaintenanceRole">Maintenance Technician, ARE Oy</strong></p><p>2023-2025</p><p data-i18n="experienceMaintenanceCopy">Supported preventive maintenance, troubleshooting, and inspections on electrical and automation equipment.</p></article><article class="timeline-item"><p><strong data-i18n="experienceInternRole">Intern, ARE Oy</strong></p><p>2023</p><p data-i18n="experienceInternCopy">Assisted maintenance operations and gained exposure to industrial electrical systems, control panels, and automation diagnostics.</p></article><article class="timeline-item"><p><strong data-i18n="experienceStudentRole">Student roles</strong></p><p>2020-2023</p><p data-i18n="experienceStudentCopy">Worked in construction and maintenance teams while learning disciplined routines, teamwork, and technical responsibility.</p></article></div></section>
+    <section class="section-shell reveal"><div class="section-header-row"><div class="section-heading"><p class="eyebrow" data-i18n="educationEyebrow">Education</p><h2 class="section-title" data-i18n="educationTitle">Formal training in automation and electrical systems.</h2></div></div><article class="project-card"><h3 data-i18n="educationDegree">Bachelor's Degree Programme in Electrical and Automation Engineering</h3><p class="project-summary" data-i18n="educationSchool">HAMK University of Applied Sciences, 2025-2027 expected.</p><div class="project-problem"><p class="panel-copy" data-i18n="educationCopy">Focused on electrical systems, automation, PLC programming, measurements, and technical development for practical engineering workflows.</p></div></article></section>
+    <section class="section-shell reveal"><div class="section-header-row"><div class="section-heading"><p class="eyebrow" data-i18n="toolsEyebrow">Tools &amp; Tech</p><h2 class="section-title" data-i18n="toolsTitle">Software and systems I use.</h2></div></div><ul class="pill-list"><li>TwinCAT Beckhoff</li><li>Siemens TIA Portal</li><li>CODESYS</li><li>AutoCAD</li><li>GitHub</li><li>VS Code</li><li data-i18n="hvacSystems">HVAC systems</li></ul></section>
   </main>
 
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div>
-        <p class="footer-title">Jibran Hussain</p>
-        <p class="footer-copy" data-i18n="footerCopy">Thanks for visiting my portfolio.</p>
-        <p class="footer-copy"><span data-i18n="footerOpportunity">Open to internships, junior engineering roles, and technical opportunities.</span> <a href="/contact/" data-i18n="footerContactMe">Contact me</a></p>
-      </div>
-      <nav class="footer-nav" aria-label="Footer navigation" data-i18n-aria-label="footerNavigation">
-        <a href="/" data-i18n="navHome">Home</a>
-        <a href="/about/" aria-current="page" data-i18n="navAbout">About</a>
-        <a href="/projects/" data-i18n="navProjects">Projects</a>
-        <a href="/contact/" data-i18n="navContact">Contact</a>
-      </nav>
-      <div class="footer-meta">
-        <a href="https://github.com/jibranthedecoder" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener">LinkedIn</a>
-        <p>&copy; <span id="currentYear"></span> Jibran Hussain</p>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-  (function () {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (navigator.connection && navigator.connection.saveData) return;
-
-    var el = document.getElementById('aboutLottie');
-    if (!el) return;
-
-    function initLottie() {
-      try {
-        if (!window.lottie || typeof window.lottie.loadAnimation !== 'function') return;
-        window.lottie.loadAnimation({
-          container: el,
-          renderer: 'svg',
-          loop: true,
-          autoplay: true,
-          path: '/assets/brain-bulb-gears.json'
-        });
-      } catch (e) {}
-    }
-
-    function loadLottieScript() {
-      if (window.lottie && typeof window.lottie.loadAnimation === 'function') return Promise.resolve();
-      return new Promise(function (resolve) {
-        var existing = document.querySelector('script[data-lottie-loader="true"]');
-        if (existing) {
-          existing.addEventListener('load', function () { resolve(); }, { once: true });
-          existing.addEventListener('error', function () { resolve(); }, { once: true });
-          return;
-        }
-        var s = document.createElement('script');
-        s.src = '/assets/lottie-light.min.js';
-        s.async = true;
-        s.dataset.lottieLoader = 'true';
-        s.onload = function () { resolve(); };
-        s.onerror = function () { resolve(); };
-        document.head.appendChild(s);
-      });
-    }
-
-    function startWhenVisible() {
-      if ('IntersectionObserver' in window) {
-        var io = new IntersectionObserver(function (entries) {
-          if (!entries[0].isIntersecting) return;
-          io.disconnect();
-          loadLottieScript().then(initLottie);
-        }, { threshold: 0.1 });
-        io.observe(el);
-        return;
-      }
-
-      loadLottieScript().then(initLottie);
-    }
-
-    function scheduleAnimation() {
-      window.setTimeout(function () {
-        if ('requestIdleCallback' in window) {
-          window.requestIdleCallback(startWhenVisible, { timeout: 2500 });
-          return;
-        }
-        startWhenVisible();
-      }, 1600);
-    }
-
-    if (document.readyState === 'complete') {
-      scheduleAnimation();
-    } else {
-      window.addEventListener('load', scheduleAnimation, { once: true });
-    }
-  }());
-  </script>
+  <footer class="site-footer"><div class="footer-inner"><div><p class="footer-title">Jibran Hussain</p><p class="footer-copy" data-i18n="footerCopy">Thanks for visiting my portfolio.</p><p class="footer-copy"><span data-i18n="footerOpportunity">Open to internships, junior engineering roles, and technical opportunities.</span> <a href="/contact/" data-i18n="footerContactMe">Contact me</a></p></div><nav class="footer-nav" aria-label="Footer navigation" data-i18n-aria-label="footerNavigation"><a href="/" data-i18n="navHome">Home</a><a href="/about/" aria-current="page" data-i18n="navAbout">About</a><a href="/projects/" data-i18n="navProjects">Projects</a><a href="/contact/" data-i18n="navContact">Contact</a></nav><div class="footer-meta"><a href="https://github.com/jibranthedecoder" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener">LinkedIn</a><p>&copy; <span id="currentYear"></span> Jibran Hussain</p></div></div></footer>
 </body>
 </html>
