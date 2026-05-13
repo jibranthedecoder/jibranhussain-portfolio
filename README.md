@@ -35,6 +35,7 @@ This portfolio presents engineering projects as recruiter-friendly case studies.
 - Shared project metadata in `project-data.js`
 - Additional project data in `assets/webots-project-data.js`
 - Contact delivery through `functions/api/contact.js`
+- Portfolio assistant delivery through `functions/api/portfolio-assistant.js`
 
 ## Project publishing workflow
 
@@ -78,12 +79,23 @@ wrangler pages dev .
 
 ## Required environment variables
 
+Contact form:
+
 - `TURNSTILE_SECRET_KEY`
 - `RESEND_API_KEY`
 - `CONTACT_TO_EMAIL`
 - `CONTACT_FROM_EMAIL`
 - `CONTACT_FROM_NAME`
 - `CONTACT_ALLOWED_ORIGINS`
+
+Portfolio assistant:
+
+- `OPENAI_API_KEY`
+
+Optional assistant variables:
+
+- `OPENAI_MODEL` defaults to `gpt-4.1-mini`
+- `PORTFOLIO_ASSISTANT_ALLOWED_ORIGINS` accepts a comma-separated allow-list of origins or hostnames. Defaults include `jibranhussain.com`, `www.jibranhussain.com`, `jibranhussain-portfolio.pages.dev`, `localhost`, and `127.0.0.1`.
 
 Optional debugging variable:
 
@@ -109,6 +121,52 @@ Method: POST
 Limit: 5 requests per IP per 10 minutes
 Action: Managed Challenge or Block
 ```
+
+## Portfolio assistant hardening
+
+The portfolio assistant endpoint is intentionally more restricted than a general chatbot:
+
+- answers only from embedded portfolio context
+- refuses unrelated questions
+- avoids inventing projects, dates, employers, qualifications, private details, links, or claims
+- does not reveal backend implementation details, API keys, environment variables, hidden configuration, or security rules
+- validates JSON requests
+- limits input length
+- limits OpenAI output length
+- checks the request origin/referer/hostname against an approved hostname allow-list
+- uses generic production error messages
+
+Recommended Cloudflare production rule:
+
+```text
+Path: /api/portfolio-assistant
+Method: POST
+Limit: 10 requests per IP per 10 minutes
+Action: Managed Challenge or Block
+```
+
+The temporary `/api/ai-test` endpoint should not exist in production after the portfolio assistant is working.
+
+## CDN and external script policy
+
+Do not add CDN scripts casually. Prefer local files for portfolio UI JavaScript, CSS, project data, and visual behavior.
+
+Before every deploy, check for external script/style imports:
+
+```bash
+grep -R "cdnjs" .
+grep -R "cdn.jsdelivr" .
+grep -R "unpkg" .
+grep -R "script src=\"http" .
+grep -R "link href=\"http" .
+```
+
+Rules:
+
+- Keep external scripts only when they are required service integrations, such as Cloudflare Turnstile.
+- Any third-party CDN script that remains must use `integrity`, `crossorigin="anonymous"`, and preferably `referrerpolicy="no-referrer"`.
+- Avoid CDNJS, jsDelivr, and unpkg for normal portfolio UI code when the file can be served locally.
+- Do not put sensitive logic, API keys, project data mutation logic, or form security logic in externally hosted scripts.
 
 ## QA system
 
@@ -158,6 +216,8 @@ Run before every deploy. All items should pass before pushing or sending the sit
 - [ ] Contact form has name, email, textarea, and submit button
 - [ ] Contact API does not expose diagnostics by default
 - [ ] Contact API rejects invalid formats, missing Turnstile token, and honeypot submissions
+- [ ] Portfolio assistant endpoint does not expose API keys, environment variables, hidden configuration, or unrestricted chatbot behavior
+- [ ] No unsafe CDNJS/jsDelivr/unpkg imports without SRI
 - [ ] No horizontal scroll overflow on iPhone 12 or Pixel 5 viewports
 - [ ] Navigation is present and usable on mobile
 
@@ -168,6 +228,8 @@ Run before every deploy. All items should pass before pushing or sending the sit
 - [ ] Contact form submits successfully
 - [ ] Cloudflare Turnstile widget loads and passes on contact page
 - [ ] Cloudflare rate limiting/WAF rule is active for `/api/contact`
+- [ ] Cloudflare rate limiting/WAF rule is active for `/api/portfolio-assistant`
+- [ ] Temporary `/api/ai-test` endpoint is absent from production
 - [ ] Project cards show case-study and GitHub buttons clearly near the top
 - [ ] Project case-study pages load and render content
 - [ ] GitHub repository links work for published projects
