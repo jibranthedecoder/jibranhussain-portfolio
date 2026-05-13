@@ -10,8 +10,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  playwright:
-    name: Playwright QA
+  static-pages:
+    name: Static page QA
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -34,19 +34,29 @@ jobs:
       - name: Start static server
         run: npm run serve > /tmp/portfolio-serve.log 2>&1 &
 
-      - name: Wait for local site
-        run: npx wait-on http://127.0.0.1:8080
+      - name: Wait for local static site
+        run: npx --yes wait-on http://127.0.0.1:8080
 
-      - name: Run full Playwright QA suite
+      - name: Run smoke tests
         env:
           BASE_URL: http://127.0.0.1:8080
-        run: npm run qa
+        run: npm run qa:smoke
 
-      - name: Upload Playwright report
+      - name: Run link tests
+        env:
+          BASE_URL: http://127.0.0.1:8080
+        run: npm run qa:links -- --project=desktop-chrome
+
+      - name: Capture screenshots
+        env:
+          BASE_URL: http://127.0.0.1:8080
+        run: npm run qa:screenshots -- --project=desktop-chrome
+
+      - name: Upload static Playwright report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: static-playwright-report
           path: qa/playwright-report
           if-no-files-found: ignore
 
@@ -56,4 +66,44 @@ jobs:
         with:
           name: qa-screenshots
           path: qa/screenshots
+          if-no-files-found: ignore
+
+  functions:
+    name: Cloudflare Functions QA
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Start Cloudflare Pages Functions preview
+        run: npx --yes wrangler pages dev . --port 8788 > /tmp/wrangler-pages.log 2>&1 &
+
+      - name: Wait for Functions preview
+        run: npx --yes wait-on http://127.0.0.1:8788
+
+      - name: Run contact API hardening tests
+        env:
+          BASE_URL: http://127.0.0.1:8788
+        run: npx playwright test qa/tests/contact-api.test.js --project=desktop-chrome
+
+      - name: Upload Functions Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: functions-playwright-report
+          path: qa/playwright-report
           if-no-files-found: ignore
