@@ -27,11 +27,7 @@
       overview: "The robot was simulated in Webots using an e-puck model with three ground sensors. The controller used the middle sensor as the process value and applied PD control to adjust left and right wheel speeds. The tuning process compared base speed, proportional gain, derivative gain, and setpoint values to find a stable compromise between speed and path length.",
       technologies: ["Webots", "Python", "e-puck robot", "Ground sensors", "PD control", "Motor speed saturation"],
       skills: ["Controller tuning", "Sensor feedback", "Robot simulation", "Performance testing", "Technical reporting"],
-      outcomes: [
-        "Tuned the robot to complete the track in 33.38 seconds with a 2.61 m path length.",
-        "Selected base_speed = 5.6, Kp = 7.0, Kd = 0.85, and SP = 4.5 as the best stable compromise.",
-        "Documented the trade-off between faster movement and stable line-following behavior."
-      ]
+      outcomes: ["Tuned the robot to complete the track in 33.38 seconds with a 2.61 m path length.", "Selected base_speed = 5.6, Kp = 7.0, Kd = 0.85, and SP = 4.5 as the best stable compromise.", "Documented the trade-off between faster movement and stable line-following behavior."]
     },
     {
       slug: "dead-reckoning-navigation",
@@ -49,11 +45,7 @@
       overview: "The robot starts at the origin, drives through green, blue, and red target squares, and returns to the origin using a semicircular path. The controller updates the robot pose from wheel encoder measurements, rotates toward each target, drives forward with heading correction, and uses a state machine to separate each navigation phase.",
       technologies: ["Webots", "Python", "e-puck robot", "Wheel encoders", "Odometry", "State machine"],
       skills: ["Pose estimation", "Dead reckoning", "Heading correction", "Path planning", "Robot simulation", "Technical reporting"],
-      outcomes: [
-        "Navigated through green, blue, and red target points and returned near the origin.",
-        "Reached the final origin position with an estimated error of about 0.0196 m.",
-        "Implemented a readable movement state machine for rotate, linear, tangent, circular, and stop phases."
-      ]
+      outcomes: ["Navigated through green, blue, and red target points and returned near the origin.", "Reached the final origin position with an estimated error of about 0.0196 m.", "Implemented a readable movement state machine for rotate, linear, tangent, circular, and stop phases."]
     },
     {
       slug: "maze-solving-robot",
@@ -71,11 +63,7 @@
       overview: "The robot uses left, front, and right distance sensors to classify the local maze situation. While driving forward, it applies PID wall-distance correction. When a wall or opening is detected, it changes state and performs calibrated turns using wheel encoder feedback.",
       technologies: ["Webots", "Python", "Thymio-style robot", "Distance sensors", "PID control", "State machine"],
       skills: ["Maze navigation", "Sensor logic", "PID wall following", "Encoder-based turning", "Finite-state machine", "Robot simulation"],
-      outcomes: [
-        "Implemented a maze controller using three distance sensors and a heading device.",
-        "Used PID wall following to keep the robot stable while moving through the labyrinth.",
-        "Separated navigation behavior into forward, turn, dead-end, and end states."
-      ]
+      outcomes: ["Implemented a maze controller using three distance sensors and a heading device.", "Used PID wall following to keep the robot stable while moving through the labyrinth.", "Separated navigation behavior into forward, turn, dead-end, and end states."]
     },
     {
       slug: "excel-critical-point-calculator",
@@ -92,11 +80,7 @@
       overview: "The original Excel task calculated production amount, net sales, fixed costs, variable costs, total costs, profit, profit percentage, and the critical point. The web version converts the model into an interactive HTML calculator with responsive layout and automatic recalculation.",
       technologies: ["Excel", "Break-even analysis", "Responsive UI"],
       skills: ["Spreadsheet logic", "Formula translation", "Interactive calculator design", "Data presentation", "Technical documentation"],
-      outcomes: [
-        "Converted an Excel critical point worksheet into a browser-based calculator.",
-        "Added editable inputs for production amount, selling price, fixed costs, and variable costs.",
-        "Displayed the critical point, profit table, and profit percentage in a clearer project format."
-      ]
+      outcomes: ["Converted an Excel critical point worksheet into a browser-based calculator.", "Added editable inputs for production amount, selling price, fixed costs, and variable costs.", "Displayed the critical point, profit table, and profit percentage in a clearer project format."]
     },
     {
       slug: "excel-election-seat-allocation",
@@ -113,11 +97,7 @@
       overview: "The project starts from candidate vote data, cleans it into CSV, calculates party totals, creates D'Hondt comparative figures, selects the top 20 candidates, and presents the result through an interactive HTML explorer.",
       technologies: ["Excel", "CSV", "D'Hondt method", "Data validation"],
       skills: ["Data cleaning", "Sorting and ranking logic", "Comparative figures", "Spreadsheet analysis", "Result validation", "Interactive data presentation"],
-      outcomes: [
-        "Rebuilt the calculation around party/list totals instead of personal-vote division.",
-        "Created cleaned candidate data and processed result CSV files.",
-        "Built an interactive explorer with search, party filtering, elected-only view, and sortable result logic."
-      ]
+      outcomes: ["Rebuilt the calculation around party/list totals instead of personal-vote division.", "Created cleaned candidate data and processed result CSV files.", "Built an interactive explorer with search, party filtering, elected-only view, and sortable result logic."]
     },
     {
       slug: "excel-stopping-distance-curve-fit",
@@ -134,11 +114,7 @@
       overview: "The project uses reaction-distance and braking-distance measurements for dry, wet, snowy, and icy road surfaces. The web version calculates stopping distance, fits a second-degree polynomial curve to the selected surface, draws the measurement points, and estimates stopping distance at a custom speed.",
       technologies: ["Excel", "Polynomial curve fitting", "Data visualization"],
       skills: ["Measurement analysis", "Curve fitting", "Extrapolation", "Spreadsheet logic", "Interactive visualization", "Technical documentation"],
-      outcomes: [
-        "Converted an Excel measurement-analysis worksheet into an interactive browser tool.",
-        "Added road-surface filtering for dry, wet, snowy, and icy conditions.",
-        "Implemented polynomial curve fitting and custom-speed stopping-distance prediction."
-      ]
+      outcomes: ["Converted an Excel measurement-analysis worksheet into an interactive browser tool.", "Added road-surface filtering for dry, wet, snowy, and icy conditions.", "Implemented polynomial curve fitting and custom-speed stopping-distance prediction."]
     },
     {
       slug: "chemical-process-automation-system",
@@ -149,7 +125,7 @@
       statusLabel: "Built",
       github: "https://github.com/jibranthedecoder/siemens-complete-automation-project",
       system: "Siemens",
-      languages: ["FBD", "GRAPH"],
+      languages: ["FBD"],
       summary: "A complete academic industrial automation case study for chemical solution preparation and dosing using Siemens S7-1500, TIA Portal, GRAPH, WinCC HMI, PID Compact, PLCSIM Advanced, and SIMIT.",
       intro: "A full Siemens automation workflow from P&ID-based process analysis and functional specification to hardware selection, PLC programming, HMI development, PID control, and simulation validation.",
       problem: "The process had to coordinate batch preparation and continuous dosing safely: water, NaOH, and powder feeding, mixing, transfer to a storage tank, controlled pump dosing, sensor scaling, alarms, and manual/automatic/test modes.",
@@ -158,19 +134,8 @@
       visual: "GRAPH batch sequence, SIMIT simulation, TIA Selection Tool hardware list, and TIA Portal program print evidence",
       technologies: ["Siemens TIA Portal V16", "Siemens S7-1500", "Siemens GRAPH", "WinCC Basic", "PID Compact", "PLCSIM Advanced", "SIMIT", "PROFINET", "FBD", "HMI", "TIA Selection Tool"],
       skills: ["P&ID interpretation", "Functional specification", "Hardware selection", "PLC architecture", "Reusable FB/FC design", "GRAPH sequence control", "Analog sensor scaling", "PID flow control", "HMI development", "Simulation validation", "Fault handling"],
-      outcomes: [
-        "Created a process automation specification for chemical solution preparation and dosing based on a P&ID.",
-        "Selected Siemens S7-1500 hardware and I/O modules using TIA Selection Tool.",
-        "Implemented modular PLC logic with reusable motor, valve, sensor, mode, fault, HMI, and sequence blocks.",
-        "Built a GRAPH-based batch sequence covering water filling, NaOH dosing, powder feeding, mixing, storage transfer, and process dosing.",
-        "Integrated PID Compact for controlled process flow using simulated process values.",
-        "Validated the automation behavior with PLCSIM Advanced and SIMIT simulation evidence."
-      ],
-      nextSteps: [
-        "Add the strongest screenshots from GRAPH, SIMIT, hardware selection, and HMI to the portfolio case page.",
-        "Publish Finnish and English README refinements in the Siemens project repository.",
-        "Add a concise simulation validation table for tested states, expected behavior, and observed result."
-      ],
+      outcomes: ["Created a process automation specification for chemical solution preparation and dosing based on a P&ID.", "Selected Siemens S7-1500 hardware and I/O modules using TIA Selection Tool.", "Implemented modular PLC logic with reusable motor, valve, sensor, mode, fault, HMI, and sequence blocks.", "Built a GRAPH-based batch sequence covering water filling, NaOH dosing, powder feeding, mixing, storage transfer, and process dosing.", "Integrated PID Compact for controlled process flow using simulated process values.", "Validated the automation behavior with PLCSIM Advanced and SIMIT simulation evidence."],
+      nextSteps: ["Add the strongest screenshots from GRAPH, SIMIT, hardware selection, and HMI to the portfolio case page.", "Publish Finnish and English README refinements in the Siemens project repository.", "Add a concise simulation validation table for tested states, expected behavior, and observed result."],
       evidence: ["TIA Portal program print PDF", "Functional specification PDF", "TIA Selection Tool hardware order list PDF", "SIMIT/PLCSIM simulation PDF", "TIA Portal project archive (.zap16)"]
     }
   ];
