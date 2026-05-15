@@ -1,26 +1,6 @@
 (function () {
   if (document.body?.dataset.page !== 'home') return;
 
-  const publicGithubLinks = {
-    'line-following-robot': 'https://github.com/jibranthedecoder/webots-line-following-robot',
-    'dead-reckoning-navigation': 'https://github.com/jibranthedecoder/webots-dead-reckoning-navigation',
-    'maze-solving-robot': 'https://github.com/jibranthedecoder/webots-maze-solving-robot',
-  };
-
-  const languageGroups = [
-    { key: 'FBD', query: 'FBD', terms: ['FBD', 'Function Block', 'PLC logic', 'Interlocks', 'Permissives', 'State logic', 'Sequencing', 'Safety awareness'] },
-    { key: 'ST', query: 'ST Structured Text', terms: ['ST', 'Structured Text', 'TwinCAT', 'CODESYS', 'OpenPLC', 'PLC'] },
-    { key: 'Python', query: 'Python', terms: ['Python', 'Python Tools', 'Webots'] },
-    { key: 'C++', query: 'C++', terms: ['C++', 'Cpp', 'C/C++'] },
-  ];
-
-  const systemGroups = [
-    { key: 'TwinCAT', query: 'TwinCAT Beckhoff', ecosystem: 'twincat-beckhoff', terms: ['TwinCAT', 'Beckhoff'] },
-    { key: 'Siemens', query: 'Siemens TIA', ecosystem: 'siemens-tia', terms: ['Siemens', 'TIA'] },
-    { key: 'Webots', query: 'Webots robotics', ecosystem: 'webots-robotics', terms: ['Webots', 'Robotics', 'Robot'] },
-    { key: 'Excel', query: 'Excel', ecosystem: 'excel-tools', terms: ['Excel', 'Spreadsheet'] },
-  ];
-
   const translations = {
     en: {
       languagesEyebrow: 'Technical footprint',
@@ -46,6 +26,24 @@
     },
   };
 
+  const languageAliases = {
+    'structured text': 'ST',
+    st: 'ST',
+    fbd: 'FBD',
+    python: 'Python',
+    javascript: 'JavaScript',
+    js: 'JavaScript',
+    html: 'HTML',
+    css: 'CSS',
+    excel: 'Excel',
+    matlab: 'MATLAB',
+    'c++': 'C++',
+    cpp: 'C++',
+  };
+
+  const languageOrder = ['FBD', 'ST', 'Python', 'JavaScript', 'HTML', 'CSS', 'Excel', 'MATLAB', 'C++'];
+  const systemOrder = ['TwinCAT', 'Siemens', 'Webots', 'Excel'];
+
   function isFinnish() {
     try {
       if (window.localStorage.getItem('jh-language') === 'fi') return true;
@@ -54,46 +52,68 @@
     return Boolean(langToggle && langToggle.textContent.trim().toUpperCase() === 'EN');
   }
 
+  function normalize(value) {
+    return String(value || '').toLowerCase().replace(/\+/g, ' plus ').replace(/[^a-z0-9åäö]+/g, ' ').trim();
+  }
+
+  function prettyName(value) {
+    return String(value || '').replace(/[-_]+/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
+  }
+
   function projects() {
     const all = Array.isArray(window.PORTFOLIO_PROJECTS) ? window.PORTFOLIO_PROJECTS : [];
-    return all.filter((project) => Boolean(project.github || publicGithubLinks[project.slug]));
+    return all.filter((project) => Boolean(project && project.github));
   }
 
-  function searchable(project) {
-    return [
-      project.title,
-      project.category,
-      project.ecosystem,
-      project.status,
-      project.statusLabel,
-      project.summary,
-      project.intro,
-      project.problem,
-      project.overview,
-      ...(project.technologies || []),
-      ...(project.skills || []),
-      ...(project.outcomes || []),
-    ].join(' ').toLowerCase();
+  function projectLanguages(project) {
+    const explicit = project.languages || project.programmingLanguages || project.language || project.programmingLanguage;
+    const values = Array.isArray(explicit) ? explicit : explicit ? [explicit] : [];
+    const inferred = [...(project.technologies || []), ...(project.skills || [])]
+      .map((item) => languageAliases[String(item).toLowerCase()] || null)
+      .filter(Boolean);
+    return Array.from(new Set([...values, ...inferred].map((item) => languageAliases[String(item).toLowerCase()] || item).filter(Boolean)));
   }
 
-  function countFor(group) {
-    const data = projects();
-    const exact = group.ecosystem ? data.filter((project) => project.ecosystem === group.ecosystem).length : 0;
-    const termCount = data.filter((project) => {
-      const haystack = searchable(project);
-      return group.terms.some((term) => haystack.includes(term.toLowerCase()));
-    }).length;
-    return Math.max(exact, termCount);
+  function projectSystem(project) {
+    const explicit = project.system || project.tool || project.platform;
+    if (explicit) return prettyName(explicit);
+
+    const ecosystem = String(project.ecosystem || 'Other').toLowerCase();
+    if (ecosystem.includes('twincat') || ecosystem.includes('beckhoff')) return 'TwinCAT';
+    if (ecosystem.includes('siemens') || ecosystem.includes('tia')) return 'Siemens';
+    if (ecosystem.includes('webots')) return 'Webots';
+    if (ecosystem.includes('excel') || ecosystem.includes('spreadsheet')) return 'Excel';
+    if (ecosystem.includes('codesys')) return 'CODESYS';
+    if (ecosystem.includes('openplc')) return 'OpenPLC';
+    return prettyName(project.ecosystem || 'Other');
   }
 
-  function counts(groups) {
+  function rowsFromProjects(kind) {
     const data = projects();
     const total = Math.max(1, data.length);
-    return groups.map((group) => {
-      const count = countFor(group);
-      const percent = Math.round((count / total) * 100);
-      return { ...group, count, percent, fill: Math.max(count > 0 ? 8 : 0, percent) };
+    const map = new Map();
+
+    data.forEach((project) => {
+      const keys = kind === 'language' ? projectLanguages(project) : [projectSystem(project)];
+      Array.from(new Set(keys)).forEach((key) => {
+        if (!key) return;
+        const current = map.get(key) || 0;
+        map.set(key, current + 1);
+      });
     });
+
+    const order = kind === 'language' ? languageOrder : systemOrder;
+    return Array.from(map.entries())
+      .map(([key, count]) => {
+        const percent = Math.round((count / total) * 100);
+        return { key, query: key, count, percent, fill: Math.max(count > 0 ? 8 : 0, percent) };
+      })
+      .sort((a, b) => {
+        const ai = order.indexOf(a.key);
+        const bi = order.indexOf(b.key);
+        if (ai !== -1 || bi !== -1) return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+        return a.key.localeCompare(b.key);
+      });
   }
 
   function projectSearchUrl(query) {
@@ -104,10 +124,7 @@
     if (!target) return;
     target.innerHTML = rows.map((row) => `
       <a class="capability-row" href="${projectSearchUrl(row.query || row.key)}" aria-label="${row.key}: ${row.percent}%">
-        <div class="capability-row-top">
-          <span class="capability-name">${row.key}</span>
-          <span class="capability-percent">${row.percent}%</span>
-        </div>
+        <div class="capability-row-top"><span class="capability-name">${row.key}</span><span class="capability-percent">${row.percent}%</span></div>
         <div class="capability-bar" aria-hidden="true"><span class="capability-bar-fill" style="--fill:${row.fill}%"></span></div>
         <div class="capability-row-meta">${row.count} ${t.projects} · ${row.percent}% ${t.ofPortfolio}</div>
       </a>
@@ -118,13 +135,7 @@
     if (!target) return;
     target.innerHTML = rows.map((row) => `
       <a class="system-shortcut-card" href="${projectSearchUrl(row.query || row.key)}">
-        <div class="system-shortcut-header">
-          <div>
-            <p class="eyebrow">${row.key}</p>
-            <h3>${row.key}</h3>
-          </div>
-          <span class="system-shortcut-count">${row.count}</span>
-        </div>
+        <div class="system-shortcut-header"><div><p class="eyebrow">${row.key}</p><h3>${row.key}</h3></div><span class="system-shortcut-count">${row.count}</span></div>
         <p>${row.count} ${t.projects} · ${row.percent}% · ${t.open}</p>
       </a>
     `).join('');
@@ -138,8 +149,8 @@
   function render() {
     const lang = isFinnish() ? 'fi' : 'en';
     const t = translations[lang];
-    const languageRows = counts(languageGroups);
-    const systemRows = counts(systemGroups);
+    const languageRows = rowsFromProjects('language');
+    const systemRows = rowsFromProjects('system');
 
     setText('[data-home-capability-eyebrow]', t.languagesEyebrow);
     setText('[data-home-languages-title]', t.languagesTitle);
@@ -147,7 +158,6 @@
     setText('[data-home-shortcut-eyebrow]', t.shortcutEyebrow);
     setText('[data-home-shortcut-title]', t.shortcutTitle);
     setText('[data-home-shortcut-copy]', t.shortcutCopy);
-
     setText('[data-home-language-total]', '%');
     setText('[data-home-system-total]', '%');
 
