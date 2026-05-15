@@ -184,9 +184,9 @@
   function overviewHeading(totalCount) {
     return `
       <div class="project-ecosystem-heading project-category-intro">
-        <h2>${isFinnish() ? 'Valitse ohjelmisto tai järjestelmä.' : 'Choose a software or system.'}</h2>
+        <h2>${isFinnish() ? 'Projektit järjestelmittäin.' : 'Projects by system.'}</h2>
         <p class="panel-copy">${isFinnish()
-          ? `Yhteensä ${totalCount} projektia.`
+          ? `${totalCount} projektia näkyvissä.`
           : `${totalCount} projects available.`}</p>
       </div>
     `;
