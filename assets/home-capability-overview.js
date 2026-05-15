@@ -4,7 +4,7 @@
   const translations = {
     en: {
       languagesEyebrow: 'Technical footprint',
-      languagesTitle: 'Programming language share in published portfolio projects.',
+      languagesTitle: 'PLC and programming language share in published portfolio projects.',
       systemsTitle: 'System and tool share in published portfolio projects.',
       projects: 'projects',
       ofPortfolio: 'of published work',
@@ -15,7 +15,7 @@
     },
     fi: {
       languagesEyebrow: 'Tekninen jalanjälki',
-      languagesTitle: 'Ohjelmointikielten osuus julkaistuissa portfolio-projekteissa.',
+      languagesTitle: 'PLC- ja ohjelmointikielten osuus julkaistuissa portfolio-projekteissa.',
       systemsTitle: 'Järjestelmien ja työkalujen osuus julkaistuissa portfolio-projekteissa.',
       projects: 'projektia',
       ofPortfolio: 'julkaistuista töistä',
@@ -30,19 +30,15 @@
     'structured text': 'ST',
     st: 'ST',
     fbd: 'FBD',
+    graph: 'GRAPH',
     python: 'Python',
-    javascript: 'JavaScript',
-    js: 'JavaScript',
-    html: 'HTML',
-    css: 'CSS',
-    excel: 'Excel',
-    matlab: 'MATLAB',
     'c++': 'C++',
     cpp: 'C++',
   };
 
-  const languageOrder = ['FBD', 'ST', 'Python', 'JavaScript', 'HTML', 'CSS', 'Excel', 'MATLAB', 'C++'];
-  const systemOrder = ['TwinCAT', 'Siemens', 'Webots', 'Excel'];
+  const allowedLanguages = new Set(['FBD', 'GRAPH', 'ST', 'Python', 'C++']);
+  const languageOrder = ['FBD', 'GRAPH', 'ST', 'Python', 'C++'];
+  const systemOrder = ['Siemens', 'TwinCAT', 'Webots', 'Excel', 'CODESYS', 'OpenPLC'];
 
   function isFinnish() {
     try {
@@ -52,8 +48,8 @@
     return Boolean(langToggle && langToggle.textContent.trim().toUpperCase() === 'EN');
   }
 
-  function normalize(value) {
-    return String(value || '').toLowerCase().replace(/\+/g, ' plus ').replace(/[^a-z0-9åäö]+/g, ' ').trim();
+  function normalizeKey(value) {
+    return String(value || '').trim().toLowerCase();
   }
 
   function prettyName(value) {
@@ -68,10 +64,9 @@
   function projectLanguages(project) {
     const explicit = project.languages || project.programmingLanguages || project.language || project.programmingLanguage;
     const values = Array.isArray(explicit) ? explicit : explicit ? [explicit] : [];
-    const inferred = [...(project.technologies || []), ...(project.skills || [])]
-      .map((item) => languageAliases[String(item).toLowerCase()] || null)
-      .filter(Boolean);
-    return Array.from(new Set([...values, ...inferred].map((item) => languageAliases[String(item).toLowerCase()] || item).filter(Boolean)));
+    return Array.from(new Set(values
+      .map((item) => languageAliases[normalizeKey(item)] || String(item || '').trim())
+      .filter((item) => allowedLanguages.has(item))));
   }
 
   function projectSystem(project) {
@@ -97,8 +92,7 @@
       const keys = kind === 'language' ? projectLanguages(project) : [projectSystem(project)];
       Array.from(new Set(keys)).forEach((key) => {
         if (!key) return;
-        const current = map.get(key) || 0;
-        map.set(key, current + 1);
+        map.set(key, (map.get(key) || 0) + 1);
       });
     });
 
