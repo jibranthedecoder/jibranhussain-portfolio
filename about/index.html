@@ -91,7 +91,7 @@
   </div>
 
   <main id="main">
-    <section class="page-shell page-intro">
+    <section class="page-shell page-intro has-lottie">
       <div class="page-intro-copy reveal">
         <p class="eyebrow" data-i18n="aboutEyebrow">About</p>
         <h1 data-i18n="aboutTitle">I like understanding how things work.</h1>
@@ -101,6 +101,7 @@
           <span class="micro-label" data-i18n="updatedApril2026">Updated April 2026</span>
         </div>
       </div>
+      <div class="page-lottie-wrap reveal" id="aboutLottie" aria-hidden="true" role="presentation"></div>
     </section>
 
     <section class="section-shell split-layout">
@@ -124,5 +125,57 @@
   </main>
 
   <footer class="site-footer"><div class="footer-inner"><div><p class="footer-title">Jibran Hussain</p><p class="footer-copy" data-i18n="footerCopy">Thanks for visiting my portfolio.</p><p class="footer-copy"><span data-i18n="footerOpportunity">Open to internships, junior engineering roles, and technical opportunities.</span> <a href="/contact/" data-i18n="footerContactMe">Contact me</a></p></div><nav class="footer-nav" aria-label="Footer navigation" data-i18n-aria-label="footerNavigation"><a href="/" data-i18n="navHome">Home</a><a href="/about/" aria-current="page" data-i18n="navAbout">About</a><a href="/projects/" data-i18n="navProjects">Projects</a><a href="/contact/" data-i18n="navContact">Contact</a></nav><div class="footer-meta"><a href="https://github.com/jibranthedecoder" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jibranhussainatwork" target="_blank" rel="noopener">LinkedIn</a><p>&copy; <span id="currentYear"></span> Jibran Hussain</p></div></div></footer>
+
+  <script>
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var el = document.getElementById('aboutLottie');
+    if (!el) return;
+
+    function initLottie() {
+      try {
+        if (!window.lottie || typeof window.lottie.loadAnimation !== 'function') return;
+        window.lottie.loadAnimation({
+          container: el,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          path: '/assets/brain-bulb-gears.json'
+        });
+      } catch (e) {}
+    }
+
+    function loadLottieScript() {
+      if (window.lottie && typeof window.lottie.loadAnimation === 'function') return Promise.resolve();
+      return new Promise(function (resolve) {
+        var existing = document.querySelector('script[data-lottie-loader="true"]');
+        if (existing) {
+          existing.addEventListener('load', function () { resolve(); }, { once: true });
+          existing.addEventListener('error', function () { resolve(); }, { once: true });
+          return;
+        }
+        var s = document.createElement('script');
+        s.src = '/assets/lottie-light.min.js';
+        s.async = true;
+        s.dataset.lottieLoader = 'true';
+        s.onload = function () { resolve(); };
+        s.onerror = function () { resolve(); };
+        document.head.appendChild(s);
+      });
+    }
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        io.disconnect();
+        loadLottieScript().then(initLottie);
+      }, { threshold: 0.1 });
+      io.observe(el);
+    } else {
+      loadLottieScript().then(initLottie);
+    }
+  }());
+  </script>
 </body>
 </html>
