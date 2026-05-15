@@ -158,6 +158,7 @@
   }
 
   function projectDetailUrl(project) {
+    if (project.slug === 'chemical-process-automation-system') return '/projects/chemical-process-automation-system/';
     return `/projects/project/?slug=${encodeURIComponent(project.slug)}`;
   }
 
