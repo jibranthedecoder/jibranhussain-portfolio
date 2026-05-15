@@ -163,9 +163,16 @@
   function schedule() {
     window.setTimeout(render, 0);
     window.setTimeout(render, 120);
-    window.setTimeout(render, 500);
   }
 
-  schedule();
+  function startWhenDataReady() {
+    if (window.PORTFOLIO_DATA_READY) {
+      schedule();
+      return;
+    }
+    window.addEventListener('portfolio:data-ready', schedule, { once: true });
+  }
+
+  startWhenDataReady();
   document.getElementById('langToggle')?.addEventListener('click', schedule);
 }());
