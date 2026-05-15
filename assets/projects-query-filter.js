@@ -4,8 +4,11 @@
   const aliases = {
     twincat: 'twincat beckhoff plc st structured text automation',
     beckhoff: 'twincat beckhoff plc st structured text automation',
-    siemens: 'siemens tia portal plc fbd automation',
-    tia: 'siemens tia portal plc fbd automation',
+    siemens: 'siemens tia portal plc fbd graph automation simit plcsim wincc s7 1500',
+    tia: 'siemens tia portal plc fbd graph automation simit plcsim wincc s7 1500',
+    graph: 'siemens graph sequence plc automation batch process',
+    simit: 'simit plcsim siemens simulation validation virtual commissioning',
+    wincc: 'wincc hmi siemens operator panel visualization',
     webots: 'webots robotics robot python simulation thymio epuck e puck maze line dead reckoning',
     robotics: 'webots robotics robot python simulation thymio epuck e puck maze line dead reckoning',
     robot: 'webots robotics robot python simulation line following maze dead reckoning',
@@ -32,14 +35,7 @@
     roadmap: 'roadmap suunnitteilla planned future',
   };
 
-  const githubLinksBySlug = {
-    'line-following-robot': 'https://github.com/jibranthedecoder/webots-line-following-robot',
-    'dead-reckoning-navigation': 'https://github.com/jibranthedecoder/webots-dead-reckoning-navigation',
-    'maze-solving-robot': 'https://github.com/jibranthedecoder/webots-maze-solving-robot',
-    'excel-critical-point-calculator': 'https://github.com/jibranthedecoder/excel-critical-point-calculator',
-    'excel-election-seat-allocation': 'https://github.com/jibranthedecoder/excel-election-seat-allocation',
-    'excel-stopping-distance-curve-fit': 'https://github.com/jibranthedecoder/excel-stopping-distance-curve-fit',
-  };
+  const githubLinksBySlug = {};
 
   const preferredOrder = [
     'webots-robotics',
@@ -48,6 +44,7 @@
     'python-tools',
     'codesys-openplc',
     'twincat-beckhoff',
+    'excel-tools',
     'excel-spreadsheets',
     'excel',
     'other',
@@ -113,6 +110,7 @@
 
   function fallbackEcosystemTitle(id) {
     const titles = {
+      'excel-tools': 'Excel / Data Analysis Tools',
       'excel-spreadsheets': 'Excel / Spreadsheets',
       excel: 'Excel / Spreadsheets',
       other: isFinnish() ? 'Muut' : 'Other',
@@ -136,6 +134,8 @@
       project.visual,
       project.why,
       project.github,
+      project.system,
+      ...(project.languages || []),
       ecosystem?.id,
       ecosystem?.title,
       ecosystem?.description,
@@ -143,6 +143,7 @@
       ...(project.skills || []),
       ...(project.outcomes || []),
       ...(project.nextSteps || []),
+      ...(project.evidence || []),
     ];
     return normalize(pieces.filter(Boolean).join(' '));
   }
@@ -210,7 +211,7 @@
     if (project.statusLabel) return project.statusLabel;
     if (project.status === 'roadmap') return isFinnish() ? 'Suunnitteilla' : 'Roadmap';
     if (project.status === 'live') return isFinnish() ? 'Julkaistu' : 'Live';
-    if (project.status === 'build') return isFinnish() ? 'Kesken' : 'In Progress';
+    if (project.status === 'build') return isFinnish() ? 'Rakennettu' : 'Built';
     return isFinnish() ? 'Rakennettu' : 'Built';
   }
 
@@ -422,7 +423,14 @@
     render();
   }
 
-  schedule();
-  window.addEventListener('load', schedule);
+  function startWhenDataReady() {
+    if (window.PORTFOLIO_DATA_READY) {
+      schedule();
+      return;
+    }
+    window.addEventListener('portfolio:data-ready', schedule, { once: true });
+  }
+
+  startWhenDataReady();
   document.getElementById('langToggle')?.addEventListener('click', () => window.setTimeout(render, 120));
 }());
