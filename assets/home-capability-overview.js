@@ -4,7 +4,7 @@
   const translations = {
     en: {
       languagesEyebrow: 'Technical footprint',
-      languagesTitle: 'PLC and programming language share in published portfolio projects.',
+      languagesTitle: 'Programming language share in published portfolio projects.',
       systemsTitle: 'System and tool share in published portfolio projects.',
       projects: 'projects',
       ofPortfolio: 'of published work',
@@ -15,7 +15,7 @@
     },
     fi: {
       languagesEyebrow: 'Tekninen jalanjälki',
-      languagesTitle: 'PLC- ja ohjelmointikielten osuus julkaistuissa portfolio-projekteissa.',
+      languagesTitle: 'Ohjelmointikielten osuus julkaistuissa portfolio-projekteissa.',
       systemsTitle: 'Järjestelmien ja työkalujen osuus julkaistuissa portfolio-projekteissa.',
       projects: 'projektia',
       ofPortfolio: 'julkaistuista töistä',
@@ -26,19 +26,18 @@
     },
   };
 
+  const allowedLanguages = new Set(['FBD', 'ST', 'Python', 'C++']);
   const languageAliases = {
     'structured text': 'ST',
     st: 'ST',
     fbd: 'FBD',
-    graph: 'GRAPH',
     python: 'Python',
     'c++': 'C++',
     cpp: 'C++',
   };
 
-  const allowedLanguages = new Set(['FBD', 'GRAPH', 'ST', 'Python', 'C++']);
-  const languageOrder = ['FBD', 'GRAPH', 'ST', 'Python', 'C++'];
-  const systemOrder = ['Siemens', 'TwinCAT', 'Webots', 'Excel', 'CODESYS', 'OpenPLC'];
+  const languageOrder = ['FBD', 'ST', 'Python', 'C++'];
+  const visibleSystemOrder = ['TwinCAT', 'Siemens', 'Webots', 'Excel'];
 
   function isFinnish() {
     try {
@@ -50,10 +49,6 @@
 
   function normalizeKey(value) {
     return String(value || '').trim().toLowerCase();
-  }
-
-  function prettyName(value) {
-    return String(value || '').replace(/[-_]+/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
   }
 
   function projects() {
@@ -70,17 +65,18 @@
   }
 
   function projectSystem(project) {
-    const explicit = project.system || project.tool || project.platform;
-    if (explicit) return prettyName(explicit);
-
-    const ecosystem = String(project.ecosystem || 'Other').toLowerCase();
+    if (project.system && visibleSystemOrder.includes(project.system)) return project.system;
+    const ecosystem = String(project.ecosystem || '').toLowerCase();
     if (ecosystem.includes('twincat') || ecosystem.includes('beckhoff')) return 'TwinCAT';
     if (ecosystem.includes('siemens') || ecosystem.includes('tia')) return 'Siemens';
     if (ecosystem.includes('webots')) return 'Webots';
-    if (ecosystem.includes('excel') || ecosystem.includes('spreadsheet')) return 'Excel';
-    if (ecosystem.includes('codesys')) return 'CODESYS';
-    if (ecosystem.includes('openplc')) return 'OpenPLC';
-    return prettyName(project.ecosystem || 'Other');
+    if (ecosystem.includes('excel')) return 'Excel';
+    return '';
+  }
+
+  function systemForShortcut(project) {
+    if (project.system) return project.system;
+    return projectSystem(project) || String(project.ecosystem || 'Other').replace(/[-_]+/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
   }
 
   function rowsFromProjects(kind) {
@@ -89,25 +85,32 @@
     const map = new Map();
 
     data.forEach((project) => {
-      const keys = kind === 'language' ? projectLanguages(project) : [projectSystem(project)];
-      Array.from(new Set(keys)).forEach((key) => {
-        if (!key) return;
-        map.set(key, (map.get(key) || 0) + 1);
-      });
+      const keys = kind === 'language' ? projectLanguages(project) : [projectSystem(project)].filter(Boolean);
+      Array.from(new Set(keys)).forEach((key) => map.set(key, (map.get(key) || 0) + 1));
     });
 
-    const order = kind === 'language' ? languageOrder : systemOrder;
-    return Array.from(map.entries())
-      .map(([key, count]) => {
+    const order = kind === 'language' ? languageOrder : visibleSystemOrder;
+    return order
+      .map((key) => {
+        const count = map.get(key) || 0;
         const percent = Math.round((count / total) * 100);
         return { key, query: key, count, percent, fill: Math.max(count > 0 ? 8 : 0, percent) };
       })
-      .sort((a, b) => {
-        const ai = order.indexOf(a.key);
-        const bi = order.indexOf(b.key);
-        if (ai !== -1 || bi !== -1) return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
-        return a.key.localeCompare(b.key);
-      });
+      .filter((row) => row.count > 0);
+  }
+
+  function shortcutRows() {
+    const data = projects();
+    const total = Math.max(1, data.length);
+    const map = new Map();
+    data.forEach((project) => {
+      const key = systemForShortcut(project);
+      if (!key) return;
+      map.set(key, (map.get(key) || 0) + 1);
+    });
+    return Array.from(map.entries())
+      .map(([key, count]) => ({ key, query: key, count, percent: Math.round((count / total) * 100) }))
+      .sort((a, b) => a.key.localeCompare(b.key));
   }
 
   function projectSearchUrl(query) {
@@ -117,7 +120,7 @@
   function renderCapabilityRows(target, rows, t) {
     if (!target) return;
     target.innerHTML = rows.map((row) => `
-      <a class="capability-row" href="${projectSearchUrl(row.query || row.key)}" aria-label="${row.key}: ${row.percent}%">
+      <a class="capability-row" href="${projectSearchUrl(row.query)}" aria-label="${row.key}: ${row.percent}%">
         <div class="capability-row-top"><span class="capability-name">${row.key}</span><span class="capability-percent">${row.percent}%</span></div>
         <div class="capability-bar" aria-hidden="true"><span class="capability-bar-fill" style="--fill:${row.fill}%"></span></div>
         <div class="capability-row-meta">${row.count} ${t.projects} · ${row.percent}% ${t.ofPortfolio}</div>
@@ -128,7 +131,7 @@
   function renderShortcuts(target, rows, t) {
     if (!target) return;
     target.innerHTML = rows.map((row) => `
-      <a class="system-shortcut-card" href="${projectSearchUrl(row.query || row.key)}">
+      <a class="system-shortcut-card" href="${projectSearchUrl(row.query)}">
         <div class="system-shortcut-header"><div><p class="eyebrow">${row.key}</p><h3>${row.key}</h3></div><span class="system-shortcut-count">${row.count}</span></div>
         <p>${row.count} ${t.projects} · ${row.percent}% · ${t.open}</p>
       </a>
@@ -143,9 +146,6 @@
   function render() {
     const lang = isFinnish() ? 'fi' : 'en';
     const t = translations[lang];
-    const languageRows = rowsFromProjects('language');
-    const systemRows = rowsFromProjects('system');
-
     setText('[data-home-capability-eyebrow]', t.languagesEyebrow);
     setText('[data-home-languages-title]', t.languagesTitle);
     setText('[data-home-systems-title]', t.systemsTitle);
@@ -154,10 +154,9 @@
     setText('[data-home-shortcut-copy]', t.shortcutCopy);
     setText('[data-home-language-total]', '%');
     setText('[data-home-system-total]', '%');
-
-    renderCapabilityRows(document.querySelector('[data-home-language-bars]'), languageRows, t);
-    renderCapabilityRows(document.querySelector('[data-home-system-bars]'), systemRows, t);
-    renderShortcuts(document.querySelector('[data-home-system-shortcuts]'), systemRows, t);
+    renderCapabilityRows(document.querySelector('[data-home-language-bars]'), rowsFromProjects('language'), t);
+    renderCapabilityRows(document.querySelector('[data-home-system-bars]'), rowsFromProjects('system'), t);
+    renderShortcuts(document.querySelector('[data-home-system-shortcuts]'), shortcutRows(), t);
   }
 
   function schedule() {
@@ -165,14 +164,7 @@
     window.setTimeout(render, 120);
   }
 
-  function startWhenDataReady() {
-    if (window.PORTFOLIO_DATA_READY) {
-      schedule();
-      return;
-    }
-    window.addEventListener('portfolio:data-ready', schedule, { once: true });
-  }
-
-  startWhenDataReady();
+  if (window.PORTFOLIO_DATA_READY) schedule();
+  else window.addEventListener('portfolio:data-ready', schedule, { once: true });
   document.getElementById('langToggle')?.addEventListener('click', schedule);
 }());
