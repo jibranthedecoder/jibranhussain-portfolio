@@ -81,6 +81,34 @@
     return `<article class="project-card"><p class="eyebrow">Evidence package</p><h2 class="section-title">Project files and technical proof.</h2><p class="panel-copy">${escapeHtml(project.visual || 'Repository, documentation, implementation notes, and validation evidence are connected to this case study.')}</p>${pillList([...evidence, ...technologies.slice(0, 6)])}</article>`;
   }
 
+  function evidenceGallery(project) {
+    const items = Array.isArray(project.evidenceGallery) ? project.evidenceGallery : [];
+    if (!items.length) return '';
+    return `
+      <section class="section-shell">
+        <div class="section-heading">
+          <p class="eyebrow">Visual proof</p>
+          <h2 class="section-title">Engineering evidence gallery.</h2>
+          <p class="panel-copy">Key views that show what was engineered, tested, and documented in this case study.</p>
+        </div>
+        <div class="project-grid-section">
+          ${items.map((item) => {
+            const hasImage = Boolean(item.image);
+            return `
+              <article class="project-card evidence-card">
+                ${hasImage ? `<img class="project-evidence-image" src="${escapeHtml(item.image)}" alt="${escapeHtml(item.alt || item.title || 'Project evidence image')}" loading="lazy" />` : `<div class="plain-block evidence-placeholder" aria-hidden="true"><p class="micro-label">${escapeHtml(item.kicker || 'Evidence')}</p><strong>${escapeHtml(item.visualLabel || item.title || 'Engineering proof')}</strong></div>`}
+                <p class="eyebrow">${escapeHtml(item.kicker || 'Evidence')}</p>
+                <h3>${escapeHtml(item.title || '')}</h3>
+                <p class="project-summary">${escapeHtml(item.description || '')}</p>
+                ${Array.isArray(item.tags) && item.tags.length ? pillList(item.tags) : ''}
+              </article>
+            `;
+          }).join('')}
+        </div>
+      </section>
+    `;
+  }
+
   function renderMissing(target, slug) {
     target.innerHTML = `<section class="page-shell page-intro"><div class="page-intro-copy reveal"><p class="eyebrow">${isFinnish() ? 'Projektia ei löytynyt' : 'Project not found'}</p><h1>${isFinnish() ? 'Tätä projektia ei löytynyt rekisteristä.' : 'This project was not found in the registry.'}</h1><p class="hero-lead">${escapeHtml(slug || 'missing-slug')}</p><div class="hero-actions"><a class="button button-primary" href="/projects/">${isFinnish() ? 'Takaisin projekteihin' : 'Back to projects'}</a></div></div></section>`;
   }
@@ -106,6 +134,8 @@
         </div>
         <div class="hero-panel reveal">${visualEvidence(project)}</div>
       </section>
+
+      ${evidenceGallery(project)}
 
       <section class="section-shell"><div class="project-grid-section">
         ${textCard('Overview', 'How the system works.', project.overview || project.intro)}
