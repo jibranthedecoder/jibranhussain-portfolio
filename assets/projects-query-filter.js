@@ -1,7 +1,6 @@
 (function () {
   if (document.body?.dataset.page !== 'projects') return;
 
-  const preferredOrder = ['webots-robotics', 'siemens-tia', 'twincat-beckhoff', 'excel-tools', 'other'];
   const languageFilters = ['FBD', 'ST', 'Python', 'C++'];
   const systemFilters = ['TwinCAT', 'Siemens', 'Webots', 'Excel'];
 
@@ -21,7 +20,15 @@
   }
 
   function normalize(value) {
-    return String(value || '').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/d['’`´]?hondt/g, 'dhondt').replace(/\+/g, ' plus ').replace(/[^a-z0-9åäö]+/g, ' ').replace(/\s+/g, ' ').trim();
+    return String(value || '')
+      .toLowerCase()
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/d['’`´]?hondt/g, 'dhondt')
+      .replace(/\+/g, ' plus ')
+      .replace(/[^a-z0-9åäö]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
   }
 
   function currentQuery() {
@@ -118,23 +125,7 @@
     });
   }
 
-  function groupedProjects() {
-    const groups = new Map();
-    filteredProjects().forEach((project) => {
-      const id = ecosystemId(project);
-      if (!groups.has(id)) groups.set(id, []);
-      groups.get(id).push(project);
-    });
-    return Array.from(groups.entries()).sort(([a], [b]) => {
-      const ai = preferredOrder.indexOf(a);
-      const bi = preferredOrder.indexOf(b);
-      if (ai !== -1 || bi !== -1) return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
-      return ecosystemTitle(a).localeCompare(ecosystemTitle(b));
-    });
-  }
-
   function projectDetailUrl(project) {
-    if (project.slug === 'chemical-process-automation-system') return '/projects/chemical-process-automation-system/';
     return `/projects/project/?slug=${encodeURIComponent(project.slug)}`;
   }
 
@@ -152,19 +143,12 @@
     `;
   }
 
-  function overviewHeading(totalCount) {
-    return `<div class="project-ecosystem-heading project-category-intro"><h2>${isFinnish() ? 'Projektit järjestelmittäin.' : 'Projects by system.'}</h2><p class="panel-copy">${isFinnish() ? `${totalCount} projektia näkyvissä.` : `${totalCount} projects available.`}</p></div>`;
-  }
-
-  function categoryCard(id, items) {
-    const builtCount = items.filter((project) => project.status === 'build' || project.status === 'live').length;
-    const roadmapCount = items.filter((project) => project.status === 'roadmap').length;
-    const meta = [builtCount ? `${builtCount} ${isFinnish() ? 'rakennettu' : 'built'}` : '', roadmapCount ? `${roadmapCount} ${isFinnish() ? 'suunnitteilla' : 'roadmap'}` : ''].filter(Boolean).join(' · ');
-    return `<article class="project-category-card" data-ecosystem-card="${escapeHtml(id)}"><button class="project-category-button" type="button" data-ecosystem-select="${escapeHtml(id)}"><span class="project-category-kicker">${items.length} ${isFinnish() ? 'projektia' : items.length === 1 ? 'project' : 'projects'}</span><strong>${escapeHtml(ecosystemTitle(id))}</strong><span>${escapeHtml(ecosystemDescription(id, items.length))}</span>${meta ? `<small>${escapeHtml(meta)}</small>` : ''}</button></article>`;
+  function overviewHeading(count) {
+    return `<div class="project-ecosystem-heading project-selected-heading"><div><h2>${isFinnish() ? 'Projektit' : 'Published project case studies'}</h2><p class="panel-copy">${isFinnish() ? `${count} projektia näkyvissä.` : `${count} projects available.`}</p></div></div>`;
   }
 
   function projectsHeading(id, count) {
-    return `<div class="project-ecosystem-heading project-selected-heading"><button class="button button-secondary" type="button" data-ecosystem-back>${isFinnish() ? 'Takaisin kategorioihin' : 'Back to categories'}</button><div><h2>${escapeHtml(ecosystemTitle(id))}</h2><p class="panel-copy">${escapeHtml(ecosystemDescription(id, count))}</p></div></div>`;
+    return `<div class="project-ecosystem-heading project-selected-heading"><button class="button button-secondary" type="button" data-ecosystem-back>${isFinnish() ? 'Näytä kaikki projektit' : 'Show all projects'}</button><div><h2>${escapeHtml(ecosystemTitle(id))}</h2><p class="panel-copy">${escapeHtml(ecosystemDescription(id, count))}</p></div></div>`;
   }
 
   function ensureFacetFilters() {
@@ -210,18 +194,15 @@
     const grid = document.getElementById('projectsGrid');
     const empty = document.getElementById('projectsEmpty');
     if (!grid) return;
-    const groups = groupedProjects();
-    const totalCount = groups.reduce((sum, [, items]) => sum + items.length, 0);
+    const items = filteredProjects();
     if (selectedEcosystem) {
-      const items = filteredProjects();
       grid.innerHTML = `<section class="project-ecosystem-section project-selected-section">${projectsHeading(selectedEcosystem, items.length)}<div class="project-grid-section">${items.map(projectCard).join('')}</div></section>`;
     } else {
-      grid.innerHTML = `<section class="project-category-overview">${overviewHeading(totalCount)}<div class="project-category-grid">${groups.map(([id, items]) => categoryCard(id, items)).join('')}</div></section>`;
+      grid.innerHTML = `<section class="project-ecosystem-section project-selected-section">${overviewHeading(items.length)}<div class="project-grid-section">${items.map(projectCard).join('')}</div></section>`;
     }
-    grid.querySelectorAll('[data-ecosystem-select]').forEach((button) => button.addEventListener('click', () => { selectedEcosystem = button.getAttribute('data-ecosystem-select') || ''; updateUrl(); render(); document.getElementById('projectsGrid')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
     grid.querySelector('[data-ecosystem-back]')?.addEventListener('click', () => { selectedEcosystem = ''; updateUrl(); render(); });
     updateFacetButtons();
-    if (empty) { empty.textContent = isFinnish() ? 'Hakua vastaavia projekteja ei löytynyt.' : 'No projects match this search.'; empty.hidden = totalCount > 0; }
+    if (empty) { empty.textContent = isFinnish() ? 'Hakua vastaavia projekteja ei löytynyt.' : 'No projects match this search.'; empty.hidden = items.length > 0; }
   }
 
   function bind() {
